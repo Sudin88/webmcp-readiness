@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>State of the Agent-Readable Web - 2026-10-02</title>
-<meta name="description" content="Independent verification of the public WebMCP registry: 114 tools observed, 100% declare no output contract.">
+<meta name="description" content="Independent verification of the public WebMCP registry: 120 tools observed, 100% declare no output contract.">
 <style>
 :root{--bg:#0d0f14;--panel:#151922;--line:#242a36;--fg:#e6e9ef;--dim:#9aa4b8;--hi:#ff6b6b;--med:#ffc857;--info:#5b9dd9;--ok:#4ec9a4;--accent:#a78bfa}
 *{box-sizing:border-box}
@@ -43,17 +43,17 @@ details{margin:8px 0} summary{cursor:pointer;color:var(--dim)}
 <p class="sub">WebMCP Draft Community Group Report, 30 Sep 2026 &middot; scanned 2026-10-02 &middot; 40 registry entries</p>
 
 <div class="box">
-  <strong>114 WebMCP tools observed across 33 sites.</strong>
+  <strong>120 WebMCP tools observed across 34 sites.</strong>
   <strong>100% of them declare no output contract at all</strong> &mdash;
   and they cannot, because <code>outputSchema</code> does not exist in the spec yet.
   Nothing on the public web lets an agent verify what a tool returns.
 </div>
 
 <div class="cards">
-  <div class="card"><div class="n">114</div><div class="l">tools observed</div></div>
+  <div class="card"><div class="n">120</div><div class="l">tools observed</div></div>
   <div class="card"><div class="n" style="color:var(--info)">100%</div><div class="l">no output contract</div></div>
-  <div class="card med"><div class="n">13</div><div class="l">medium findings</div></div>
-  <div class="card"><div class="n">121</div><div class="l">claimed but not observed</div></div>
+  <div class="card med"><div class="n">10</div><div class="l">medium findings</div></div>
+  <div class="card"><div class="n">115</div><div class="l">claimed but not observed</div></div>
 </div>
 
 <h2>What we checked</h2>
@@ -63,8 +63,7 @@ from their declared <code>inputSchema</code>, twice, so the response can be comp
 the tool claimed.</p>
 <table>
 <tr><th>Rule</th><th>Severity</th><th>Findings</th><th>What it means</th></tr>
-<tr><td style="white-space:nowrap"><code>output-schema-declared</code></td><td><span class="pill p-info">info</span></td><td class="mono" style="white-space:nowrap">114</td><td class="muted">outputSchema does not exist in the spec yet (open issue #9), so nothing validates what a tool returns. Agents must infer the return shape from free text. This is true of every tool in the public registry today and is not fixable by an implementer yet.</td></tr>
-<tr><td style="white-space:nowrap"><code>deterministic</code></td><td><span class="pill p-med">medium</span></td><td class="mono" style="white-space:nowrap">3</td><td class="muted">Two identical calls returned responses of a different SHAPE, so a caller cannot rely on the declared contract holding between calls.</td></tr>
+<tr><td style="white-space:nowrap"><code>output-schema-declared</code></td><td><span class="pill p-info">info</span></td><td class="mono" style="white-space:nowrap">120</td><td class="muted">outputSchema does not exist in the spec yet (open issue #9), so nothing validates what a tool returns. Agents must infer the return shape from free text. This is true of every tool in the public registry today and is not fixable by an implementer yet.</td></tr>
 <tr><td style="white-space:nowrap"><code>schema-fields-documented</code></td><td><span class="pill p-med">medium</span></td><td class="mono" style="white-space:nowrap">9</td><td class="muted">The spec says: &quot;Document schemas with descriptions - Provide helpful description fields on all input parameters in inputSchema to help the agent supply appropriate values.&quot; Without them the model must guess units and format.</td></tr>
 <tr><td style="white-space:nowrap"><code>tool-budget</code></td><td><span class="pill p-med">medium</span></td><td class="mono" style="white-space:nowrap">1</td><td class="muted">The spec warns that every registered tool consumes context, adds latency, and increases tool confusion. Register tools dynamically by page state instead of all at once.</td></tr>
 <tr><td style="white-space:nowrap"><code>tolerates-valid-args</code></td><td><span class="pill p-hi">high</span></td><td class="mono" style="white-space:nowrap">8</td><td class="muted">The probe synthesises arguments strictly from the declared inputSchema. If the call still fails, the schema under-describes the real constraints and an agent has no way to discover the true rule except by failing.</td></tr>
@@ -81,17 +80,13 @@ the tool claimed.</p>
 <tr>
 <td><code>settledestate.com</code></td><td class="mono">3</td>
 <td class="mono">0</td>
-<td><span class="pill p-hi">no-tools</span></td></tr>
+<td><span class="pill p-med">unreachable</span></td></tr>
 <tr>
 <td><code>spectrumtours.cz</code></td><td class="mono">9</td>
 <td class="mono">0</td>
 <td><span class="pill p-hi">no-tools</span></td></tr>
 <tr>
 <td><code>airportloungelist.com</code></td><td class="mono">5</td>
-<td class="mono">0</td>
-<td><span class="pill p-med">unreachable</span></td></tr>
-<tr>
-<td><code>www.bestprice.gr</code></td><td class="mono">22</td>
 <td class="mono">0</td>
 <td><span class="pill p-med">unreachable</span></td></tr>
 <tr>
@@ -111,7 +106,7 @@ chain would ever notice.</p>
 <tr><th>Entry</th><th>Tools</th><th>High</th><th>Medium</th><th>Outcome</th></tr>
 <tr><td><code>b2a.bluepillow.com/webmcp</code></td><td class="mono">5</td>
 <td class="mono"><span class="muted">0</span></td>
-<td class="mono">2</td>
+<td class="mono"><span class="muted">0</span></td>
 <td class="muted">tools-observable</td></tr>
 <tr><td><code>b2a.bluepillow.com/webmcp/?s=wmcp-reg</code></td><td class="mono">5</td>
 <td class="mono"><span class="muted">0</span></td>
@@ -172,7 +167,7 @@ chain would ever notice.</p>
 <tr><td><code>settledestate.com</code></td><td class="mono">0</td>
 <td class="mono"><span class="muted">0</span></td>
 <td class="mono"><span class="muted">0</span></td>
-<td class="muted">no-tools</td></tr>
+<td class="muted">unreachable</td></tr>
 <tr><td><code>www.proxy-compare.com</code></td><td class="mono">16</td>
 <td class="mono"><span class="pill p-hi">6</span></td>
 <td class="mono">2</td>
@@ -187,7 +182,7 @@ chain would ever notice.</p>
 <td class="muted">tools-observable</td></tr>
 <tr><td><code>corpuslaw.us</code></td><td class="mono">9</td>
 <td class="mono"><span class="muted">0</span></td>
-<td class="mono">1</td>
+<td class="mono"><span class="muted">0</span></td>
 <td class="muted">tools-observable</td></tr>
 <tr><td><code>simpletoolstack.com</code></td><td class="mono">1</td>
 <td class="mono"><span class="muted">0</span></td>
@@ -201,10 +196,10 @@ chain would ever notice.</p>
 <td class="mono"><span class="muted">0</span></td>
 <td class="mono"><span class="muted">0</span></td>
 <td class="muted">tools-observable</td></tr>
-<tr><td><code>www.bestprice.gr</code></td><td class="mono">0</td>
+<tr><td><code>www.bestprice.gr</code></td><td class="mono">6</td>
 <td class="mono"><span class="muted">0</span></td>
 <td class="mono"><span class="muted">0</span></td>
-<td class="muted">unreachable</td></tr>
+<td class="muted">tools-observable</td></tr>
 <tr><td><code>hopi.co.uk</code></td><td class="mono">2</td>
 <td class="mono"><span class="muted">0</span></td>
 <td class="mono"><span class="muted">0</span></td>
@@ -300,7 +295,7 @@ elsewhere. A verification report that hides its own uncertainty is worth nothing
 </div>
 
 <footer>
-  Generated 2026-10-02T16:12:22.104Z by scanning 40 registry entries in 685s.
+  Generated 2026-10-02T18:57:35.884Z by scanning 40 registry entries in 409s.
   The scan is read-only: it loads public pages, reads declared tool metadata, and invokes each tool
   with arguments synthesised from its own schema.
   <br>Methodology and the full finding set are in the repository &mdash; every number here is reproducible with <code>npm run scan</code>.
