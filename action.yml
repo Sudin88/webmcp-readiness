@@ -58,6 +58,14 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    # Pin node inside the action rather than inheriting the runner default. Bare
+    # `node` in the steps below is not deterministic, and GitHub is currently
+    # forcing Node 20 actions onto Node 24 - so the default moves under us.
+    - name: Set up Node
+      uses: actions/setup-node@v5
+      with:
+        node-version: 24
+
     - name: Install dependencies
       shell: bash
       run: |
