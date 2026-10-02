@@ -6,7 +6,7 @@
  * Usage: node action/test.mjs
  */
 import { chromium, probePage } from '../lib/probe.mjs';
-import { grade, looksLikeRejection, unwrap } from '../lib/checks.mjs';
+import { grade, looksLikeRejection, unwrap, shapeOf } from '../lib/checks.mjs';
 import { toBaseline, diffReport, summarise, baselineUpdateWarning, findingKey } from '../lib/diff.mjs';
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -70,6 +70,23 @@ ok((byTool['create-profile'] || []).includes('required-fields-enforced'),
 ok(page.tools.length > 15, 'tool-budget: page over the budget is flagged');
 
 // ---------------------------------------------------------------- baseline diff
+console.log('\nunit: shape-based determinism (a timestamp is not a broken contract)');
+const asCall = (o) => JSON.stringify(JSON.stringify(o));
+const wrap = (t) => ({ content: [{ type: 'text', text: t }] });
+const vol1 = asCall(wrap(JSON.stringify({ id: 'a1', ts: '2026-01-01' })));
+const vol2 = asCall(wrap(JSON.stringify({ id: 'a2', ts: '2026-06-06' })));
+const broken = asCall(wrap('null'));
+ok(vol1 !== vol2, 'the two volatile responses really do differ as raw text');
+ok(shapeOf(vol1) === shapeOf(vol2), 'volatile values share a shape -> not flagged as a defect');
+ok(shapeOf(vol1) !== shapeOf(broken), 'a structurally different response IS flagged');
+const detTool = { name: 't', description: 'x'.repeat(30), inputSchema: { type: 'object', properties: {} },
+                  outputSchema: null, missingRequired: 0, call1: { ok: true, value: vol1 }, call2: { ok: true, value: vol2 } };
+const detRules = grade(detTool, 1).map((f) => f.rule);
+ok(!detRules.includes('deterministic'), 'volatile response does NOT fire the deterministic rule');
+ok(detRules.includes('volatile-response'), 'volatile response is reported as info instead');
+const brkTool = { ...detTool, call2: { ok: true, value: broken } };
+ok(grade(brkTool, 1).map((f) => f.rule).includes('deterministic'), 'changed shape DOES fire the deterministic rule');
+
 console.log('\nunit: baseline diffing');
 
 const reportOf = (findings, tools = []) => ({

@@ -22,7 +22,8 @@ Every rule is taken from the spec's own guidance, not invented:
 | Input schema fields undocumented | medium | "Document schemas with descriptions… to help the agent supply appropriate values" |
 | Tool accepted a call missing a required field | high | "Validate strictly in code, loosely in schema" |
 | Tool threw on schema-valid input | high | schema and implementation must agree |
-| Tool returned different output for identical input | medium | agents cannot verify what they cannot reproduce |
+| Response SHAPE differs between identical calls | medium | the contract itself changed between calls |
+| Response VALUES differ, shape stable | **info** | volatile data (timestamp, request id) — not a defect |
 | Page registers too many tools | medium (>15) | "Exposing too many tools can severely degrade agent performance" |
 | Tool declares no output contract | **info** | `outputSchema` does not exist in the spec yet (issue #9) — **never fails CI** |
 | Page unreachable | high (configurable) | a broken site must not pass silently |
@@ -165,7 +166,15 @@ generators, so the checks are built defensively and documented in `lib/checks.mj
    runs; probing too early reported three live sites as having no tools when all
    three had 2–4. The probe waits for `load`, settles, and retries transients.
 
-4. **A diff key that dropped the URL** made every pre-existing finding report as
+4. **Comparing responses for equality is the wrong test.** The determinism rule
+   originally compared two raw responses with `!==`. Almost every live tool then
+   looked nondeterministic, because real APIs embed timestamps and request ids —
+   the check named a **different tool on every run** of `corpuslaw.us`, which would
+   churn a baseline on every run and train people to ignore it. It now compares the
+   response *shape* (key paths and types, values discarded), so a timestamp reads
+   as `volatile-response` (info) and only a genuinely changed contract reads as a
+   defect.
+5. **A diff key that dropped the URL** made every pre-existing finding report as
    "fixed", which would have quietly emptied anyone's baseline. Caught by a unit
    test asserting that an identical re-scan produces an empty diff.
 
