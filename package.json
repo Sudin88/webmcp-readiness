@@ -6,7 +6,8 @@
   "scripts": {
     "scan": "node fetch-registry.mjs && node scan.mjs",
     "test": "node action/test.mjs",
-    "spike": "node spike.mjs"
+    "spike": "node spike.mjs",
+    "action": "node action/index.mjs"
   },
   "keywords": [],
   "type": "module",
@@ -14,5 +15,8 @@
     "@mcp-b/global": "^5.1.0",
     "playwright": "^1.63.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@vercel/ncc": "^0.45.0"
+  }
 }

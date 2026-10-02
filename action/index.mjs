@@ -94,7 +94,7 @@ try {
     const nHigh = page.findings.filter((f) => f.severity === 'high').length;
     process.stdout.write(
       `    ${page.outcome}${page.tools.length ? `, ${page.tools.length} tool(s)` : ''}` +
-        `${page.findings.length ? `, ${nHigh} high / ${page.findings.length - nHigh} lower` : ''}\n`
+        `${page.findings.length ? `, ${nHigh} high / ${page.findings.filter((f) => f.severity === 'medium').length} medium / ${page.findings.filter((f) => f.severity === 'info').length} info` : ''}\n`
     );
     results.push(page);
   }
@@ -146,7 +146,7 @@ if (wantSummary && process.env.GITHUB_STEP_SUMMARY) {
   const md = [
     '## WebMCP readiness',
     '',
-    `**${toolsFound}** tool(s) found across **${urls.length}** URL(s) - **${high.length}** high, **${medium.length}** lower severity finding(s).`,
+    `**${toolsFound}** tool(s) found across **${urls.length}** URL(s) - **${high.length}** high, **${medium.length}** medium, **${info.length}** info.`,
     '',
     '| URL | Outcome | Tools | High | Medium | Info |',
     '| --- | --- | --- | --- | --- | --- |',

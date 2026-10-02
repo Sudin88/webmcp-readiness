@@ -15,7 +15,7 @@ inputs:
     required: false
     default: 'high'
   fail-on-unreachable:
-    description: 'Fail when a configured URL cannot be checked (default true, so a broken site never passes silently).'
+    description: 'Fail when a configured URL cannot be checked. Default true, so a broken site never passes silently.'
     required: false
     default: 'true'
   report-path:
@@ -23,7 +23,7 @@ inputs:
     required: false
     default: 'webmcp-report.json'
   github-summary:
-    description: 'Write a Markdown summary to the job summary (default true).'
+    description: 'Write a Markdown summary to the job summary. Default true.'
     required: false
     default: 'true'
 
@@ -31,12 +31,39 @@ outputs:
   tools-found:
     description: 'Number of WebMCP tools discovered across all URLs.'
   findings:
-    description: 'Total number of findings.'
+    description: 'Total number of findings (high + medium + info).'
   high:
     description: 'Number of high-severity findings.'
   report:
     description: 'Path to the JSON report.'
 
+# Composite rather than a bundled dist/index.js on purpose.
+# Playwright resolves its browser binary from its own package root at runtime, so
+# bundling it with ncc produces a dist that throws MODULE_NOT_FOUND. Installing at
+# run time is slower (~30s) but is the only approach that actually works.
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - name: Install dependencies
+      shell: bash
+      run: |
+        cd "$GITHUB_ACTION_PATH"
+        npm ci --omit=dev --no-audit --no-fund
+
+    - name: Install Chromium
+      shell: bash
+      run: |
+        cd "$GITHUB_ACTION_PATH"
+        npx playwright install --with-deps chromium
+
+    - name: Run WebMCP readiness checks
+      shell: bash
+      env:
+        INPUT_CONFIG: ${{ inputs.config }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_FAIL_ON_UNREACHABLE: ${{ inputs.fail-on-unreachable }}
+        INPUT_REPORT_PATH: ${{ inputs.report-path }}
+        INPUT_GITHUB_SUMMARY: ${{ inputs.github-summary }}
+      run: |
+        cd "$GITHUB_ACTION_PATH"
+        GITHUB_WORKSPACE="$GITHUB_WORKSPACE" node action/index.mjs
