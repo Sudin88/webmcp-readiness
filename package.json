@@ -1,15 +1,18 @@
 {
-  "name": "webmcp-probe",
-  "version": "1.0.0",
-  "description": "",
+  "name": "webmcp-readiness",
+  "version": "0.1.0",
+  "description": "Verify the WebMCP tools your site exposes to AI agents.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scan": "node fetch-registry.mjs && node scan.mjs",
+    "test": "node action/test.mjs",
+    "spike": "node spike.mjs"
   },
   "keywords": [],
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@mcp-b/global": "^5.1.0",
     "playwright": "^1.63.0"
-  }
+  },
+  "license": "MIT"
 }

@@ -1,0 +1,42 @@
+name: 'WebMCP Readiness'
+description: 'Verify the WebMCP tools your site exposes to AI agents: output contracts, schema documentation, required-field enforcement, and tool budget.'
+author: 'webmcp-readiness'
+branding:
+  icon: 'check-circle'
+  color: 'purple'
+
+inputs:
+  config:
+    description: 'Path to the config file listing the URLs to check.'
+    required: false
+    default: 'webmcp.config.json'
+  fail-on:
+    description: 'Which findings fail the build: high, medium, or none.'
+    required: false
+    default: 'high'
+  fail-on-unreachable:
+    description: 'Fail when a configured URL cannot be checked (default true, so a broken site never passes silently).'
+    required: false
+    default: 'true'
+  report-path:
+    description: 'Where to write the JSON report.'
+    required: false
+    default: 'webmcp-report.json'
+  github-summary:
+    description: 'Write a Markdown summary to the job summary (default true).'
+    required: false
+    default: 'true'
+
+outputs:
+  tools-found:
+    description: 'Number of WebMCP tools discovered across all URLs.'
+  findings:
+    description: 'Total number of findings.'
+  high:
+    description: 'Number of high-severity findings.'
+  report:
+    description: 'Path to the JSON report.'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
