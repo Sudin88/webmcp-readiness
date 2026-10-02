@@ -7,6 +7,7 @@
  */
 import { chromium, probePage } from '../lib/probe.mjs';
 import { grade, looksLikeRejection, unwrap } from '../lib/checks.mjs';
+import { toBaseline, diffReport, summarise, baselineUpdateWarning, findingKey } from '../lib/diff.mjs';
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -67,6 +68,69 @@ ok((byTool['divide'] || []).length >= 1, 'divide tool: at least the output-contr
 ok((byTool['create-profile'] || []).includes('required-fields-enforced'),
   'no-validation tool: required field accepted when missing');
 ok(page.tools.length > 15, 'tool-budget: page over the budget is flagged');
+
+// ---------------------------------------------------------------- baseline diff
+console.log('\nunit: baseline diffing');
+
+const reportOf = (findings, tools = []) => ({
+  checkedAt: '2026-10-02T00:00:00.000Z',
+  results: [{
+    url: 'https://a.example', outcome: 'tools-observable',
+    tools: tools.map((n) => ({ name: n })),
+    findings
+  }]
+});
+
+const base = toBaseline(reportOf(
+  [
+    { rule: 'tolerates-valid-args', severity: 'high', tool: 'old_broken' },
+    { rule: 'schema-fields-documented', severity: 'medium', tool: 'legacy' }
+  ],
+  ['good_tool', 'old_broken']
+), { note: 'initial' });
+
+ok(base.version === 1, 'baseline carries a version');
+ok(base.findings.length === 2, 'baseline stored both findings');
+ok(base.tools.length === 2, 'baseline stored both tools');
+
+const d1 = diffReport(reportOf(
+  [
+    { rule: 'tolerates-valid-args', severity: 'high', tool: 'old_broken' },
+    { rule: 'schema-fields-documented', severity: 'medium', tool: 'legacy' },
+    { rule: 'tolerates-valid-args', severity: 'high', tool: 'newly_broken' }
+  ],
+  ['good_tool', 'old_broken', 'newly_broken']
+), base);
+ok(d1.newFindings.length === 1, `one NEW finding (got ${d1.newFindings.length})`);
+ok(d1.newFindings[0].tool === 'newly_broken', 'the new finding is the new one');
+ok(d1.knownFindings.length === 2, `two KNOWN findings (got ${d1.knownFindings.length})`);
+ok(summarise(d1).newHigh === 1, 'one new HIGH severity');
+
+const d2 = diffReport(reportOf(
+  [
+    { rule: 'tolerates-valid-args', severity: 'high', tool: 'newly_broken' }
+  ],
+  ['newly_broken']
+), base);
+ok(d2.fixedFindings.length === 2, `two FIXED findings (got ${d2.fixedFindings.length})`);
+ok(d2.regressions.length === 2, `two REGRESSIONS - both baseline tools removed (got ${d2.regressions.length})`);
+ok(d2.regressions.map((r) => r.tool).includes('good_tool'), 'a removed healthy tool is flagged as a regression');
+
+const d3 = diffReport(reportOf(
+  [{ rule: 'tolerates-valid-args', severity: 'high', tool: 'old_broken' },
+   { rule: 'schema-fields-documented', severity: 'medium', tool: 'legacy' }],
+  ['good_tool', 'old_broken']
+), base);
+ok(d3.newFindings.length === 0 && d3.fixedFindings.length === 0 && d3.regressions.length === 0,
+  'identical re-scan produces an empty diff (stable keys, no churn)');
+
+const d4 = diffReport(reportOf([{ rule: 'not-probed', severity: 'info', tool: 'flaky' }], ['x']), null);
+ok(d4.newFindings.length === 0, 'not-probed is never treated as a finding');
+ok(baselineUpdateWarning({ ...d1, newFindings: Array.from({ length: 40 }, (_, i) => ({ severity: 'high', rule: 'r', url: 'u', tool: 't' + i })), regressions: [] }).length > 0,
+  'warns when a baseline would absorb 40 new high findings');
+ok(baselineUpdateWarning(d2).some((w) => /regression/i.test(w)),
+  'warns when tools vanished');
+ok(findingKey({ url: 'u', tool: 't', rule: 'r' }) === 'u|t|r', 'finding key is stable');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

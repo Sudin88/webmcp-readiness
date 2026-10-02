@@ -9,6 +9,7 @@ import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, probePage } from '../lib/probe.mjs';
 import { grade, RULES, describeFinding } from '../lib/checks.mjs';
+import { toBaseline, diffReport, summarise, baselineUpdateWarning, renderNewForBaseline } from '../lib/diff.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const GITHUB_ROOT = process.env.GITHUB_WORKSPACE || process.cwd();
@@ -30,6 +31,9 @@ const endGroup = () => process.stdout.write('::endgroup::\n');
 
 // ---------------------------------------------------------------- config
 
+const baselineInput = input('baseline', 'webmcp-baseline.json');
+const updateBaseline = String(input('update-baseline', 'false')).toLowerCase() === 'true';
+
 const configPath = resolve(GITHUB_ROOT, input('config', 'webmcp.config.json'));
 if (!existsSync(configPath)) {
   error(`Config not found: ${input('config', 'webmcp.config.json')}`);
@@ -41,6 +45,17 @@ try {
 } catch (e) {
   error(`Config is not valid JSON: ${e.message}`);
   process.exit(1);
+}
+
+let baseline = null;
+const baselinePath = resolve(GITHUB_ROOT, baselineInput);
+if (existsSync(baselinePath)) {
+  try {
+    baseline = JSON.parse(readFileSync(baselinePath, 'utf8'));
+  } catch (e) {
+    error(`Baseline exists but is not valid JSON (${baselineInput}): ${e.message}`);
+    process.exit(1);
+  }
 }
 
 const urls = Array.isArray(cfg.urls) ? cfg.urls.filter((u) => typeof u === 'string' && u.trim()) : [];
@@ -103,6 +118,34 @@ try {
 }
 endGroup();
 
+// ---------------------------------------------------------------- baseline update
+if (updateBaseline) {
+  const live = { checkedAt: new Date().toISOString(), results };
+  const d = diffReport(live, baseline);
+  const next = toBaseline(live, {
+    note: d.fixedFindings.length
+      ? `${d.fixedFindings.length} finding(s) fixed since the previous baseline`
+      : 'baseline update'
+  });
+  writeFileSync(baselinePath, JSON.stringify(next, null, 2));
+  const s2 = summarise(d);
+  group(`Baseline updated: ${baselineInput}`);
+  process.stdout.write(`  absorbing ${s2.added} new finding(s) (${s2.newHigh} high)\n`);
+  process.stdout.write(`  ${s2.fixed} finding(s) fixed, ${s2.regressions} tool regression(s)\n\n`);
+  process.stdout.write('newly absorbed:\n');
+  process.stdout.write(renderNewForBaseline(d));
+  for (const w of baselineUpdateWarning(d)) process.stdout.write(`\n::warning::${w}\n`);
+  endGroup();
+  notice(`Baseline written to ${baselineInput}. Review the diff before committing - baselining a defect hides it.`);
+  if (process.env.GITHUB_OUTPUT) {
+    const fs = await import('node:fs');
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `baseline=${baselinePath}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `baseline_added=${s2.added}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `baseline_fixed=${s2.fixed}\n`);
+  }
+  process.exit(0);
+}
+
 // ---------------------------------------------------------------- report
 
 const allFindings = results.flatMap((r) => r.findings.map((f) => ({ ...f, url: r.url })));
@@ -164,18 +207,58 @@ notice(
   `WebMCP readiness: ${toolsFound} tool(s), ${high.length} high, ${medium.length} medium, ${info.length} info (info = spec gap, not fixable yet).`
 );
 
+// ---------------------------------------------------------------- baseline diff
+let d = null;
+if (baseline) {
+  d = diffReport(report, baseline);
+  const s2 = summarise(d);
+  notice(
+    `Baseline ${baselineInput}: ${s2.added} new, ${s2.known} known, ${s2.fixed} fixed, ${s2.regressions} regression(s).`
+  );
+  if (s2.fixed) {
+    for (const f of d.fixedFindings) {
+      notice(`fixed since baseline: ${f.rule}${f.tool ? ` (${f.tool})` : ''} on ${f.url} - remove it from the baseline to keep it honest.`);
+    }
+  }
+  for (const w of baselineUpdateWarning(d)) warning(w);
+  if (d.regressions.length) {
+    for (const r of d.regressions) {
+      error(`${r.url} no longer registers \`${r.tool}\`, which was in the baseline. An agent relying on it can no longer call it.`);
+    }
+  }
+}
+
+// Only NEW findings are actionable. Pre-existing ones are reported, not failed -
+// that is the whole point of a baseline.
+const actionable = d ? d.newFindings : allFindings;
+const newHigh = actionable.filter((f) => f.severity === 'high');
+const newMedium = actionable.filter((f) => f.severity === 'medium');
+if (d) {
+  const knownHigh = d.knownFindings.filter((f) => f.severity === 'high').length;
+  if (knownHigh) {
+    notice(
+      `${knownHigh} high severity finding(s) are already in the baseline and are not failing this build. They are still real defects.`
+    );
+  }
+}
+
 const shouldFail =
-  (failOn === 'high' && high.length > 0) ||
-  (failOn === 'medium' && (high.length > 0 || medium.length > 0)) ||
-  (failOnUnreachable && results.some((r) => r.outcome === 'unreachable'));
+  (failOn === 'high' && newHigh.length > 0) ||
+  (failOn === 'medium' && (newHigh.length > 0 || newMedium.length > 0)) ||
+  (failOnUnreachable && results.some((r) => r.outcome === 'unreachable')) ||
+  (d ? d.regressions.length > 0 : false);
 
 if (shouldFail) {
   group('Why this failed');
-  for (const f of high) process.stdout.write(describeFinding(f.tool, f) + '\n');
+  for (const f of newHigh) process.stdout.write(describeFinding(f.tool, f) + '\n');
+  for (const r of d?.regressions || []) {
+    process.stdout.write(`\`${r.tool}\` on ${r.url}: tool removed but was in the baseline\n    A tool disappearing is a regression, not a fix - an agent that called it can no longer do so.\n    fix: restore the tool, or remove it from ${baselineInput} if the removal was intentional.\n`);
+  }
   endGroup();
   error(
-    `WebMCP readiness failed (${high.length} high severity, fail-on=${failOn}). ` +
-      `Set fail-on: none to report without failing.`
+    `WebMCP readiness failed (${newHigh.length} new high severity, fail-on=${failOn}` +
+      `${d ? `, ${d.regressions.length} regression(s)` : ''}). ` +
+      `Set fail-on: none to report without failing, or update-baseline: true to accept the current state.`
   );
   process.exit(1);
 }

@@ -26,6 +26,14 @@ inputs:
     description: 'Write a Markdown summary to the job summary. Default true.'
     required: false
     default: 'true'
+  baseline:
+    description: 'Path to the baseline of known findings. If present, only NEW findings fail the build.'
+    required: false
+    default: 'webmcp-baseline.json'
+  update-baseline:
+    description: 'Rewrite the baseline to accept the current state, then exit. Prints every finding it absorbs. Default false.'
+    required: false
+    default: 'false'
 
 outputs:
   tools-found:
@@ -36,6 +44,12 @@ outputs:
     description: 'Number of high-severity findings.'
   report:
     description: 'Path to the JSON report.'
+  baseline:
+    description: 'Path to the written baseline (update-baseline mode only).'
+  baseline-added:
+    description: 'How many new findings the baseline update absorbed.'
+  baseline-fixed:
+    description: 'How many findings were fixed since the previous baseline.'
 
 # Composite rather than a bundled dist/index.js on purpose.
 # Playwright resolves its browser binary from its own package root at runtime, so
@@ -64,6 +78,8 @@ runs:
         INPUT_FAIL_ON_UNREACHABLE: ${{ inputs.fail-on-unreachable }}
         INPUT_REPORT_PATH: ${{ inputs.report-path }}
         INPUT_GITHUB_SUMMARY: ${{ inputs.github-summary }}
+        INPUT_BASELINE: ${{ inputs.baseline }}
+        INPUT_UPDATE_BASELINE: ${{ inputs.update-baseline }}
       run: |
         cd "$GITHUB_ACTION_PATH"
         GITHUB_WORKSPACE="$GITHUB_WORKSPACE" node action/index.mjs

@@ -78,6 +78,75 @@ That's it. Findings appear as inline annotations on the PR diff.
 
 ---
 
+## Adopting it on a site that already has broken tools
+
+A first run on a real site fails. That is the point — but it also means the
+action is unusable on day one unless you have a way to accept the current state.
+
+Commit a baseline:
+
+```yaml
+- uses: your-org/webmcp-readiness@v1
+  with:
+    config: webmcp.config.json
+    update-baseline: true   # one-off: accept what exists now
+```
+
+That writes `webmcp-baseline.json` and prints **every finding it absorbed**, one per
+line, so the diff is reviewable:
+
+```
+absorbing 24 new finding(s) (6 high)
+
+newly absorbed:
+  + high   tolerates-valid-args        https://www.proxy-compare.com :: read_site_guide
+  + medium tool-budget                https://www.proxy-compare.com
+  ...
+```
+
+From then on, **only new findings fail the build.** Pre-existing ones keep failing
+nothing but stay visible:
+
+```
+Baseline webmcp-baseline.json: 0 new, 24 known, 0 fixed, 0 regression(s).
+6 high severity finding(s) are already in the baseline and are not failing this
+build. They are still real defects.
+```
+
+### Two things the baseline deliberately will not do
+
+**It will not absorb a removed tool.** If a tool that was in your baseline is no
+longer registered, the build fails:
+
+```
+https://your-app.example no longer registers `checkout_and_pay`, which was in the
+baseline. An agent relying on it can no longer call it.
+```
+
+A disappearing tool is a **regression, not a fix**. An agent that called
+`checkout_and_pay` yesterday gets a failure today, and the people who depend on
+that are your users, not your CI. This is the single most damaging mistake a tool
+like this could make, so it fails loudly and cannot be baselined away silently.
+
+**It will not absorb a suspiciously large jump.** Updating a baseline that would
+add 25+ findings, or 10+ new high-severity ones, prints a warning — because a
+baseline that grows that fast usually means the check is being switched off
+rather than the code being fixed.
+
+### Keeping it honest
+
+When a finding is fixed, the build tells you to remove it from the baseline:
+
+```
+fixed since baseline: schema-fields-documented (get_sale_rules) on https://... -
+remove it from the baseline to keep it honest.
+```
+
+That keeps the baseline shrinking instead of turning into a graveyard of things
+nobody ever came back to.
+
+---
+
 ## The probe, and why it is trustworthy
 
 A verification tool that reports false positives is worse than no tool. Two of the
@@ -95,6 +164,10 @@ generators, so the checks are built defensively and documented in `lib/checks.mj
 3. **`unknown` is never reported as `zero`.** Tools register after client-side JS
    runs; probing too early reported three live sites as having no tools when all
    three had 2–4. The probe waits for `load`, settles, and retries transients.
+
+4. **A diff key that dropped the URL** made every pre-existing finding report as
+   "fixed", which would have quietly emptied anyone's baseline. Caught by a unit
+   test asserting that an identical re-scan produces an empty diff.
 
 `looksLikeRejection()` and `unwrap()` carry comments saying not to simplify them.
 They exist because of those exact bugs.
