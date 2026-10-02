@@ -1,16 +1,17 @@
 {
-  "scannedAt": "2026-10-02T15:46:50.378Z",
-  "durationSec": 589,
+  "scannedAt": "2026-10-02T16:12:22.104Z",
+  "durationSec": 685,
   "entryCount": 40,
   "registryToolTotal": 235,
   "toolsObserved": 114,
   "byOutcome": {
     "tools-observable": 33,
     "unreachable": 3,
-    "listed-but-zero-tools": 4
+    "no-tools": 4
   },
   "byRule": {
     "output-schema-declared": 114,
+    "deterministic": 3,
     "schema-fields-documented": 9,
     "tool-budget": 1,
     "tolerates-valid-args": 8,
@@ -33,32 +34,42 @@
         {
           "tool": "check_property_availability",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "discover_destinations_near",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_property_details",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
+        },
+        {
+          "tool": "get_property_details",
+          "rule": "deterministic",
+          "severity": "medium"
         },
         {
           "tool": "resolve_destination",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
+        },
+        {
+          "tool": "resolve_destination",
+          "rule": "deterministic",
+          "severity": "medium"
         },
         {
           "tool": "search_stays",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -68,7 +79,7 @@
         "resolve_destination",
         "search_stays"
       ],
-      "ms": 13697
+      "ms": 13715
     },
     {
       "entry": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
@@ -86,32 +97,32 @@
         {
           "tool": "check_property_availability",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "discover_destinations_near",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_property_details",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "resolve_destination",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_stays",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -121,7 +132,7 @@
         "resolve_destination",
         "search_stays"
       ],
-      "ms": 13670
+      "ms": 12998
     },
     {
       "entry": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
@@ -133,19 +144,14 @@
       "toolsObserved": 3,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.taxsaleatlas.com/tools/redemption-deadline-calculator"
-        }
-      ],
+      "failures": [],
       "error": null,
       "findings": [
         {
           "tool": "calculate_sale_timeline",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_sale_rules",
@@ -155,14 +161,14 @@
         {
           "tool": "get_sale_rules",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -170,7 +176,7 @@
         "get_sale_rules",
         "search_site"
       ],
-      "ms": 12938
+      "ms": 7501
     },
     {
       "entry": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
@@ -188,8 +194,8 @@
         {
           "tool": "estimate_sale_return",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_sale_rules",
@@ -199,14 +205,14 @@
         {
           "tool": "get_sale_rules",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -214,7 +220,7 @@
         "get_sale_rules",
         "search_site"
       ],
-      "ms": 7576
+      "ms": 9834
     },
     {
       "entry": "www.taxsaleatlas.com/tools/rural-land-value-estimator",
@@ -237,21 +243,21 @@
         {
           "tool": "estimate_land_value",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "estimate_land_value",
         "search_site"
       ],
-      "ms": 9560
+      "ms": 9459
     },
     {
       "entry": "www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
@@ -263,32 +269,27 @@
       "toolsObserved": 2,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.taxsaleatlas.com/tools/quiet-title-cost-calculator"
-        }
-      ],
+      "failures": [],
       "error": null,
       "findings": [
         {
           "tool": "estimate_title_cost",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "estimate_title_cost",
         "search_site"
       ],
-      "ms": 13653
+      "ms": 8853
     },
     {
       "entry": "www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
@@ -306,21 +307,21 @@
         {
           "tool": "estimate_max_bid",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "estimate_max_bid",
         "search_site"
       ],
-      "ms": 9533
+      "ms": 8064
     },
     {
       "entry": "www.taxsaleatlas.com/states",
@@ -343,21 +344,21 @@
         {
           "tool": "compare_state_rules",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "compare_state_rules",
         "search_site"
       ],
-      "ms": 9617
+      "ms": 55497
     },
     {
       "entry": "www.taxsaleatlas.com/pennsylvania/beaver",
@@ -369,12 +370,7 @@
       "toolsObserved": 2,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.taxsaleatlas.com/pennsylvania/beaver"
-        }
-      ],
+      "failures": [],
       "error": null,
       "findings": [
         {
@@ -385,21 +381,21 @@
         {
           "tool": "get_county_sale",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "get_county_sale",
         "search_site"
       ],
-      "ms": 13744
+      "ms": 10003
     },
     {
       "entry": "www.taxsaleatlas.com/florida/counties",
@@ -417,21 +413,21 @@
         {
           "tool": "filter_counties",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "filter_counties",
         "search_site"
       ],
-      "ms": 7504
+      "ms": 12445
     },
     {
       "entry": "www.taxsaleatlas.com",
@@ -449,14 +445,14 @@
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "search_site"
       ],
-      "ms": 8941
+      "ms": 7298
     },
     {
       "entry": "www.haulhandbook.com/tools/ifta-tax-rates",
@@ -468,31 +464,26 @@
       "toolsObserved": 3,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.haulhandbook.com/tools/ifta-tax-rates"
-        }
-      ],
+      "failures": [],
       "error": null,
       "findings": [
         {
           "tool": "browse_ifta_rates",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "open_site_page",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -500,7 +491,7 @@
         "open_site_page",
         "search_site"
       ],
-      "ms": 10755
+      "ms": 7629
     },
     {
       "entry": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
@@ -518,20 +509,20 @@
         {
           "tool": "check_load_dimensions",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "open_site_page",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -539,7 +530,7 @@
         "open_site_page",
         "search_site"
       ],
-      "ms": 7683
+      "ms": 10410
     },
     {
       "entry": "www.haulhandbook.com",
@@ -557,21 +548,21 @@
         {
           "tool": "open_site_page",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "open_site_page",
         "search_site"
       ],
-      "ms": 8784
+      "ms": 7286
     },
     {
       "entry": "settledestate.com/texas/executor-compensation",
@@ -583,20 +574,11 @@
       "toolsObserved": 0,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
-        },
-        {
-          "attempt": 2,
-          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
-        }
-      ],
+      "failures": [],
       "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
       "findings": [],
       "toolNames": [],
-      "ms": 31184
+      "ms": 30662
     },
     {
       "entry": "settledestate.com",
@@ -604,15 +586,15 @@
       "verified": false,
       "url": "https://settledestate.com",
       "status": 200,
-      "outcome": "listed-but-zero-tools",
+      "outcome": "no-tools",
       "toolsObserved": 0,
-      "rootRetried": true,
+      "rootRetried": false,
       "rootTools": 0,
       "failures": [],
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 17941
+      "ms": 45783
     },
     {
       "entry": "www.proxy-compare.com",
@@ -630,8 +612,8 @@
         {
           "tool": "compare_captcha_costs",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "rule": "tool-budget",
@@ -642,8 +624,8 @@
         {
           "tool": "compare_provider_details",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "compare_provider_details",
@@ -654,14 +636,14 @@
         {
           "tool": "compare_proxy_costs",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "compare_scraping_api_costs",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "convert_current_proxy_input",
@@ -671,26 +653,26 @@
         {
           "tool": "convert_current_proxy_input",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "estimate_proxy_bandwidth",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "find_providers",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_provider_details",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_provider_details",
@@ -701,8 +683,8 @@
         {
           "tool": "list_browser_plans",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "list_browser_plans",
@@ -713,14 +695,14 @@
         {
           "tool": "list_captcha_rates",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "list_proxy_providers",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "list_proxy_providers",
@@ -731,8 +713,8 @@
         {
           "tool": "list_recorded_changes",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "list_recorded_changes",
@@ -743,14 +725,14 @@
         {
           "tool": "list_scraping_apis",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "read_site_guide",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "read_site_guide",
@@ -761,14 +743,14 @@
         {
           "tool": "search_site",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "select_proxy_stack",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -789,7 +771,7 @@
         "search_site",
         "select_proxy_stack"
       ],
-      "ms": 12054
+      "ms": 12385
     },
     {
       "entry": "spectrumtours.cz",
@@ -797,15 +779,15 @@
       "verified": true,
       "url": "https://spectrumtours.cz",
       "status": 200,
-      "outcome": "listed-but-zero-tools",
+      "outcome": "no-tools",
       "toolsObserved": 0,
-      "rootRetried": true,
+      "rootRetried": false,
       "rootTools": 0,
       "failures": [],
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 17312
+      "ms": 25448
     },
     {
       "entry": "scvd.store",
@@ -823,86 +805,86 @@
         {
           "tool": "check_a2a_card",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "check_before_you_pay",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "check_conformance",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "check_order",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "check_purchase",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "complete_store_purchase",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "find_in_catalog",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "look_at_door",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "look_in_window",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "preflight_endpoint",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "quote_store_purchase",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "read_binder",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "read_store_guide",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "verify_artifact",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -921,7 +903,7 @@
         "read_store_guide",
         "verify_artifact"
       ],
-      "ms": 21541
+      "ms": 19485
     },
     {
       "entry": "corpuslaw.us",
@@ -939,56 +921,61 @@
         {
           "tool": "formation.apply_draft",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
+        },
+        {
+          "tool": "formation.apply_draft",
+          "rule": "deterministic",
+          "severity": "medium"
         },
         {
           "tool": "formation.compare",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "formation.get_draft",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "formation.handoff",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "formation.lookup_naics",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "formation.requirements",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "law.get_node",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "law.list_coverage",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "law.search",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1002,7 +989,7 @@
         "law.list_coverage",
         "law.search"
       ],
-      "ms": 18830
+      "ms": 20019
     },
     {
       "entry": "simpletoolstack.com",
@@ -1025,39 +1012,30 @@
         {
           "tool": "discover_tools",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "discover_tools"
       ],
-      "ms": 9550
+      "ms": 8408
     },
     {
       "entry": "airportloungelist.com",
       "registryToolCount": 5,
       "verified": true,
       "url": "https://airportloungelist.com",
-      "status": null,
+      "status": 200,
       "outcome": "unreachable",
       "toolsObserved": 0,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
-        },
-        {
-          "attempt": 2,
-          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
-        }
-      ],
-      "error": "page.goto: net::ERR_NETWORK_CHANGED at https://airportloungelist.com/",
+      "failures": [],
+      "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
       "findings": [],
       "toolNames": [],
-      "ms": 30043
+      "ms": 44697
     },
     {
       "entry": "awardtravelfinder.com",
@@ -1075,20 +1053,20 @@
         {
           "tool": "atf_get_points_valuation",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "atf_get_program_award_rates",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "atf_list_transfer_bonuses",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1096,7 +1074,7 @@
         "atf_get_program_award_rates",
         "atf_list_transfer_bonuses"
       ],
-      "ms": 12029
+      "ms": 13724
     },
     {
       "entry": "www.bestprice.gr",
@@ -1108,20 +1086,11 @@
       "toolsObserved": 0,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.bestprice.gr/"
-        },
-        {
-          "attempt": 2,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.bestprice.gr/"
-        }
-      ],
+      "failures": [],
       "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.bestprice.gr/",
       "findings": [],
       "toolNames": [],
-      "ms": 79766
+      "ms": 74597
     },
     {
       "entry": "hopi.co.uk",
@@ -1139,21 +1108,21 @@
         {
           "tool": "hopi_directory",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "hopi_search",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "hopi_directory",
         "hopi_search"
       ],
-      "ms": 9448
+      "ms": 15081
     },
     {
       "entry": "stacktr.ee",
@@ -1171,32 +1140,32 @@
         {
           "tool": "stacktree_copy_install_command",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "stacktree_open_dashboard",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "stacktree_publish_html",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "stacktree_view_docs",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "stacktree_view_pricing",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1206,7 +1175,7 @@
         "stacktree_view_docs",
         "stacktree_view_pricing"
       ],
-      "ms": 9367
+      "ms": 8983
     },
     {
       "entry": "agentk.stacktr.ee",
@@ -1214,15 +1183,15 @@
       "verified": true,
       "url": "https://agentk.stacktr.ee",
       "status": 200,
-      "outcome": "listed-but-zero-tools",
+      "outcome": "no-tools",
       "toolsObserved": 0,
-      "rootRetried": true,
+      "rootRetried": false,
       "rootTools": 0,
       "failures": [],
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 18060
+      "ms": 29334
     },
     {
       "entry": "webmcp-registry.dev",
@@ -1240,32 +1209,32 @@
         {
           "tool": "get-domain-tools",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get-tool-schema",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "lookup-url",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search-domains",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search-tools",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1275,7 +1244,7 @@
         "search-domains",
         "search-tools"
       ],
-      "ms": 14203
+      "ms": 15442
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/order-tracking",
@@ -1298,14 +1267,14 @@
         {
           "tool": "get_order_status",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "get_order_status"
       ],
-      "ms": 7450
+      "ms": 8118
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/smart-home",
@@ -1328,14 +1297,14 @@
         {
           "tool": "rearrangeDOMComponents",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "rearrangeDOMComponents"
       ],
-      "ms": 7967
+      "ms": 7844
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/webmcp-maze",
@@ -1353,8 +1322,8 @@
         {
           "tool": "start_game",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "start_game",
@@ -1366,7 +1335,7 @@
       "toolNames": [
         "start_game"
       ],
-      "ms": 8057
+      "ms": 8981
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/analytics-dashboard",
@@ -1384,14 +1353,14 @@
         {
           "tool": "query",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "query"
       ],
-      "ms": 8128
+      "ms": 7632
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/sport-shop-angular",
@@ -1409,32 +1378,32 @@
         {
           "tool": "get_product_info",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_store_promos_and_rules",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "open_cart",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_product",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "view_product",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1444,7 +1413,7 @@
         "search_product",
         "view_product"
       ],
-      "ms": 9585
+      "ms": 9847
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/hotel-chain",
@@ -1456,12 +1425,7 @@
       "toolsObserved": 3,
       "rootRetried": false,
       "rootTools": 0,
-      "failures": [
-        {
-          "attempt": 1,
-          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://googlechromelabs.github.io/webmcp-tools/demos/hotel-chain"
-        }
-      ],
+      "failures": [],
       "error": null,
       "findings": [
         {
@@ -1472,8 +1436,8 @@
         {
           "tool": "lookup_amenity",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_location",
@@ -1483,14 +1447,14 @@
         {
           "tool": "search_location",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "view_hotel",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1498,7 +1462,7 @@
         "search_location",
         "view_hotel"
       ],
-      "ms": 10140
+      "ms": 8529
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/real-estate-map",
@@ -1521,14 +1485,14 @@
         {
           "tool": "search_property_location",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "search_property_location"
       ],
-      "ms": 11236
+      "ms": 9061
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/ticket-booking",
@@ -1546,20 +1510,20 @@
         {
           "tool": "query_content",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "select_showtime",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "update_location",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1567,7 +1531,7 @@
         "select_showtime",
         "update_location"
       ],
-      "ms": 22315
+      "ms": 21233
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/coffee-shop",
@@ -1585,14 +1549,14 @@
         {
           "tool": "get_machine_specifications",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "get_order_history",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "reorder_product",
@@ -1607,8 +1571,8 @@
         {
           "tool": "reorder_product",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "search_catalog",
@@ -1618,8 +1582,8 @@
         {
           "tool": "search_catalog",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
@@ -1628,7 +1592,7 @@
         "reorder_product",
         "search_catalog"
       ],
-      "ms": 14381
+      "ms": 11817
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/french-bistro",
@@ -1646,8 +1610,8 @@
         {
           "tool": "book_table_le_petit_bistro",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         },
         {
           "tool": "book_table_le_petit_bistro",
@@ -1659,7 +1623,7 @@
       "toolNames": [
         "book_table_le_petit_bistro"
       ],
-      "ms": 9014
+      "ms": 8915
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/react-flightsearch",
@@ -1677,14 +1641,14 @@
         {
           "tool": "searchFlights",
           "rule": "output-schema-declared",
-          "severity": "high",
-          "note": "spec issue #9"
+          "severity": "info",
+          "note": "blocked on spec issue #9"
         }
       ],
       "toolNames": [
         "searchFlights"
       ],
-      "ms": 7726
+      "ms": 7850
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/pizza-maker",
@@ -1692,15 +1656,15 @@
       "verified": false,
       "url": "https://googlechromelabs.github.io/webmcp-tools/demos/pizza-maker",
       "status": 200,
-      "outcome": "listed-but-zero-tools",
+      "outcome": "no-tools",
       "toolsObserved": 0,
-      "rootRetried": true,
+      "rootRetried": false,
       "rootTools": 0,
       "failures": [],
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 13857
+      "ms": 20380
     }
   ]
 }

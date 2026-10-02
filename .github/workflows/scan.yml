@@ -1,0 +1,81 @@
+name: scan
+on:
+  schedule:
+    # Weekly. The value of this report is the trend, not a single snapshot.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Snapshot the registry
+        run: node fetch-registry.mjs
+
+      - name: Scan
+        run: |
+          mkdir -p scans
+          node scan.mjs --out "scans/$(date -u +%Y-%m-%d).json"
+          cp "scans/$(date -u +%Y-%m-%d).json" scan-results.json
+
+      - name: Build the report
+        run: node build-site.mjs
+
+      - name: Write trend to the log
+        run: |
+          cat > trend.md <<'EOF'
+          # Scan history
+
+          | date | tools observed | high | medium | info | registry tools |
+          | --- | --- | --- | --- | --- | --- |
+          EOF
+          for f in $(ls -1 scans/*.json | sort); do
+            node -e '
+              const d=require("./"+process.argv[1]);
+              const rows=[];
+              for (const r of d.results) for (const f of r.findings) rows.push(f.severity);
+              const c=s=>rows.filter(x=>x===s).length;
+              console.log(`| ${d.scannedAt.slice(0,10)} | ${d.toolsObserved} | ${c("high")} | ${c("medium")} | ${c("info")} | ${d.registryToolTotal} |`);
+            ' "$f" >> trend.md
+          done
+          cat trend.md
+
+      - name: Commit the snapshot
+        run: |
+          git config user.name  "webmcp-readiness bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add scans/ site/ trend.md scan-results.json
+          git diff --staged --quiet || git commit -m "scan: $(date -u +%Y-%m-%d)"
+          git push || echo "push skipped (fork or protected branch)"
+
+      - name: Publish to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        continue-on-error: true
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+        id: deploy

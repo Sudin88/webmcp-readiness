@@ -1,7 +1,7 @@
 # The State of the Agent-Readable Web
 
 **Scan date:** 2 October 2026 · **Spec:** WebMCP Draft Community Group Report, 30 Sep 2026
-**Method:** Playwright + `@mcp-b/global` v5.1.0 · 40 registry entries · 589s · source: `scan.mjs`
+**Method:** Playwright + `@mcp-b/global` v5.1.0 · 40 registry entries · 685s · source: `scan.mjs`
 
 > The WebMCP spec landed three days ago. This is the first independent verification pass over
 > the public WebMCP registry. Reproduce it yourself: `node scan.mjs`.
@@ -31,8 +31,12 @@ agent call is a bet that the response matches the description.
 | Outcome | Entries | What it means |
 |---|---|---|
 | Tools observable | 33 | We could discover and read the page's tools |
-| Listed, zero tools found | 4 | Registry lists tools; page registers none |
+| No tools found (re-checked) | 4 | Registry lists tools; two independent passes found none |
 | Unreachable | 3 | Could not load reliably from this network |
+
+A zero result is never reported on a single look. Each of these was re-probed with
+fresh browser contexts on two longer settle windows before being believed, because
+one site that reliably exposes 16 tools intermittently reports zero.
 
 Four entries are listed in the registry but expose no tools at all:
 
@@ -117,7 +121,14 @@ evidence of "did not validate."
 
 ---
 
-## 6. Tool budget
+## 6. Nondeterministic responses
+
+**3 tools** returned different output for two byte-identical calls: `get_property_details`
+and `resolve_destination` on `b2a.bluepillow.com`, and `formation.apply_draft` on
+`corpuslaw.us`. A caller cannot distinguish a real state change from noise, which is
+precisely the class of bug a verification layer exists to catch.
+
+## 7. Tool budget
 
 `www.proxy-compare.com` registers **16 tools** on one page. The spec warns:
 
