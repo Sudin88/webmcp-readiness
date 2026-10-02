@@ -1,3 +1,5 @@
 node_modules/
 scans/
 site/preview*.png
+webmcp-report.json
+webmcp-baseline.json
