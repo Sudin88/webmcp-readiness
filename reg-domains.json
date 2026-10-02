@@ -1,0 +1,560 @@
+{
+  "results": [
+    {
+      "domain": "b2a.bluepillow.com/webmcp",
+      "verified": false,
+      "category": "Travel & Booking",
+      "toolCount": 5,
+      "tools": [
+        "search_stays",
+        "get_property_details",
+        "resolve_destination",
+        "check_property_availability",
+        "discover_destinations_near"
+      ]
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "verified": false,
+      "category": "Travel & Booking",
+      "toolCount": 5,
+      "tools": [
+        "search_stays",
+        "get_property_details",
+        "resolve_destination",
+        "check_property_availability",
+        "discover_destinations_near"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 3,
+      "tools": [
+        "get_sale_rules",
+        "calculate_sale_timeline",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 3,
+      "tools": [
+        "estimate_sale_return",
+        "get_sale_rules",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/rural-land-value-estimator",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 2,
+      "tools": [
+        "estimate_land_value",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 2,
+      "tools": [
+        "estimate_title_cost",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 2,
+      "tools": [
+        "estimate_max_bid",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/states",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 2,
+      "tools": [
+        "compare_state_rules",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/pennsylvania/beaver",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 2,
+      "tools": [
+        "get_county_sale",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com/florida/counties",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 2,
+      "tools": [
+        "filter_counties",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.taxsaleatlas.com",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 1,
+      "tools": [
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/ifta-tax-rates",
+      "verified": false,
+      "category": "Productivity & Work",
+      "toolCount": 3,
+      "tools": [
+        "open_site_page",
+        "browse_ifta_rates",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
+      "verified": false,
+      "category": "Productivity & Work",
+      "toolCount": 3,
+      "tools": [
+        "check_load_dimensions",
+        "open_site_page",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "www.haulhandbook.com",
+      "verified": false,
+      "category": "Productivity & Work",
+      "toolCount": 2,
+      "tools": [
+        "open_site_page",
+        "search_site"
+      ]
+    },
+    {
+      "domain": "settledestate.com/texas/executor-compensation",
+      "verified": false,
+      "category": "Health & Education",
+      "toolCount": 4,
+      "tools": [
+        "compare_online_will_makers",
+        "estimate_executor_pay",
+        "open_executor_calculator",
+        "search_estate_guidance"
+      ]
+    },
+    {
+      "domain": "settledestate.com",
+      "verified": false,
+      "category": "Health & Education",
+      "toolCount": 3,
+      "tools": [
+        "compare_online_will_makers",
+        "open_executor_calculator",
+        "search_estate_guidance"
+      ]
+    },
+    {
+      "domain": "www.proxy-compare.com",
+      "verified": true,
+      "category": "Developer Tools",
+      "toolCount": 14,
+      "tools": [
+        "compare_proxy_costs",
+        "list_proxy_providers",
+        "list_scraping_apis",
+        "compare_scraping_api_costs",
+        "compare_provider_details",
+        "convert_current_proxy_input",
+        "list_captcha_rates",
+        "list_recorded_changes",
+        "find_providers",
+        "read_site_guide",
+        "compare_captcha_costs",
+        "search_site",
+        "get_provider_details",
+        "estimate_proxy_bandwidth"
+      ]
+    },
+    {
+      "domain": "spectrumtours.cz",
+      "verified": true,
+      "category": "Travel & Booking",
+      "toolCount": 9,
+      "tools": [
+        "inspect_current_prague_tour",
+        "check_current_tour_departures",
+        "get_current_tour_quote",
+        "review_current_tour_booking",
+        "fill_private_tour_inquiry",
+        "set_tour_booking_details",
+        "fill_tour_booking_contact",
+        "create_payment_checkout",
+        "review_private_tour_inquiry"
+      ]
+    },
+    {
+      "domain": "scvd.store",
+      "verified": false,
+      "category": "Commerce",
+      "toolCount": 8,
+      "tools": [
+        "read_store_guide",
+        "preflight_endpoint",
+        "look_at_door",
+        "check_before_you_pay",
+        "verify_artifact",
+        "check_conformance",
+        "check_order",
+        "find_in_catalog"
+      ]
+    },
+    {
+      "domain": "corpuslaw.us",
+      "verified": true,
+      "category": "Productivity & Work",
+      "toolCount": 8,
+      "tools": [
+        "formationGetDraft",
+        "formationLookupNaics",
+        "formationHandoff",
+        "lawSearch",
+        "lawGetNode",
+        "lawListCoverage",
+        "formationRequirements",
+        "formationApplyDraft"
+      ]
+    },
+    {
+      "domain": "simpletoolstack.com",
+      "verified": true,
+      "category": "Productivity & Work",
+      "toolCount": 32,
+      "tools": [
+        "discover_tools",
+        "ai_text_cleaner",
+        "business_days",
+        "circle_crop",
+        "crop_image",
+        "base64_encoder",
+        "case_converter",
+        "color_converter",
+        "date_add_subtract",
+        "exif_remover",
+        "date_duration",
+        "find_and_replace",
+        "image_compress",
+        "image_resize",
+        "hash_generator",
+        "image_convert",
+        "jpg_to_pdf",
+        "lorem_ipsum",
+        "json_formatter",
+        "password",
+        "pdf_organize",
+        "pdf_split",
+        "pdf_merge",
+        "pdf_rotate",
+        "pdf_to_jpg",
+        "slug_generator",
+        "qr_code",
+        "text_cleaner",
+        "timestamp_converter",
+        "word_counter",
+        "text_diff",
+        "uuid"
+      ]
+    },
+    {
+      "domain": "airportloungelist.com",
+      "verified": true,
+      "category": "Travel & Booking",
+      "toolCount": 5,
+      "tools": [
+        "navigate_to",
+        "get_current_page",
+        "search_lounges",
+        "get_airport_lounges",
+        "get_lounge_details"
+      ]
+    },
+    {
+      "domain": "awardtravelfinder.com",
+      "verified": true,
+      "category": "Travel & Booking",
+      "toolCount": 3,
+      "tools": [
+        "atf_get_program_award_rates",
+        "atf_get_points_valuation",
+        "atf_list_transfer_bonuses"
+      ]
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "category": "Commerce",
+      "toolCount": 22,
+      "tools": [
+        "open_search_results",
+        "load_more_products",
+        "open_product",
+        "get_product_specifications",
+        "get_shopping_list",
+        "apply_listing_filter",
+        "apply_listing_sort",
+        "get_page_product",
+        "summarize_price_history",
+        "add_to_shopping_list",
+        "remove_from_shopping_list",
+        "get_comparison",
+        "add_to_comparison",
+        "remove_from_comparison",
+        "open_price_alert",
+        "get_visible_products",
+        "get_shopping_decision",
+        "show_offer",
+        "get_listing_filters",
+        "search_bestprice",
+        "compare_page_offers",
+        "clear_listing_filters"
+      ]
+    },
+    {
+      "domain": "hopi.co.uk",
+      "verified": true,
+      "category": "Productivity & Work",
+      "toolCount": 1,
+      "tools": [
+        "hopi_percentage_calculator"
+      ]
+    },
+    {
+      "domain": "stacktr.ee",
+      "verified": true,
+      "category": "Developer Tools",
+      "toolCount": 16,
+      "tools": [
+        "stacktree_set_password",
+        "stacktree_set_email_gate",
+        "stacktree_create_share_link",
+        "stacktree_publish_html",
+        "stacktree_view_pricing",
+        "stacktree_copy_install_command",
+        "stacktree_copy_link",
+        "stacktree_get_site",
+        "stacktree_open_dashboard",
+        "stacktree_view_docs",
+        "stacktree_open_site",
+        "stacktree_site_settings",
+        "stacktree_update_site",
+        "stacktree_remove_password",
+        "stacktree_set_expiry",
+        "stacktree_delete_site"
+      ]
+    },
+    {
+      "domain": "agentk.stacktr.ee",
+      "verified": true,
+      "category": "Playgrounds & Games",
+      "toolCount": 29,
+      "tools": [
+        "devops_restart_service",
+        "devops_run_migration",
+        "linear_assign_to",
+        "linear_change_status",
+        "linear_change_labels",
+        "linear_set_due_date",
+        "smarthome_set_light_color",
+        "smarthome_set_thermostat",
+        "smarthome_play_music",
+        "smarthome_activate_scene",
+        "get_styling_advice",
+        "find_similar",
+        "view_bag",
+        "search_products",
+        "add_to_bag",
+        "apply_promo",
+        "clear_filters",
+        "devops_deploy",
+        "devops_rollback",
+        "devops_scale_service",
+        "devops_view_logs",
+        "devops_clear_cache",
+        "linear_assign_to_me",
+        "linear_change_priority",
+        "linear_remove_label",
+        "smarthome_set_brightness",
+        "smarthome_toggle_light",
+        "smarthome_set_blinds",
+        "smarthome_set_volume"
+      ]
+    },
+    {
+      "domain": "webmcp-registry.dev",
+      "verified": true,
+      "category": "Developer Tools",
+      "toolCount": 5,
+      "tools": [
+        "get-domain-tools",
+        "search-domains",
+        "get-tool-schema",
+        "lookup-url",
+        "search-tools"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/order-tracking",
+      "verified": false,
+      "category": "Commerce",
+      "toolCount": 1,
+      "tools": [
+        "get_order_status"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/smart-home",
+      "verified": false,
+      "category": "Productivity & Work",
+      "toolCount": 1,
+      "tools": [
+        "rearrangeDOMComponents"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/webmcp-maze",
+      "verified": false,
+      "category": "Playgrounds & Games",
+      "toolCount": 3,
+      "tools": [
+        "start_game",
+        "move",
+        "look"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/analytics-dashboard",
+      "verified": false,
+      "category": "Developer Tools",
+      "toolCount": 1,
+      "tools": [
+        "query"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/sport-shop-angular",
+      "verified": false,
+      "category": "Commerce",
+      "toolCount": 5,
+      "tools": [
+        "search_product",
+        "view_product",
+        "get_product_info",
+        "open_cart",
+        "get_store_promos_and_rules"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/hotel-chain",
+      "verified": false,
+      "category": "Travel & Booking",
+      "toolCount": 5,
+      "tools": [
+        "filter_search_results",
+        "reset_filters",
+        "get_current_search_results",
+        "start_booking",
+        "complete_booking"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/real-estate-map",
+      "verified": false,
+      "category": "Finance & Fintech",
+      "toolCount": 4,
+      "tools": [
+        "view_property_details",
+        "search_location",
+        "apply_smart_filters",
+        "clear_filters"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/ticket-booking",
+      "verified": false,
+      "category": "Personal & Media",
+      "toolCount": 3,
+      "tools": [
+        "update_location",
+        "query_content",
+        "select_showtime"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/coffee-shop",
+      "verified": false,
+      "category": "Commerce",
+      "toolCount": 4,
+      "tools": [
+        "search_catalog",
+        "get_order_history",
+        "reorder_product",
+        "get_machine_specifications"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/french-bistro",
+      "verified": false,
+      "category": "Commerce",
+      "toolCount": 1,
+      "tools": [
+        "book_table_le_petit_bistro"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/react-flightsearch",
+      "verified": false,
+      "category": "Travel & Booking",
+      "toolCount": 4,
+      "tools": [
+        "listFlights",
+        "resetFilters",
+        "searchFlights",
+        "setFilters"
+      ]
+    },
+    {
+      "domain": "googlechromelabs.github.io/webmcp-tools/demos/pizza-maker",
+      "verified": false,
+      "category": "Commerce",
+      "toolCount": 7,
+      "tools": [
+        "share_pizza",
+        "set_pizza_size",
+        "set_pizza_style",
+        "toggle_layer",
+        "add_topping",
+        "remove_topping",
+        "manage_pizza"
+      ]
+    }
+  ],
+  "total": 40
+}

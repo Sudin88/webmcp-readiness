@@ -1,0 +1,3064 @@
+{
+  "results": [
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "open_price_alert",
+        "description": "Opens this product’s price-drop alert dialog; the shopper sets and saves the alert there.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "product_id": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "description": "Numeric BestPrice product id, as any tool returns it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "remove_from_comparison",
+        "description": "Removes this page’s product from the shopper’s side-by-side comparison for its category; never adds one.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "product_id": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "description": "Numeric BestPrice product id, as any tool returns it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "add_to_comparison",
+        "description": "Adds this page’s product to the shopper’s side-by-side comparison for its category; never removes one.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "product_id": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "description": "Numeric BestPrice product id, as any tool returns it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "get_comparison",
+        "description": "Lists the products in the shopper’s comparisons, per category; changes nothing.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "offset": {
+              "type": "integer",
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "description": "Use next_offset from the previous result to read more categories. Defaults to 0."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "remove_from_shopping_list",
+        "description": "Removes this page’s product from the shopper’s shopping list; never adds one.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "product_id": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "description": "Numeric BestPrice product id, as any tool returns it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "add_to_shopping_list",
+        "description": "Adds this page’s product to the shopper’s shopping list; never removes one.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "product_id": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "description": "Numeric BestPrice product id, as any tool returns it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "get_shopping_list",
+        "description": "Lists the products in the shopper’s shopping list; changes nothing.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "description": "Products to return, from 1 to 20. Defaults to 10."
+            },
+            "offset": {
+              "type": "integer",
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "description": "Use next_offset from the previous result to read on. Defaults to 0."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "open_product",
+        "description": "Opens a product’s BestPrice page in this tab by product_id.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "product_id"
+          ],
+          "properties": {
+            "product_id": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "description": "Numeric BestPrice product id, as any tool returns it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "load_more_products",
+        "description": "Loads the next page of results into this listing, as scrolling does.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "open_search_results",
+        "description": "Opens a search’s results_url in this tab, so the shopper sees those results.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "results_url"
+          ],
+          "properties": {
+            "results_url": {
+              "type": "string",
+              "maxLength": 2048,
+              "minLength": 1,
+              "description": "A results_url exactly as a search returned it."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp",
+      "verified": false,
+      "tool": {
+        "name": "discover_destinations_near",
+        "description": "Curated destinations — cities, neighborhoods, airports, points of interest — within a radius of a geographic point, for use as a `destination_id` in subsequent `search_stays` calls. Useful when coordinates are already in hand (from world knowledge, from a previous tool result, or directly from the user) and the agent needs to enumerate which curated destinations cover that area before searching for properties.\n\nAlso useful as a fan-out entry point for region-level intents — broad areas such as 'Tuscany', 'Pacific Northwest', 'New England', or 'Central Europe' — where the agent can pass an approximate regional centroid and surface a list of sub-destinations the user may then narrow down to before a focused search.\n\nReturns up to 5 candidates ordered by distance. The radius defaults to 5 km; widens up to 50 km for broader queries.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "lat",
+            "lon"
+          ],
+          "properties": {
+            "lat": {
+              "type": "number",
+              "maximum": 90,
+              "minimum": -90,
+              "description": "Latitude of the centre point, decimal degrees (WGS84). Typically the coordinates of a city or region already known from world knowledge or from an earlier resolve_destination call."
+            },
+            "lon": {
+              "type": "number",
+              "maximum": 180,
+              "minimum": -180,
+              "description": "Longitude of the centre point, decimal degrees (WGS84). Negative west of Greenwich."
+            },
+            "type": {
+              "enum": [
+                "city",
+                "neighborhood",
+                "airport",
+                "poi"
+              ],
+              "type": "string",
+              "description": "Optional filter; same semantics as resolve_destination."
+            },
+            "language": {
+              "enum": [
+                "en",
+                "it",
+                "fr",
+                "de",
+                "es",
+                "pt",
+                "nl",
+                "ko",
+                "pl",
+                "ja"
+              ],
+              "type": "string",
+              "default": "en",
+              "description": "Language of the returned destination names (2-letter lowercase). Pass the language the user is speaking; defaults to 'en'."
+            },
+            "radius_km": {
+              "type": "number",
+              "default": 5,
+              "maximum": 50,
+              "minimum": 0.1,
+              "description": "Search radius in km from the point. Defaults to 5 km (city-center scope)."
+            }
+          }
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp",
+      "verified": false,
+      "tool": {
+        "name": "resolve_destination",
+        "description": "Converts a destination name into a destination id usable in `search_stays`. The canonical entry point when the user's request mentions a place name and coordinates are not already known from a prior call in this session. If coordinates are already in hand from an earlier tool result, passing them directly to `search_stays` skips this resolver step.\n\nAccepts cities, neighborhoods, airports, and points of interest, written locally or in English. Names are matched against Blue Pillow's own place slugs, which exist for English, Italian, German and Spanish; in other languages the English name is the most reliable. Accents are optional — 'São Paulo' and 'Sao Paulo' resolve alike. A qualifier after the name is tolerated ('Austin, Texas'). The `country` parameter disambiguates names that occur in multiple places (for example Springfield MA vs Springfield IL vs Springfield MO).\n\nThe `type` parameter narrows the kind of destination returned. `poi` is the narrowest match and has partial coverage on the comparator side; when the agent's own geographic knowledge can already geocode the POI to lat/lon, passing coordinates to `search_stays` is the more reliable path.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 2,
+              "description": "Destination name in English or canonical local form (not a translation)."
+            },
+            "type": {
+              "enum": [
+                "city",
+                "neighborhood",
+                "airport",
+                "poi"
+              ],
+              "type": "string",
+              "description": "Destination kind. city: primary urban unit (default). neighborhood: quarter/borough. airport: airport as spatial reference for stays nearby. poi: point of interest as a spatial anchor for nearby-accommodation lookup — not a tourism/attraction database; narrowest match with partial coverage. When the agent already knows the POI's lat/lon from world knowledge, `search_stays` with coordinates is the more reliable path."
+            },
+            "country": {
+              "type": "string",
+              "description": "Country: ISO-3166 alpha-2 (preferred), alpha-3, or extended name in any supported language. Unrecognized values are silently ignored (fail-open)."
+            },
+            "language": {
+              "enum": [
+                "en",
+                "it",
+                "fr",
+                "de",
+                "es",
+                "pt",
+                "nl",
+                "ko",
+                "pl",
+                "ja"
+              ],
+              "type": "string",
+              "default": "en",
+              "description": "Render destination names + breadcrumbs in this language."
+            }
+          }
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp",
+      "verified": false,
+      "tool": {
+        "name": "check_property_availability",
+        "description": "Live availability and per-operator quote for a specific property\nover a specific stay window. Performs a live date-aware lookup\nagainst the BluePillow search layer, returns date-specific prices,\nrooms-left scarcity signals, breakfast-included and refundable\nflags, and a per-operator deep link to complete the booking.\n\nUseful when the user has specific dates in mind for a property they\nalready identified — typically via `search_stays` or\n`get_property_details`. The complementary `get_property_details`\ntool answers \"what is this property like\" with static facts; this\ntool answers \"can I book it for these dates at what price\" with\nlive, date-specific data.\n\nRequired input: `property_id` (the `id` from a `search_stays`\nresult, opaque string starting with `prop_`), `dates` (check_in +\ncheck_out, ISO 8601), and `guests` (adults / children / infants\ncomposition). Without these the live lookup cannot proceed.\n\nNatural-language date references — \"tonight\", \"this weekend\", \"next\nweekend\", \"the weekend of July 4\", \"Memorial Day weekend\", \"long\nweekend in May\" — translate to concrete check_in / check_out values\nat the call site; concrete ISO dates also work. check_in is a date\nin the real-time calendar that is today or later; past values are\nrejected at the API boundary.\n\n`user_country`, `currency`, and `language` carry the **user's** locale,\nnot the property's. Prices are returned in `currency` if set, else\nderived from `user_country`, else **USD** — pass `user_country` and/or\n`currency` whenever you know the user's location/currency so the quote\nmatches what they'll pay; don't rely on the USD default. `user_country`\nand `language` also localize the `web_url` booking link.\n\nResponse shape:\n\n- `availability_status` — `available`, `unavailable`, or `unknown`.\n  Available means rooms confirmed at the operator level for the\n  requested window; quote freely. Unavailable means no rooms for\n  these dates — surface that explicitly to the user with a\n  suggestion of alternate dates (there is no price for these dates).\n- `offers[]` — per-operator quotes. Each carries `amount` (total\n  stay), `amount_per_night` (per-night), `currency`,\n  `breakfast_included`, `refundable`, `rooms_left`, and\n  `deeplink_url`. `offers[0]` is the best value for money as Blue\n  Pillow ranks it: price weighed against what is included (breakfast,\n  free cancellation) and the operator's historical reliability, with a\n  small commercial component. It is not necessarily the cheapest — the\n  full per-operator list is always in `offers[]`, and `sort=price_asc`\n  gives pure price order. Each\n  `deeplink_url` is a **BluePillow tracked-redirect URL**\n  (bluepillow.com/…) that records the click and forwards the user\n  to the operator's booking page — pass it verbatim, never\n  reconstruct it or replace it with a raw OTA link.\n- `price` — mirror of `offers[0]` for callers that just want the\n  curated headline. `null` when unavailable (no price for these\n  dates).\n\nPer-night vs total — `amount_per_night` is **per-night**; `amount`\non each offer is the **total** for the requested stay. Phrasings\nlike *\"€X/night via Booking, breakfast included, €Y total\"* are\nunambiguous; bare numbers without a unit (\"€192\") get misread.\n\nScarcity signals: low `rooms_left` values (1-3) are useful cues —\n\"1 room left at €X on Booking\" reads naturally. Free cancellation\n(`refundable=true`) and breakfast-included are decision factors\nworth surfacing proactively when present on some offers but not\nothers.\n\nWhen all results across operators are `unavailable`, that's the\nsignal to say so explicitly to the user and offer to widen the\ndates or look at alternatives.\n\nFor final booking confirmation, hand the user the corresponding\n`deeplink_url` (or the property's `web_url`) — booking URLs are\nnot reconstructed by hand.\n",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "property_id",
+            "dates",
+            "guests"
+          ],
+          "properties": {
+            "dates": {
+              "type": "object",
+              "required": [
+                "check_in",
+                "check_out"
+              ],
+              "properties": {
+                "check_in": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "check_out": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "description": "Stay window. Natural-language references such as 'tonight', 'this weekend', 'the weekend of July 4', 'Memorial Day weekend' translate to concrete check_in / check_out at the call site. check_in is a date in the real-time calendar that is today or later — past values are rejected at the API boundary. Clock calibration: this schema was published in August 2026, so today is August 2026 OR LATER; an assumed 'today' in 2024/2025 is a stale training-time clock.",
+              "additionalProperties": false
+            },
+            "guests": {
+              "type": "object",
+              "required": [
+                "adults"
+              ],
+              "properties": {
+                "adults": {
+                  "type": "integer",
+                  "maximum": 20,
+                  "minimum": 1
+                },
+                "infants": {
+                  "type": "integer",
+                  "maximum": 10,
+                  "minimum": 0
+                },
+                "children": {
+                  "type": "integer",
+                  "maximum": 10,
+                  "minimum": 0
+                }
+              },
+              "description": "Guest composition. Adults is required; children and infants default to zero.",
+              "additionalProperties": false
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "description": "Currency of the returned prices (ISO-4217, 3-letter uppercase, e.g. 'USD', 'EUR', 'GBP', 'CAD'). SET THIS (or `user_country`) to price in the user's currency — if you set NEITHER, prices default to USD. Prices come straight from the booking sources in this currency; never convert them yourself."
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "description": "User's UI language (2-letter lowercase). Drives the booking link language; falls back to 'en'."
+            },
+            "property_id": {
+              "type": "string",
+              "pattern": "^(prop_|https?://)",
+              "description": "Opaque property id (e.g. 'prop_69ce2ddcbf...') OR a bluepillow.com property page URL (e.g. 'https://www.bluepillow.com/search/68d1a2...') — the id is extracted automatically. Use the URL form when the user pasted a bluepillow.com link."
+            },
+            "user_country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "User's country (ISO-3166 alpha-2 uppercase). Drives the booking-link locale AND, when `currency` is not set, the pricing currency (US->USD, CA->CAD, euro-area->EUR). Pass the user's own country, not the property's home country. Falls back to 'US' when omitted."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp",
+      "verified": false,
+      "tool": {
+        "name": "get_property_details",
+        "description": "Static record for a specific property — identified by its id.\nReturns the complete amenity list, photos, booking sources, dedup\nmetadata, detailed location, and the headline rating (`rating` +\n`rating_count`) by default. Review DATA beyond the headline — the\nratings breakdown and the actual review texts — is opt-in via the\n`include` parameter (see below); pass it whenever the user's question\nis about guest experience. Carries no price unless called with dates:\na price only exists for a concrete stay window.\n\nUseful when the user wants to inspect or compare a specific option\nin depth — facilities, neighborhood, what guests say — without yet\ncommitting to specific dates.\n\nHOW TO GET REVIEWS (when you need to reason about guest experience):\npass `include`. `reviews_aggregate` gives the score + counts + per-OTA\nbreakdown; `reviews_sample`/`reviews_extended` give the actual review\ntexts. Without `include`, none of these are returned (you get only the\nheadline `rating`/`rating_count`). See the `include` section below.\n\nFor live availability and a real per-operator quote for a specific\nstay window, the path is `check_property_availability` instead. The\ntwo tools coexist by design: this one answers \"what is this property\nlike\" with stable, cacheable data; the other answers \"can I book it\nfor these dates at what price\" with live, date-specific quotes.\nCalling this tool when the user has specific dates in mind and wants\nto know whether the property is bookable will not surface the\navailability/quote — the user will then have to wait for a second\nround-trip to the availability tool.\n\nInput: the `id` field from a `search_stays` result (opaque string\nstarting with `prop_`, e.g. `prop_69ce2ddcbf46061e4095778b`). For a\nproperty the user has named directly, resolve the place name through\n`resolve_destination` and run a targeted `search_stays` first to\nobtain the id.\n\nOptional `include=[\"reviews_aggregate\"]` attaches a per-source\nbreakdown of review counts and average ratings — useful when the\nuser asks about overall sentiment or wants to see how each booking\nsource rates the property. It summarizes ALL reviews (score + total\ncount), so it is the right tool for \"how is it rated\".\n\nReview *texts* are available via two includes, both deliberately\ncapped to avoid token waste:\n- `reviews_sample` — up to **5** recent review texts. Enough to get\n  the gist of what guests say.\n- `reviews_extended` — up to **20** recent review texts, for a deeper\n  qualitative read. Supersedes `reviews_sample` when both are passed.\n\nReach for `reviews_extended` only when 5 are genuinely not enough —\nthe returned list carries a `reviews_meta` block (`returned`,\n`total_available`, `capped`, `note`) that tells you how many texts\nexist and confirms the cap is intentional: the omitted reviews are\nolder and the aggregate already reflects all of them, so you do NOT\nneed to try to fetch everything. Note: review texts are returned only\nwhen called WITHOUT dates (the dated availability path does not carry\nthem).\n\n`user_country`, `currency`, and `language` carry the **user's** locale,\nnot the property's. When this call carries dates (live prices), prices\ncome back in `currency` if set, else derived from `user_country`, else\n**USD** — so pass `user_country` and/or `currency` whenever you know the\nuser's location/currency; don't rely on the USD default. `user_country`\nand `language` also localize the `web_url` booking link. Language default\nis \"en\"; country default is \"US\".\n\nAll rating-like fields are on a 0-5 scale (Google Places-compatible):\nthe top-level `rating`, `reviews_aggregate.score_0_5`, and each\nper-OTA score under `distribution_by_ota`.\n\nWithout dates this tool returns no price (`price` is null, `offers`\nempty) and `availability_status` is `unknown` (no dates were\nconsidered). The live quote, when needed, comes from\n`check_property_availability`.\n\n`web_url` is a ready-to-open booking link for the property. Pass it\nverbatim when the user asks for a booking link — booking URLs are\nnot reconstructed by hand.\n",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "property_id"
+          ],
+          "properties": {
+            "include": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "reviews_aggregate",
+                  "reviews_sample",
+                  "reviews_extended"
+                ],
+                "type": "string"
+              },
+              "description": "Optional enrichments, always a list — pass [\"reviews_aggregate\"], never the bare string. reviews_aggregate = score + total count + per-OTA distribution (summarizes ALL reviews). reviews_sample = up to 5 recent review texts. reviews_extended = up to 20 recent review texts (supersedes reviews_sample). The text list is intentionally capped to save tokens; reviews_meta declares returned vs available. Prefer reviews_sample and the aggregate; use reviews_extended only when a deeper qualitative read is genuinely needed."
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "description": "Currency of the returned prices (ISO-4217, 3-letter uppercase, e.g. 'USD', 'EUR', 'GBP', 'CAD'). SET THIS (or `user_country`) to price in the user's currency — if you set NEITHER, prices default to USD. Prices come straight from the booking sources in this currency; never convert them yourself."
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "description": "User's UI language (2-letter lowercase). Drives the booking link language and server-rendered narrative; pass the language the user is speaking. Falls back to 'en'."
+            },
+            "property_id": {
+              "type": "string",
+              "pattern": "^(prop_|https?://)",
+              "description": "Opaque property id (e.g. 'prop_69ce2ddcbf...') OR a bluepillow.com property page URL (e.g. 'https://www.bluepillow.com/search/68d1a2...') — the id is extracted automatically. Use the URL form when the user pasted a bluepillow.com link."
+            },
+            "user_country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "User's country (ISO-3166 alpha-2 uppercase). Drives the booking-link locale AND, when `currency` is not set, the pricing currency (US->USD, CA->CAD, euro-area->EUR). Pass the user's own country, not the property's home country. Falls back to 'US' when omitted."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp",
+      "verified": false,
+      "tool": {
+        "name": "search_stays",
+        "description": "Multi-operator accommodation comparator for a geographic area against\nthe user's stay parameters — dates, guest count, optional filters.\nReturns a ranked list of properties together with the booking sources\nthat offer each one and, when dates are passed, their live availability\nand per-operator price for the requested window.\n\nNatural-language date references — \"tonight\", \"this weekend\", \"next\nweekend\", \"the weekend of July 4\", \"Memorial Day weekend\", \"long\nweekend in May\" — translate to concrete check_in / check_out values\nat the call site; concrete ISO dates also work.\n\n`user_country`, `currency`, and `language` carry the **user's** locale,\nnot the destination's. IMPORTANT — currency: prices are returned in\n`currency` if you set it, otherwise in the currency derived from\n`user_country` (US→USD, CA→CAD, GB→GBP, euro-area→EUR); if you set\nNEITHER, prices default to **USD**, which may not be the user's currency.\nSo whenever you know where the user is (or what currency they want), pass\n`user_country` and/or `currency` — do not rely on the default. Prices are\nnever converted client-side; each offer is quoted by the operator in that\ncurrency. `user_country` and `language` also localize the booking link\n(`web_url`). The user's own residence/billing country is the right\n`user_country` (not the destination's), and their interface language the\nright `language`.\n\nEach result is shaped for downstream presentation without extra\ncalls:\n- `location.lat` and `location.lon` carry per-property coordinates,\n  suitable for plotting all results on a single map so the user can\n  compare spatial alternatives at a glance. The map widget reads\n  these fields directly from this response — no separate lookup\n  needed for visualization.\n- `thumbnail_url` carries the property's first photo URL when\n  available (null when no image is on file); useful for embedding\n  inline or showing on the map alongside the pin.\n- `images` on search results is capped to the first photo to keep\n  the comparison payload compact; each item has a `url` field, and\n  `thumbnail_url` mirrors `images[0].url`. Call `get_property_details`\n  for a single property to retrieve its full photo gallery.\n- `web_url` is a ready-to-open booking link for the property,\n  already encoded with the user's check-in/check-out, language,\n  currency, and guest count. Pass it to the user verbatim when they\n  ask for a booking link — never reconstruct the URL from individual\n  parameters, the query-string format is not guaranteed to match\n  generic booking-URL conventions.\n- Price is **live and date-specific only**. There is no\n  date-agnostic \"from\" figure: a meaningful price only exists for a\n  concrete query (property + dates + occupancy).\n  - `price` and `offers[]` — the **live quote for the requested\n    dates**, populated only when dates were passed and the\n    comparator confirmed availability. `offers[0]` is the curated\n    best; each offer carries `amount` (total stay),\n    `amount_per_night` (per-night), `currency`, `breakfast_included`,\n    `refundable`, `rooms_left`, and `deeplink_url`. `price` mirrors\n    `offers[0]`.\n  - With no dates (or when nothing is available) `price` is null and\n    `offers` is empty — surface the property without a price rather\n    than inventing a starting figure.\n- `availability_status` per result encodes the live state:\n  - `available` — bookable rooms confirmed at the operator level.\n    `offers` and `price` carry the live date-specific quotes. Quote\n    the rate via `offers[i].amount_per_night` (per-night) and\n    `offers[i].amount` (total stay) and use the deeplinks for the\n    booking handoff.\n  - `unavailable` — no rooms reported for those dates. `offers` is\n    empty and `price` is null (no price for these dates). Useful to\n    decide whether to suggest alternate dates, drop the property from\n    the recommendation, or offer it as a backup.\n  - `unknown` — no usable answer for those dates: either the request\n    carried no dates, or the operators returned nothing conclusive for\n    them. `offers` is empty and `price` is null. This is the most\n    frequent of the three states, and it is NOT evidence that the\n    property is full — it means the availability was not established.\n    Say \"I could not confirm availability\", not \"it is unavailable\".\n\nPer-night vs total — never confuse them in the user-facing prose.\n`amount_per_night` is per-night; `amount` on each offer is the total\nstay (sum across nights, in `currency`). When quoting to the user,\nprefer phrasings like *\"€X/night via Booking, breakfast included, €Y\ntotal for the stay\"* over bare numbers — bare numbers without a unit\nget misread.\n- When dates are present and `available` properties are in the\n  results, the rate can be quoted and `rooms_left` surfaces scarcity\n  (low values like 1-3 are useful signals — \"1 room left at $X on\n  Booking\" reads well).\n- When dates are present and ALL results are `unavailable`, that's\n  the signal to say so explicitly to the user and offer to widen the\n  dates, location, or filters.\n- `offers[]` is the per-operator breakdown for the requested dates:\n  each entry includes `ota`, `amount`, `amount_per_night`,\n  `currency`, `breakfast_included`, `refundable`, and a\n  `deeplink_url`. The deeplink is a **BluePillow tracked-redirect\n  URL** (bluepillow.com/…) that records the click for attribution\n  and then forwards the user to the operator's booking page. Pass\n  it to the user verbatim — never reconstruct it or replace it with\n  a raw operator URL; our APIs never emit direct OTA links.\n  `price` mirrors `offers[0]`, which is the best value for money as\n  Blue Pillow ranks it — price weighed against what is included\n  (breakfast, free cancellation) and the operator's historical\n  reliability, with a small commercial component. It is not\n  necessarily the cheapest: pass `sort=price_asc` for pure price\n  order, and compare `offers[]` for the per-operator spread. When no\n  dates were passed (or nothing is available) `offers` is an empty\n  list and `price` is null — there is no price to show.\n- Free cancellation is a meaningful decision factor and surfaces\n  proactively in the user-facing summary. When a property has\n  `price.refundable=true` (or any `offers[i].refundable=true`), it\n  reads naturally as a property feature: \"Hotel X — $120/night,\n  free cancellation available\", or \"Booking offers a refundable rate\n  at $130 (vs $110 non-refundable)\". Refundable rates let the user\n  lock in a price now and adjust the booking later, which is often\n  the differentiator between otherwise-similar properties. The same\n  proactive surfacing applies to `breakfast_included` when it's true\n  for some offers but not all.\n- Prices in `offers`/`price` reflect the requested dates and guests;\n  with no dates there is no price. For a final bookable confirmation,\n  the corresponding `deeplink_url` (or the property's `web_url`) is\n  the canonical handoff — booking URLs are not reconstructed by hand.\n- All rating-like fields are on a 0-5 scale (Google Places-compatible):\n  `rating`, `reviews_aggregate.score_0_5`, the per-OTA scores under\n  `distribution_by_ota`, each `reviews_sample[*].score`, and the\n  `filters.min_rating` input. A user asking \"rating at least 8 out\n  of 10\" maps to `min_rating: 4.0`; \"at least 4 stars on Google\"\n  maps to `min_rating: 4.0`.\n  `rating` is coarse in practice — upstream scores arrive rounded, so\n  in the field it takes whole points, and `min_rating` behaves like a\n  filter with a handful of steps rather than a continuous threshold.\n  Always read `rating` together with `rating_count`: a 4 from 6\n  reviews and a 4 from 2,803 are not the same judgement, and a\n  rounded 4 can sit on either side of \"good\". Prefer properties with\n  a substantial `rating_count` when recommending, and say how many\n  reviews back the score.\n  Note: `rating`, `stars`, and `rating_count` come from the\n  comparator's list payload and **may be 0 or absent for some\n  properties** even when the property has reviews or a star\n  classification — this is a comparator list-payload limitation, not\n  a data error. When those fields are 0/absent, or when the per-OTA\n  review breakdown (`distribution_by_ota`) is needed, call\n  `get_property_details` to get the fuller `reviews_aggregate`.\n  On the search path, `reviews_aggregate` carries the top-line\n  `score_0_5`, `rating_count` (reviews backing the score) and\n  `comment_count` (readable review TEXTS available) when the comparator\n  returned a non-zero review count; `distribution_by_ota` is always empty\n  on this path (per-OTA breakdown requires `get_property_details`).\n  `rating_count` and `comment_count` are DIFFERENT magnitudes — most\n  guests leave a rating, far fewer write text. Quote `rating_count` for\n  \"how many reviewed it\" and `comment_count` for \"how many opinions you\n  can actually read\".\n- Pass `include=[\"reviews_sample\"]` to attach a sample of up to 5\n  recent guest review texts per property. Useful when the user's\n  question involves qualitative criteria that don't map to structured\n  filters (\"a place with excellent breakfast\", \"quiet area\",\n  \"family-friendly atmosphere\"); review texts can be searched\n  textually to corroborate or rule out matches.\n  For a DEEPER read on ONE specific property — more review texts\n  (up to 20) or the per-OTA breakdown — call `get_property_details`\n  with `include=[\"reviews_extended\"]` (and/or `reviews_aggregate`).\n  `comment_count` on each result tells you how many review texts exist,\n  so you can decide whether escalating to the detail call is worth it.\n\n`filters.property_types`, `filters.amenities`, `filters.min_rating`,\nand `filters.price_max_eur` narrow on structured criteria first;\nreview-based reasoning is one extra round-trip per page and is\ntypically reserved for fallback.\n\nLocation modes:\n- `coordinates`: when lat/lon is already known from world knowledge\n  or a prior call in this session (default radius 5 km; widen up to\n  50 km for broader queries; beyond that `bbox` or a parent\n  destination is the right shape).\n- `destination_id`: opaque id obtained from `resolve_destination`,\n  passed verbatim — values are not constructed or guessed.\n- `bbox`: explicit map rectangle.\n\nProperty type tokens (canonical): hotel, apartment, house, villa, bb,\nhostel, farmstay, holiday-home. Common multi-language synonyms map\nserver-side to the canonical set.\n\nAmenities filter is set-AND — each result has ALL listed codes.\nCommon codes: wi-fi, parking, pool, air-conditioning, kitchen, garden,\npets-allowed, for-families, facilities-for-disabled, non-smoking-only.\n\nResults are cursor-paginated; the `next_cursor` from a previous\nresponse goes into `page.cursor` for the next page.\n`location.type=property_id` is not accepted here —\n`get_property_details` is the path for a known property.\n",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "location",
+            "dates",
+            "guests"
+          ],
+          "properties": {
+            "page": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "maximum": 100,
+                  "minimum": 1
+                },
+                "cursor": {
+                  "type": "string"
+                }
+              },
+              "description": "Pagination. `limit` caps results per page (1-100). To fetch the next page pass `cursor` with the `next_cursor` value from the previous response — cursors are opaque and are never constructed by hand.",
+              "additionalProperties": false
+            },
+            "sort": {
+              "enum": [
+                "score_desc",
+                "price_asc",
+                "rating_desc",
+                "conversion_desc"
+              ],
+              "type": "string",
+              "description": "Result ordering. score_desc (default) is the balanced relevance ranking and suits most requests; price_asc when the user asked for the cheapest; rating_desc when they asked for the best-reviewed; conversion_desc favours what comparable travellers actually booked."
+            },
+            "dates": {
+              "type": "object",
+              "required": [
+                "check_in",
+                "check_out"
+              ],
+              "properties": {
+                "check_in": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "check_out": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "description": "Check-in and check-out dates (ISO 8601, YYYY-MM-DD). Natural-language references — 'tonight', 'this weekend', 'the weekend of July 4', 'Memorial Day weekend', 'long weekend in May' — translate to concrete check_in / check_out values at the call site. The comparator only serves future stays: check_in is a date in the real-time calendar that is today or later. A reference like 'the weekend of June 2' resolves to the next occurrence after today, never a past anniversary; if the current year is unclear, confirm with the user before calling. Clock calibration: this schema was published in August 2026, so today is August 2026 OR LATER (likely later — schemas outlive their publish date). An assumed 'today' in 2024/2025 is a stale training-time clock; years before 2026 are always in the past. Past check_in values are rejected at the API boundary with a hint carrying the actual current date.",
+              "additionalProperties": false
+            },
+            "guests": {
+              "type": "object",
+              "required": [
+                "adults"
+              ],
+              "properties": {
+                "rooms": {
+                  "type": "integer",
+                  "maximum": 9,
+                  "minimum": 1
+                },
+                "adults": {
+                  "type": "integer",
+                  "maximum": 16,
+                  "minimum": 1
+                },
+                "children_ages": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "maximum": 17,
+                    "minimum": 0
+                  }
+                }
+              },
+              "description": "Party composition. `adults` is required; give `children_ages` (one age per child, 0-17) rather than a child count — operators price by age. `rooms` defaults to 1; raise it when the party needs separate rooms rather than one shared.",
+              "additionalProperties": false
+            },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "amenities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Preferred amenity codes. This ranks, it does not filter: properties declaring every code listed here come first and nothing is dropped, because upstream declarations are incomplete — an absent code is not evidence the service is missing. Read each result's `amenities` to see what is actually declared. Common: wi-fi, parking, pool, air-conditioning, kitchen, garden, pets-allowed, for-families, facilities-for-disabled, non-smoking-only."
+                },
+                "min_rating": {
+                  "type": "number",
+                  "maximum": 5,
+                  "minimum": 0
+                },
+                "price_max_eur": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "property_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Canonical tokens: hotel, apartment, house, villa, bb, hostel, farmstay, holiday-home. Italian/English synonyms (agriturismo, bnb, appartamento, casa, ...) are accepted and normalized server-side."
+                }
+              },
+              "description": "Structured narrowing applied server-side, before ranking. Prefer these over filtering the results yourself: they run across the whole inventory, not just the page you received. Qualitative criteria that do not map here (\"quiet\", \"great breakfast\") are better served by include=['reviews_sample'].",
+              "additionalProperties": false
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "reviews_sample"
+                ],
+                "type": "string"
+              },
+              "description": "Optional enrichments, always a list — pass [\"reviews_sample\"], never the bare string. 'reviews_sample' attaches the 5 most recent individual reviews per property — use for qualitative queries (breakfast, service, ...). One extra Mongo round-trip per page; omit by default."
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "description": "Currency of the returned prices (ISO-4217, 3-letter uppercase, e.g. 'USD', 'EUR', 'GBP', 'CAD'). SET THIS (or `user_country`) to price in the user's currency — if you set NEITHER, prices default to USD, which may not be the user's. Prices come straight from the booking sources in this currency; never convert them yourself. Each offer reflects the currency its operator actually quoted."
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "description": "User's UI language (2-letter lowercase). Drives the booking link language and any server-rendered narrative content. Pass the language the user is currently speaking. Falls back to 'en' when omitted."
+            },
+            "location": {
+              "type": "object",
+              "required": [
+                "type",
+                "value"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "destination_id",
+                    "poi_id",
+                    "coordinates",
+                    "bbox"
+                  ],
+                  "type": "string",
+                  "description": "Selects the shape of value: destination_id and poi_id take an id string, coordinates takes {lat, lon, radius_km?}, bbox takes {nw: [lat,lon], se: [lat,lon]}. property_id is NOT supported here; use get_property_details."
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "description": "destination_id/poi_id: opaque id string from resolve_destination or discover_destinations_near (e.g. 'dest_590c54056664cf2c60c5c2f6'). Pass it verbatim — the 'dest_'/'poi_' prefix is accepted. NEVER pass a free-form name like 'Ancona'; the API rejects bad identifiers with 400 invalid_request."
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "lat",
+                        "lon"
+                      ],
+                      "properties": {
+                        "lat": {
+                          "type": "number",
+                          "maximum": 90,
+                          "minimum": -90,
+                          "description": "Latitude in decimal degrees."
+                        },
+                        "lon": {
+                          "type": "number",
+                          "maximum": 180,
+                          "minimum": -180,
+                          "description": "Longitude in decimal degrees."
+                        },
+                        "radius_km": {
+                          "type": "number",
+                          "description": "Search radius in km (default 5).",
+                          "exclusiveMinimum": 0
+                        }
+                      },
+                      "description": "coordinates: a known point, searched within radius_km.",
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "nw",
+                        "se"
+                      ],
+                      "properties": {
+                        "nw": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "description": "North-west corner as [lat, lon]."
+                        },
+                        "se": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "description": "South-east corner as [lat, lon]."
+                        }
+                      },
+                      "description": "bbox: an explicit map rectangle, given by its north-west and south-east corners.",
+                      "additionalProperties": false
+                    }
+                  ],
+                  "description": "Shape depends on type — see each option below."
+                }
+              },
+              "description": "Where to search, as a {type, value} pair. Use destination_id for a place resolved via resolve_destination, poi_id for a point of interest, coordinates for a known lat/lon, or bbox for an explicit map rectangle. A property is NOT a location — use get_property_details for a known property.",
+              "additionalProperties": false
+            },
+            "user_country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "User's country (ISO-3166 alpha-2 uppercase). Drives the booking-link locale (the landing page rendered when the user clicks `web_url`) AND, when `currency` is not set, the pricing currency (US->USD, CA->CAD, euro-area->EUR). Pass the user's own country, not the destination's. Falls back to 'US' when omitted."
+            },
+            "availability_mode": {
+              "enum": [
+                "strict",
+                "include_unavailable"
+              ],
+              "type": "string",
+              "description": "strict (default): return ONLY properties available for the requested dates. include_unavailable: also return properties with no availability (each tagged availability_status). Use strict unless the user explicitly wants to see sold-out options."
+            },
+            "include_overbudget": {
+              "type": "boolean",
+              "description": "Opt-in. When few available results fit the budget, also return (in alternatives.overbudget) available properties in the same area just above price_max_eur. Requires filters.price_max_eur."
+            },
+            "include_out_of_bounds": {
+              "type": "boolean",
+              "description": "Opt-in. When the requested area yields few available results, also return (in alternatives.out_of_bounds) properties just outside the area, within the original budget. Present these explicitly as alternatives, never mixed with primary results."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "verified": false,
+      "tool": {
+        "name": "discover_destinations_near",
+        "description": "Curated destinations — cities, neighborhoods, airports, points of interest — within a radius of a geographic point, for use as a `destination_id` in subsequent `search_stays` calls. Useful when coordinates are already in hand (from world knowledge, from a previous tool result, or directly from the user) and the agent needs to enumerate which curated destinations cover that area before searching for properties.\n\nAlso useful as a fan-out entry point for region-level intents — broad areas such as 'Tuscany', 'Pacific Northwest', 'New England', or 'Central Europe' — where the agent can pass an approximate regional centroid and surface a list of sub-destinations the user may then narrow down to before a focused search.\n\nReturns up to 5 candidates ordered by distance. The radius defaults to 5 km; widens up to 50 km for broader queries.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "lat",
+            "lon"
+          ],
+          "properties": {
+            "lat": {
+              "type": "number",
+              "maximum": 90,
+              "minimum": -90,
+              "description": "Latitude of the centre point, decimal degrees (WGS84). Typically the coordinates of a city or region already known from world knowledge or from an earlier resolve_destination call."
+            },
+            "lon": {
+              "type": "number",
+              "maximum": 180,
+              "minimum": -180,
+              "description": "Longitude of the centre point, decimal degrees (WGS84). Negative west of Greenwich."
+            },
+            "type": {
+              "enum": [
+                "city",
+                "neighborhood",
+                "airport",
+                "poi"
+              ],
+              "type": "string",
+              "description": "Optional filter; same semantics as resolve_destination."
+            },
+            "language": {
+              "enum": [
+                "en",
+                "it",
+                "fr",
+                "de",
+                "es",
+                "pt",
+                "nl",
+                "ko",
+                "pl",
+                "ja"
+              ],
+              "type": "string",
+              "default": "en",
+              "description": "Language of the returned destination names (2-letter lowercase). Pass the language the user is speaking; defaults to 'en'."
+            },
+            "radius_km": {
+              "type": "number",
+              "default": 5,
+              "maximum": 50,
+              "minimum": 0.1,
+              "description": "Search radius in km from the point. Defaults to 5 km (city-center scope)."
+            }
+          }
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "verified": false,
+      "tool": {
+        "name": "resolve_destination",
+        "description": "Converts a destination name into a destination id usable in `search_stays`. The canonical entry point when the user's request mentions a place name and coordinates are not already known from a prior call in this session. If coordinates are already in hand from an earlier tool result, passing them directly to `search_stays` skips this resolver step.\n\nAccepts cities, neighborhoods, airports, and points of interest, written locally or in English. Names are matched against Blue Pillow's own place slugs, which exist for English, Italian, German and Spanish; in other languages the English name is the most reliable. Accents are optional — 'São Paulo' and 'Sao Paulo' resolve alike. A qualifier after the name is tolerated ('Austin, Texas'). The `country` parameter disambiguates names that occur in multiple places (for example Springfield MA vs Springfield IL vs Springfield MO).\n\nThe `type` parameter narrows the kind of destination returned. `poi` is the narrowest match and has partial coverage on the comparator side; when the agent's own geographic knowledge can already geocode the POI to lat/lon, passing coordinates to `search_stays` is the more reliable path.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 2,
+              "description": "Destination name in English or canonical local form (not a translation)."
+            },
+            "type": {
+              "enum": [
+                "city",
+                "neighborhood",
+                "airport",
+                "poi"
+              ],
+              "type": "string",
+              "description": "Destination kind. city: primary urban unit (default). neighborhood: quarter/borough. airport: airport as spatial reference for stays nearby. poi: point of interest as a spatial anchor for nearby-accommodation lookup — not a tourism/attraction database; narrowest match with partial coverage. When the agent already knows the POI's lat/lon from world knowledge, `search_stays` with coordinates is the more reliable path."
+            },
+            "country": {
+              "type": "string",
+              "description": "Country: ISO-3166 alpha-2 (preferred), alpha-3, or extended name in any supported language. Unrecognized values are silently ignored (fail-open)."
+            },
+            "language": {
+              "enum": [
+                "en",
+                "it",
+                "fr",
+                "de",
+                "es",
+                "pt",
+                "nl",
+                "ko",
+                "pl",
+                "ja"
+              ],
+              "type": "string",
+              "default": "en",
+              "description": "Render destination names + breadcrumbs in this language."
+            }
+          }
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "verified": false,
+      "tool": {
+        "name": "check_property_availability",
+        "description": "Live availability and per-operator quote for a specific property\nover a specific stay window. Performs a live date-aware lookup\nagainst the BluePillow search layer, returns date-specific prices,\nrooms-left scarcity signals, breakfast-included and refundable\nflags, and a per-operator deep link to complete the booking.\n\nUseful when the user has specific dates in mind for a property they\nalready identified — typically via `search_stays` or\n`get_property_details`. The complementary `get_property_details`\ntool answers \"what is this property like\" with static facts; this\ntool answers \"can I book it for these dates at what price\" with\nlive, date-specific data.\n\nRequired input: `property_id` (the `id` from a `search_stays`\nresult, opaque string starting with `prop_`), `dates` (check_in +\ncheck_out, ISO 8601), and `guests` (adults / children / infants\ncomposition). Without these the live lookup cannot proceed.\n\nNatural-language date references — \"tonight\", \"this weekend\", \"next\nweekend\", \"the weekend of July 4\", \"Memorial Day weekend\", \"long\nweekend in May\" — translate to concrete check_in / check_out values\nat the call site; concrete ISO dates also work. check_in is a date\nin the real-time calendar that is today or later; past values are\nrejected at the API boundary.\n\n`user_country`, `currency`, and `language` carry the **user's** locale,\nnot the property's. Prices are returned in `currency` if set, else\nderived from `user_country`, else **USD** — pass `user_country` and/or\n`currency` whenever you know the user's location/currency so the quote\nmatches what they'll pay; don't rely on the USD default. `user_country`\nand `language` also localize the `web_url` booking link.\n\nResponse shape:\n\n- `availability_status` — `available`, `unavailable`, or `unknown`.\n  Available means rooms confirmed at the operator level for the\n  requested window; quote freely. Unavailable means no rooms for\n  these dates — surface that explicitly to the user with a\n  suggestion of alternate dates (there is no price for these dates).\n- `offers[]` — per-operator quotes. Each carries `amount` (total\n  stay), `amount_per_night` (per-night), `currency`,\n  `breakfast_included`, `refundable`, `rooms_left`, and\n  `deeplink_url`. `offers[0]` is the best value for money as Blue\n  Pillow ranks it: price weighed against what is included (breakfast,\n  free cancellation) and the operator's historical reliability, with a\n  small commercial component. It is not necessarily the cheapest — the\n  full per-operator list is always in `offers[]`, and `sort=price_asc`\n  gives pure price order. Each\n  `deeplink_url` is a **BluePillow tracked-redirect URL**\n  (bluepillow.com/…) that records the click and forwards the user\n  to the operator's booking page — pass it verbatim, never\n  reconstruct it or replace it with a raw OTA link.\n- `price` — mirror of `offers[0]` for callers that just want the\n  curated headline. `null` when unavailable (no price for these\n  dates).\n\nPer-night vs total — `amount_per_night` is **per-night**; `amount`\non each offer is the **total** for the requested stay. Phrasings\nlike *\"€X/night via Booking, breakfast included, €Y total\"* are\nunambiguous; bare numbers without a unit (\"€192\") get misread.\n\nScarcity signals: low `rooms_left` values (1-3) are useful cues —\n\"1 room left at €X on Booking\" reads naturally. Free cancellation\n(`refundable=true`) and breakfast-included are decision factors\nworth surfacing proactively when present on some offers but not\nothers.\n\nWhen all results across operators are `unavailable`, that's the\nsignal to say so explicitly to the user and offer to widen the\ndates or look at alternatives.\n\nFor final booking confirmation, hand the user the corresponding\n`deeplink_url` (or the property's `web_url`) — booking URLs are\nnot reconstructed by hand.\n",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "property_id",
+            "dates",
+            "guests"
+          ],
+          "properties": {
+            "dates": {
+              "type": "object",
+              "required": [
+                "check_in",
+                "check_out"
+              ],
+              "properties": {
+                "check_in": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "check_out": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "description": "Stay window. Natural-language references such as 'tonight', 'this weekend', 'the weekend of July 4', 'Memorial Day weekend' translate to concrete check_in / check_out at the call site. check_in is a date in the real-time calendar that is today or later — past values are rejected at the API boundary. Clock calibration: this schema was published in August 2026, so today is August 2026 OR LATER; an assumed 'today' in 2024/2025 is a stale training-time clock.",
+              "additionalProperties": false
+            },
+            "guests": {
+              "type": "object",
+              "required": [
+                "adults"
+              ],
+              "properties": {
+                "adults": {
+                  "type": "integer",
+                  "maximum": 20,
+                  "minimum": 1
+                },
+                "infants": {
+                  "type": "integer",
+                  "maximum": 10,
+                  "minimum": 0
+                },
+                "children": {
+                  "type": "integer",
+                  "maximum": 10,
+                  "minimum": 0
+                }
+              },
+              "description": "Guest composition. Adults is required; children and infants default to zero.",
+              "additionalProperties": false
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "description": "Currency of the returned prices (ISO-4217, 3-letter uppercase, e.g. 'USD', 'EUR', 'GBP', 'CAD'). SET THIS (or `user_country`) to price in the user's currency — if you set NEITHER, prices default to USD. Prices come straight from the booking sources in this currency; never convert them yourself."
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "description": "User's UI language (2-letter lowercase). Drives the booking link language; falls back to 'en'."
+            },
+            "property_id": {
+              "type": "string",
+              "pattern": "^(prop_|https?://)",
+              "description": "Opaque property id (e.g. 'prop_69ce2ddcbf...') OR a bluepillow.com property page URL (e.g. 'https://www.bluepillow.com/search/68d1a2...') — the id is extracted automatically. Use the URL form when the user pasted a bluepillow.com link."
+            },
+            "user_country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "User's country (ISO-3166 alpha-2 uppercase). Drives the booking-link locale AND, when `currency` is not set, the pricing currency (US->USD, CA->CAD, euro-area->EUR). Pass the user's own country, not the property's home country. Falls back to 'US' when omitted."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "verified": false,
+      "tool": {
+        "name": "get_property_details",
+        "description": "Static record for a specific property — identified by its id.\nReturns the complete amenity list, photos, booking sources, dedup\nmetadata, detailed location, and the headline rating (`rating` +\n`rating_count`) by default. Review DATA beyond the headline — the\nratings breakdown and the actual review texts — is opt-in via the\n`include` parameter (see below); pass it whenever the user's question\nis about guest experience. Carries no price unless called with dates:\na price only exists for a concrete stay window.\n\nUseful when the user wants to inspect or compare a specific option\nin depth — facilities, neighborhood, what guests say — without yet\ncommitting to specific dates.\n\nHOW TO GET REVIEWS (when you need to reason about guest experience):\npass `include`. `reviews_aggregate` gives the score + counts + per-OTA\nbreakdown; `reviews_sample`/`reviews_extended` give the actual review\ntexts. Without `include`, none of these are returned (you get only the\nheadline `rating`/`rating_count`). See the `include` section below.\n\nFor live availability and a real per-operator quote for a specific\nstay window, the path is `check_property_availability` instead. The\ntwo tools coexist by design: this one answers \"what is this property\nlike\" with stable, cacheable data; the other answers \"can I book it\nfor these dates at what price\" with live, date-specific quotes.\nCalling this tool when the user has specific dates in mind and wants\nto know whether the property is bookable will not surface the\navailability/quote — the user will then have to wait for a second\nround-trip to the availability tool.\n\nInput: the `id` field from a `search_stays` result (opaque string\nstarting with `prop_`, e.g. `prop_69ce2ddcbf46061e4095778b`). For a\nproperty the user has named directly, resolve the place name through\n`resolve_destination` and run a targeted `search_stays` first to\nobtain the id.\n\nOptional `include=[\"reviews_aggregate\"]` attaches a per-source\nbreakdown of review counts and average ratings — useful when the\nuser asks about overall sentiment or wants to see how each booking\nsource rates the property. It summarizes ALL reviews (score + total\ncount), so it is the right tool for \"how is it rated\".\n\nReview *texts* are available via two includes, both deliberately\ncapped to avoid token waste:\n- `reviews_sample` — up to **5** recent review texts. Enough to get\n  the gist of what guests say.\n- `reviews_extended` — up to **20** recent review texts, for a deeper\n  qualitative read. Supersedes `reviews_sample` when both are passed.\n\nReach for `reviews_extended` only when 5 are genuinely not enough —\nthe returned list carries a `reviews_meta` block (`returned`,\n`total_available`, `capped`, `note`) that tells you how many texts\nexist and confirms the cap is intentional: the omitted reviews are\nolder and the aggregate already reflects all of them, so you do NOT\nneed to try to fetch everything. Note: review texts are returned only\nwhen called WITHOUT dates (the dated availability path does not carry\nthem).\n\n`user_country`, `currency`, and `language` carry the **user's** locale,\nnot the property's. When this call carries dates (live prices), prices\ncome back in `currency` if set, else derived from `user_country`, else\n**USD** — so pass `user_country` and/or `currency` whenever you know the\nuser's location/currency; don't rely on the USD default. `user_country`\nand `language` also localize the `web_url` booking link. Language default\nis \"en\"; country default is \"US\".\n\nAll rating-like fields are on a 0-5 scale (Google Places-compatible):\nthe top-level `rating`, `reviews_aggregate.score_0_5`, and each\nper-OTA score under `distribution_by_ota`.\n\nWithout dates this tool returns no price (`price` is null, `offers`\nempty) and `availability_status` is `unknown` (no dates were\nconsidered). The live quote, when needed, comes from\n`check_property_availability`.\n\n`web_url` is a ready-to-open booking link for the property. Pass it\nverbatim when the user asks for a booking link — booking URLs are\nnot reconstructed by hand.\n",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "property_id"
+          ],
+          "properties": {
+            "include": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "reviews_aggregate",
+                  "reviews_sample",
+                  "reviews_extended"
+                ],
+                "type": "string"
+              },
+              "description": "Optional enrichments, always a list — pass [\"reviews_aggregate\"], never the bare string. reviews_aggregate = score + total count + per-OTA distribution (summarizes ALL reviews). reviews_sample = up to 5 recent review texts. reviews_extended = up to 20 recent review texts (supersedes reviews_sample). The text list is intentionally capped to save tokens; reviews_meta declares returned vs available. Prefer reviews_sample and the aggregate; use reviews_extended only when a deeper qualitative read is genuinely needed."
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "description": "Currency of the returned prices (ISO-4217, 3-letter uppercase, e.g. 'USD', 'EUR', 'GBP', 'CAD'). SET THIS (or `user_country`) to price in the user's currency — if you set NEITHER, prices default to USD. Prices come straight from the booking sources in this currency; never convert them yourself."
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "description": "User's UI language (2-letter lowercase). Drives the booking link language and server-rendered narrative; pass the language the user is speaking. Falls back to 'en'."
+            },
+            "property_id": {
+              "type": "string",
+              "pattern": "^(prop_|https?://)",
+              "description": "Opaque property id (e.g. 'prop_69ce2ddcbf...') OR a bluepillow.com property page URL (e.g. 'https://www.bluepillow.com/search/68d1a2...') — the id is extracted automatically. Use the URL form when the user pasted a bluepillow.com link."
+            },
+            "user_country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "User's country (ISO-3166 alpha-2 uppercase). Drives the booking-link locale AND, when `currency` is not set, the pricing currency (US->USD, CA->CAD, euro-area->EUR). Pass the user's own country, not the property's home country. Falls back to 'US' when omitted."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "verified": false,
+      "tool": {
+        "name": "search_stays",
+        "description": "Multi-operator accommodation comparator for a geographic area against\nthe user's stay parameters — dates, guest count, optional filters.\nReturns a ranked list of properties together with the booking sources\nthat offer each one and, when dates are passed, their live availability\nand per-operator price for the requested window.\n\nNatural-language date references — \"tonight\", \"this weekend\", \"next\nweekend\", \"the weekend of July 4\", \"Memorial Day weekend\", \"long\nweekend in May\" — translate to concrete check_in / check_out values\nat the call site; concrete ISO dates also work.\n\n`user_country`, `currency`, and `language` carry the **user's** locale,\nnot the destination's. IMPORTANT — currency: prices are returned in\n`currency` if you set it, otherwise in the currency derived from\n`user_country` (US→USD, CA→CAD, GB→GBP, euro-area→EUR); if you set\nNEITHER, prices default to **USD**, which may not be the user's currency.\nSo whenever you know where the user is (or what currency they want), pass\n`user_country` and/or `currency` — do not rely on the default. Prices are\nnever converted client-side; each offer is quoted by the operator in that\ncurrency. `user_country` and `language` also localize the booking link\n(`web_url`). The user's own residence/billing country is the right\n`user_country` (not the destination's), and their interface language the\nright `language`.\n\nEach result is shaped for downstream presentation without extra\ncalls:\n- `location.lat` and `location.lon` carry per-property coordinates,\n  suitable for plotting all results on a single map so the user can\n  compare spatial alternatives at a glance. The map widget reads\n  these fields directly from this response — no separate lookup\n  needed for visualization.\n- `thumbnail_url` carries the property's first photo URL when\n  available (null when no image is on file); useful for embedding\n  inline or showing on the map alongside the pin.\n- `images` on search results is capped to the first photo to keep\n  the comparison payload compact; each item has a `url` field, and\n  `thumbnail_url` mirrors `images[0].url`. Call `get_property_details`\n  for a single property to retrieve its full photo gallery.\n- `web_url` is a ready-to-open booking link for the property,\n  already encoded with the user's check-in/check-out, language,\n  currency, and guest count. Pass it to the user verbatim when they\n  ask for a booking link — never reconstruct the URL from individual\n  parameters, the query-string format is not guaranteed to match\n  generic booking-URL conventions.\n- Price is **live and date-specific only**. There is no\n  date-agnostic \"from\" figure: a meaningful price only exists for a\n  concrete query (property + dates + occupancy).\n  - `price` and `offers[]` — the **live quote for the requested\n    dates**, populated only when dates were passed and the\n    comparator confirmed availability. `offers[0]` is the curated\n    best; each offer carries `amount` (total stay),\n    `amount_per_night` (per-night), `currency`, `breakfast_included`,\n    `refundable`, `rooms_left`, and `deeplink_url`. `price` mirrors\n    `offers[0]`.\n  - With no dates (or when nothing is available) `price` is null and\n    `offers` is empty — surface the property without a price rather\n    than inventing a starting figure.\n- `availability_status` per result encodes the live state:\n  - `available` — bookable rooms confirmed at the operator level.\n    `offers` and `price` carry the live date-specific quotes. Quote\n    the rate via `offers[i].amount_per_night` (per-night) and\n    `offers[i].amount` (total stay) and use the deeplinks for the\n    booking handoff.\n  - `unavailable` — no rooms reported for those dates. `offers` is\n    empty and `price` is null (no price for these dates). Useful to\n    decide whether to suggest alternate dates, drop the property from\n    the recommendation, or offer it as a backup.\n  - `unknown` — no usable answer for those dates: either the request\n    carried no dates, or the operators returned nothing conclusive for\n    them. `offers` is empty and `price` is null. This is the most\n    frequent of the three states, and it is NOT evidence that the\n    property is full — it means the availability was not established.\n    Say \"I could not confirm availability\", not \"it is unavailable\".\n\nPer-night vs total — never confuse them in the user-facing prose.\n`amount_per_night` is per-night; `amount` on each offer is the total\nstay (sum across nights, in `currency`). When quoting to the user,\nprefer phrasings like *\"€X/night via Booking, breakfast included, €Y\ntotal for the stay\"* over bare numbers — bare numbers without a unit\nget misread.\n- When dates are present and `available` properties are in the\n  results, the rate can be quoted and `rooms_left` surfaces scarcity\n  (low values like 1-3 are useful signals — \"1 room left at $X on\n  Booking\" reads well).\n- When dates are present and ALL results are `unavailable`, that's\n  the signal to say so explicitly to the user and offer to widen the\n  dates, location, or filters.\n- `offers[]` is the per-operator breakdown for the requested dates:\n  each entry includes `ota`, `amount`, `amount_per_night`,\n  `currency`, `breakfast_included`, `refundable`, and a\n  `deeplink_url`. The deeplink is a **BluePillow tracked-redirect\n  URL** (bluepillow.com/…) that records the click for attribution\n  and then forwards the user to the operator's booking page. Pass\n  it to the user verbatim — never reconstruct it or replace it with\n  a raw operator URL; our APIs never emit direct OTA links.\n  `price` mirrors `offers[0]`, which is the best value for money as\n  Blue Pillow ranks it — price weighed against what is included\n  (breakfast, free cancellation) and the operator's historical\n  reliability, with a small commercial component. It is not\n  necessarily the cheapest: pass `sort=price_asc` for pure price\n  order, and compare `offers[]` for the per-operator spread. When no\n  dates were passed (or nothing is available) `offers` is an empty\n  list and `price` is null — there is no price to show.\n- Free cancellation is a meaningful decision factor and surfaces\n  proactively in the user-facing summary. When a property has\n  `price.refundable=true` (or any `offers[i].refundable=true`), it\n  reads naturally as a property feature: \"Hotel X — $120/night,\n  free cancellation available\", or \"Booking offers a refundable rate\n  at $130 (vs $110 non-refundable)\". Refundable rates let the user\n  lock in a price now and adjust the booking later, which is often\n  the differentiator between otherwise-similar properties. The same\n  proactive surfacing applies to `breakfast_included` when it's true\n  for some offers but not all.\n- Prices in `offers`/`price` reflect the requested dates and guests;\n  with no dates there is no price. For a final bookable confirmation,\n  the corresponding `deeplink_url` (or the property's `web_url`) is\n  the canonical handoff — booking URLs are not reconstructed by hand.\n- All rating-like fields are on a 0-5 scale (Google Places-compatible):\n  `rating`, `reviews_aggregate.score_0_5`, the per-OTA scores under\n  `distribution_by_ota`, each `reviews_sample[*].score`, and the\n  `filters.min_rating` input. A user asking \"rating at least 8 out\n  of 10\" maps to `min_rating: 4.0`; \"at least 4 stars on Google\"\n  maps to `min_rating: 4.0`.\n  `rating` is coarse in practice — upstream scores arrive rounded, so\n  in the field it takes whole points, and `min_rating` behaves like a\n  filter with a handful of steps rather than a continuous threshold.\n  Always read `rating` together with `rating_count`: a 4 from 6\n  reviews and a 4 from 2,803 are not the same judgement, and a\n  rounded 4 can sit on either side of \"good\". Prefer properties with\n  a substantial `rating_count` when recommending, and say how many\n  reviews back the score.\n  Note: `rating`, `stars`, and `rating_count` come from the\n  comparator's list payload and **may be 0 or absent for some\n  properties** even when the property has reviews or a star\n  classification — this is a comparator list-payload limitation, not\n  a data error. When those fields are 0/absent, or when the per-OTA\n  review breakdown (`distribution_by_ota`) is needed, call\n  `get_property_details` to get the fuller `reviews_aggregate`.\n  On the search path, `reviews_aggregate` carries the top-line\n  `score_0_5`, `rating_count` (reviews backing the score) and\n  `comment_count` (readable review TEXTS available) when the comparator\n  returned a non-zero review count; `distribution_by_ota` is always empty\n  on this path (per-OTA breakdown requires `get_property_details`).\n  `rating_count` and `comment_count` are DIFFERENT magnitudes — most\n  guests leave a rating, far fewer write text. Quote `rating_count` for\n  \"how many reviewed it\" and `comment_count` for \"how many opinions you\n  can actually read\".\n- Pass `include=[\"reviews_sample\"]` to attach a sample of up to 5\n  recent guest review texts per property. Useful when the user's\n  question involves qualitative criteria that don't map to structured\n  filters (\"a place with excellent breakfast\", \"quiet area\",\n  \"family-friendly atmosphere\"); review texts can be searched\n  textually to corroborate or rule out matches.\n  For a DEEPER read on ONE specific property — more review texts\n  (up to 20) or the per-OTA breakdown — call `get_property_details`\n  with `include=[\"reviews_extended\"]` (and/or `reviews_aggregate`).\n  `comment_count` on each result tells you how many review texts exist,\n  so you can decide whether escalating to the detail call is worth it.\n\n`filters.property_types`, `filters.amenities`, `filters.min_rating`,\nand `filters.price_max_eur` narrow on structured criteria first;\nreview-based reasoning is one extra round-trip per page and is\ntypically reserved for fallback.\n\nLocation modes:\n- `coordinates`: when lat/lon is already known from world knowledge\n  or a prior call in this session (default radius 5 km; widen up to\n  50 km for broader queries; beyond that `bbox` or a parent\n  destination is the right shape).\n- `destination_id`: opaque id obtained from `resolve_destination`,\n  passed verbatim — values are not constructed or guessed.\n- `bbox`: explicit map rectangle.\n\nProperty type tokens (canonical): hotel, apartment, house, villa, bb,\nhostel, farmstay, holiday-home. Common multi-language synonyms map\nserver-side to the canonical set.\n\nAmenities filter is set-AND — each result has ALL listed codes.\nCommon codes: wi-fi, parking, pool, air-conditioning, kitchen, garden,\npets-allowed, for-families, facilities-for-disabled, non-smoking-only.\n\nResults are cursor-paginated; the `next_cursor` from a previous\nresponse goes into `page.cursor` for the next page.\n`location.type=property_id` is not accepted here —\n`get_property_details` is the path for a known property.\n",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "location",
+            "dates",
+            "guests"
+          ],
+          "properties": {
+            "page": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "maximum": 100,
+                  "minimum": 1
+                },
+                "cursor": {
+                  "type": "string"
+                }
+              },
+              "description": "Pagination. `limit` caps results per page (1-100). To fetch the next page pass `cursor` with the `next_cursor` value from the previous response — cursors are opaque and are never constructed by hand.",
+              "additionalProperties": false
+            },
+            "sort": {
+              "enum": [
+                "score_desc",
+                "price_asc",
+                "rating_desc",
+                "conversion_desc"
+              ],
+              "type": "string",
+              "description": "Result ordering. score_desc (default) is the balanced relevance ranking and suits most requests; price_asc when the user asked for the cheapest; rating_desc when they asked for the best-reviewed; conversion_desc favours what comparable travellers actually booked."
+            },
+            "dates": {
+              "type": "object",
+              "required": [
+                "check_in",
+                "check_out"
+              ],
+              "properties": {
+                "check_in": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "check_out": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "description": "Check-in and check-out dates (ISO 8601, YYYY-MM-DD). Natural-language references — 'tonight', 'this weekend', 'the weekend of July 4', 'Memorial Day weekend', 'long weekend in May' — translate to concrete check_in / check_out values at the call site. The comparator only serves future stays: check_in is a date in the real-time calendar that is today or later. A reference like 'the weekend of June 2' resolves to the next occurrence after today, never a past anniversary; if the current year is unclear, confirm with the user before calling. Clock calibration: this schema was published in August 2026, so today is August 2026 OR LATER (likely later — schemas outlive their publish date). An assumed 'today' in 2024/2025 is a stale training-time clock; years before 2026 are always in the past. Past check_in values are rejected at the API boundary with a hint carrying the actual current date.",
+              "additionalProperties": false
+            },
+            "guests": {
+              "type": "object",
+              "required": [
+                "adults"
+              ],
+              "properties": {
+                "rooms": {
+                  "type": "integer",
+                  "maximum": 9,
+                  "minimum": 1
+                },
+                "adults": {
+                  "type": "integer",
+                  "maximum": 16,
+                  "minimum": 1
+                },
+                "children_ages": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "maximum": 17,
+                    "minimum": 0
+                  }
+                }
+              },
+              "description": "Party composition. `adults` is required; give `children_ages` (one age per child, 0-17) rather than a child count — operators price by age. `rooms` defaults to 1; raise it when the party needs separate rooms rather than one shared.",
+              "additionalProperties": false
+            },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "amenities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Preferred amenity codes. This ranks, it does not filter: properties declaring every code listed here come first and nothing is dropped, because upstream declarations are incomplete — an absent code is not evidence the service is missing. Read each result's `amenities` to see what is actually declared. Common: wi-fi, parking, pool, air-conditioning, kitchen, garden, pets-allowed, for-families, facilities-for-disabled, non-smoking-only."
+                },
+                "min_rating": {
+                  "type": "number",
+                  "maximum": 5,
+                  "minimum": 0
+                },
+                "price_max_eur": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "property_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Canonical tokens: hotel, apartment, house, villa, bb, hostel, farmstay, holiday-home. Italian/English synonyms (agriturismo, bnb, appartamento, casa, ...) are accepted and normalized server-side."
+                }
+              },
+              "description": "Structured narrowing applied server-side, before ranking. Prefer these over filtering the results yourself: they run across the whole inventory, not just the page you received. Qualitative criteria that do not map here (\"quiet\", \"great breakfast\") are better served by include=['reviews_sample'].",
+              "additionalProperties": false
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "reviews_sample"
+                ],
+                "type": "string"
+              },
+              "description": "Optional enrichments, always a list — pass [\"reviews_sample\"], never the bare string. 'reviews_sample' attaches the 5 most recent individual reviews per property — use for qualitative queries (breakfast, service, ...). One extra Mongo round-trip per page; omit by default."
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "description": "Currency of the returned prices (ISO-4217, 3-letter uppercase, e.g. 'USD', 'EUR', 'GBP', 'CAD'). SET THIS (or `user_country`) to price in the user's currency — if you set NEITHER, prices default to USD, which may not be the user's. Prices come straight from the booking sources in this currency; never convert them yourself. Each offer reflects the currency its operator actually quoted."
+            },
+            "language": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "description": "User's UI language (2-letter lowercase). Drives the booking link language and any server-rendered narrative content. Pass the language the user is currently speaking. Falls back to 'en' when omitted."
+            },
+            "location": {
+              "type": "object",
+              "required": [
+                "type",
+                "value"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "destination_id",
+                    "poi_id",
+                    "coordinates",
+                    "bbox"
+                  ],
+                  "type": "string",
+                  "description": "Selects the shape of value: destination_id and poi_id take an id string, coordinates takes {lat, lon, radius_km?}, bbox takes {nw: [lat,lon], se: [lat,lon]}. property_id is NOT supported here; use get_property_details."
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "description": "destination_id/poi_id: opaque id string from resolve_destination or discover_destinations_near (e.g. 'dest_590c54056664cf2c60c5c2f6'). Pass it verbatim — the 'dest_'/'poi_' prefix is accepted. NEVER pass a free-form name like 'Ancona'; the API rejects bad identifiers with 400 invalid_request."
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "lat",
+                        "lon"
+                      ],
+                      "properties": {
+                        "lat": {
+                          "type": "number",
+                          "maximum": 90,
+                          "minimum": -90,
+                          "description": "Latitude in decimal degrees."
+                        },
+                        "lon": {
+                          "type": "number",
+                          "maximum": 180,
+                          "minimum": -180,
+                          "description": "Longitude in decimal degrees."
+                        },
+                        "radius_km": {
+                          "type": "number",
+                          "description": "Search radius in km (default 5).",
+                          "exclusiveMinimum": 0
+                        }
+                      },
+                      "description": "coordinates: a known point, searched within radius_km.",
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "nw",
+                        "se"
+                      ],
+                      "properties": {
+                        "nw": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "description": "North-west corner as [lat, lon]."
+                        },
+                        "se": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "description": "South-east corner as [lat, lon]."
+                        }
+                      },
+                      "description": "bbox: an explicit map rectangle, given by its north-west and south-east corners.",
+                      "additionalProperties": false
+                    }
+                  ],
+                  "description": "Shape depends on type — see each option below."
+                }
+              },
+              "description": "Where to search, as a {type, value} pair. Use destination_id for a place resolved via resolve_destination, poi_id for a point of interest, coordinates for a known lat/lon, or bbox for an explicit map rectangle. A property is NOT a location — use get_property_details for a known property.",
+              "additionalProperties": false
+            },
+            "user_country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "User's country (ISO-3166 alpha-2 uppercase). Drives the booking-link locale (the landing page rendered when the user clicks `web_url`) AND, when `currency` is not set, the pricing currency (US->USD, CA->CAD, euro-area->EUR). Pass the user's own country, not the destination's. Falls back to 'US' when omitted."
+            },
+            "availability_mode": {
+              "enum": [
+                "strict",
+                "include_unavailable"
+              ],
+              "type": "string",
+              "description": "strict (default): return ONLY properties available for the requested dates. include_unavailable: also return properties with no availability (each tagged availability_status). Use strict unless the user explicitly wants to see sold-out options."
+            },
+            "include_overbudget": {
+              "type": "boolean",
+              "description": "Opt-in. When few available results fit the budget, also return (in alternatives.overbudget) available properties in the same area just above price_max_eur. Requires filters.price_max_eur."
+            },
+            "include_out_of_bounds": {
+              "type": "boolean",
+              "description": "Opt-in. When the requested area yields few available results, also return (in alternatives.out_of_bounds) properties just outside the area, within the original budget. Present these explicitly as alternatives, never mixed with primary results."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "get_shopping_decision",
+        "description": "Recommends what to buy for a described need or budget, with alternatives and reasons; changes nothing.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "message"
+          ],
+          "properties": {
+            "message": {
+              "type": "string",
+              "maxLength": 2000,
+              "minLength": 1,
+              "description": "The shopper’s need in their own words, e.g. a phone for photos; budget and must-haves go in their own fields."
+            },
+            "must_have": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1
+              },
+              "maxItems": 6,
+              "minItems": 1,
+              "description": "Features the pick must have, one per item, e.g. NFC."
+            },
+            "postal_code": {
+              "type": "string",
+              "pattern": "^(?:[1-7][0-9]{4}|8[0-5][0-9]{3})$",
+              "description": "Optional five-digit Greek delivery postcode the shopper gave; adds shipping and delivered totals."
+            },
+            "max_price_eur": {
+              "type": "number",
+              "maximum": 10000000,
+              "minimum": 0.01,
+              "description": "Highest item price in euros the shopper will pay."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.bestprice.gr",
+      "verified": true,
+      "tool": {
+        "name": "show_offer",
+        "description": "Scrolls to one store offer on this page and highlights it; opens no store site.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "offer_ref": {
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 8,
+              "description": "Pass offer_ref (from compare_page_offers) or, failing that, merchant_name. Refused once that offer changes."
+            },
+            "merchant_name": {
+              "type": "string",
+              "maxLength": 68,
+              "minLength": 2,
+              "description": "Only without offer_ref: the store name exactly as compare_page_offers returned it, for one offer."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
+      "verified": false,
+      "tool": {
+        "name": "get_sale_rules",
+        "description": "Select and show a timeline rule. Returns the required date basis, milestone meaning and conditional redemption tracks before calculating. Existing dates remain examples until your date is supplied.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "florida",
+                "arizona",
+                "alabama",
+                "georgia",
+                "texas",
+                "colorado",
+                "iowa",
+                "indiana",
+                "illinois",
+                "mississippi",
+                "south-carolina",
+                "ohio",
+                "maryland",
+                "tennessee",
+                "missouri",
+                "kentucky",
+                "nebraska",
+                "louisiana",
+                "south-dakota"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
+      "verified": false,
+      "tool": {
+        "name": "calculate_sale_timeline",
+        "description": "Show statutory timeline milestones and all conditional redemption tracks for a supported state. First use get_sale_rules to identify the required date basis. A milestone can be eligibility to apply or give notice; it is not necessarily a redemption deadline.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "state",
+            "date",
+            "dateBasis"
+          ],
+          "properties": {
+            "date": {
+              "type": "string",
+              "maxLength": 10,
+              "minLength": 10,
+              "description": "YYYY-MM-DD from 1980-01-01 through 2099-12-31, on the selected rule date basis."
+            },
+            "state": {
+              "enum": [
+                "florida",
+                "arizona",
+                "alabama",
+                "georgia",
+                "texas",
+                "colorado",
+                "iowa",
+                "indiana",
+                "illinois",
+                "mississippi",
+                "south-carolina",
+                "ohio",
+                "maryland",
+                "tennessee",
+                "missouri",
+                "kentucky",
+                "nebraska",
+                "louisiana",
+                "south-dakota"
+              ],
+              "type": "string"
+            },
+            "dateBasis": {
+              "enum": [
+                "april-1-of-issuance-year",
+                "issuance-date",
+                "deed-recording-date",
+                "sale-confirmation-date",
+                "delinquency-date",
+                "certificate-recordation-date"
+              ],
+              "type": "string",
+              "description": "Must match the anchor reported by get_sale_rules."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
+      "verified": false,
+      "tool": {
+        "name": "get_sale_rules",
+        "description": "Select and show a yield rule. Returns the amount basis, rate bounds, floor, cap requirement and modeling notes before a calculation. Existing figures remain examples until your inputs are supplied.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "florida",
+                "arizona",
+                "alabama",
+                "georgia",
+                "texas",
+                "colorado",
+                "iowa",
+                "indiana",
+                "indiana:commissioners",
+                "illinois",
+                "mississippi",
+                "south-carolina",
+                "ohio",
+                "ohio:negotiated",
+                "maryland",
+                "maryland:rate-10",
+                "maryland:rate-12",
+                "maryland:rate-14-carroll",
+                "maryland:rate-18-howard",
+                "maryland:rate-20-montgomery",
+                "maryland:rate-8-frederick",
+                "tennessee",
+                "missouri",
+                "kentucky",
+                "nebraska",
+                "louisiana",
+                "south-dakota"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
+      "verified": false,
+      "tool": {
+        "name": "estimate_sale_return",
+        "description": "Show modeled gross proceeds on the selected certificate/base amount if the owner redeems. Use get_sale_rules to inspect the amount basis and applicable rate/floor/cap inputs first. Excludes separate overbids, fees and any guaranteed return; monthly approximations follow the existing calculator.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "state",
+            "amount",
+            "months"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "florida",
+                "arizona",
+                "alabama",
+                "georgia",
+                "texas",
+                "colorado",
+                "iowa",
+                "indiana",
+                "indiana:commissioners",
+                "illinois",
+                "mississippi",
+                "south-carolina",
+                "ohio",
+                "ohio:negotiated",
+                "maryland",
+                "maryland:rate-10",
+                "maryland:rate-12",
+                "maryland:rate-14-carroll",
+                "maryland:rate-18-howard",
+                "maryland:rate-20-montgomery",
+                "maryland:rate-8-frederick",
+                "tennessee",
+                "missouri",
+                "kentucky",
+                "nebraska",
+                "louisiana",
+                "south-dakota"
+              ],
+              "type": "string"
+            },
+            "amount": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0.01,
+              "multipleOf": 0.01,
+              "description": "USD on the amount basis explained by get_sale_rules; excludes separately treated overbid."
+            },
+            "months": {
+              "type": "number",
+              "maximum": 600,
+              "minimum": 0.01,
+              "multipleOf": 0.01
+            },
+            "bidRate": {
+              "type": "number",
+              "maximum": 100,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "Percent, from 0 to 100."
+            },
+            "minFloor": {
+              "type": "number",
+              "maximum": 100,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "Percent, from 0 to 100."
+            },
+            "interestCap": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/rural-land-value-estimator",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/rural-land-value-estimator",
+      "verified": false,
+      "tool": {
+        "name": "estimate_land_value",
+        "description": "Show a rural-land planning estimate from 1–10 comparable sales you supply, using median USD per acre and editorial access, buildability and wetland factors. No market data is fetched. Returns an estimate range, not an appraisal.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "acres",
+            "comps",
+            "access",
+            "build",
+            "wet"
+          ],
+          "properties": {
+            "wet": {
+              "enum": [
+                "none",
+                "partial",
+                "mostly"
+              ],
+              "type": "string"
+            },
+            "acres": {
+              "type": "number",
+              "maximum": 1000000,
+              "minimum": 0.001
+            },
+            "build": {
+              "enum": [
+                "buildable",
+                "unknown",
+                "constrained"
+              ],
+              "type": "string"
+            },
+            "comps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "price",
+                  "acres"
+                ],
+                "properties": {
+                  "acres": {
+                    "type": "number",
+                    "maximum": 1000000,
+                    "minimum": 0.001
+                  },
+                  "price": {
+                    "type": "number",
+                    "maximum": 100000000,
+                    "minimum": 0.01,
+                    "multipleOf": 0.01,
+                    "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "maxItems": 10,
+              "minItems": 1
+            },
+            "access": {
+              "enum": [
+                "deeded",
+                "easement",
+                "unclear",
+                "landlocked"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
+      "verified": false,
+      "tool": {
+        "name": "estimate_title_cost",
+        "description": "Show a quiet-title cost planning estimate using your USD fee assumptions, defendant count, publication choice and case difficulty. Returns a component breakdown and an editorial range, not a quote.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "attorney",
+            "filing",
+            "defendants",
+            "servicePer",
+            "publication",
+            "publicationCost",
+            "titleSearch",
+            "caseType"
+          ],
+          "properties": {
+            "filing": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "attorney": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "caseType": {
+              "enum": [
+                "uncontested",
+                "harder",
+                "contested"
+              ],
+              "type": "string"
+            },
+            "defendants": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 0
+            },
+            "servicePer": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "publication": {
+              "type": "boolean"
+            },
+            "titleSearch": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "publicationCost": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
+      "verified": false,
+      "tool": {
+        "name": "estimate_max_bid",
+        "description": "Show a tax-deed bid scenario, its cost deductions and editorial confidence factor in the calculator. Amounts are USD. Supply every cost assumption, including explicit zeros. The result is a planning estimate with unmodeled fees identified, not investment advice.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "state",
+            "resaleValue",
+            "targetProfitPct",
+            "resaleCostPct",
+            "quietTitle",
+            "survivingLiens",
+            "holding",
+            "acquisitionCosts",
+            "confidence"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "north-dakota",
+                "florida",
+                "california",
+                "georgia",
+                "texas",
+                "michigan",
+                "south-carolina",
+                "ohio",
+                "pennsylvania",
+                "nevada",
+                "washington",
+                "north-carolina",
+                "tennessee",
+                "arkansas",
+                "virginia",
+                "kansas",
+                "minnesota",
+                "oklahoma"
+              ],
+              "type": "string"
+            },
+            "holding": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "confidence": {
+              "enum": [
+                "high",
+                "medium",
+                "low",
+                "red"
+              ],
+              "type": "string",
+              "description": "Editorial confidence factors: 1, 0.85, 0.7, and 0.4 respectively."
+            },
+            "quietTitle": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "resaleValue": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "resaleCostPct": {
+              "type": "number",
+              "maximum": 100,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "Percent, from 0 to 100."
+            },
+            "survivingLiens": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            },
+            "targetProfitPct": {
+              "type": "number",
+              "maximum": 100,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "Percent, from 0 to 100."
+            },
+            "acquisitionCosts": {
+              "type": "number",
+              "maximum": 100000000,
+              "minimum": 0,
+              "multipleOf": 0.01,
+              "description": "USD; enter an explicit cost assumption, including zero when appropriate."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/states",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/states",
+      "verified": false,
+      "tool": {
+        "name": "compare_state_rules",
+        "description": "Show a sourced comparison of 2–4 US states or DC for sale classification, interest, redemption, or bidding. Conditional maxima are not guaranteed returns. Unknown values remain unknown. Includes caveats and official sources; does not rank investments.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "states",
+            "topic"
+          ],
+          "properties": {
+            "topic": {
+              "enum": [
+                "classification",
+                "interest",
+                "redemption",
+                "bidding"
+              ],
+              "type": "string"
+            },
+            "states": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "alabama",
+                  "alaska",
+                  "arizona",
+                  "arkansas",
+                  "california",
+                  "colorado",
+                  "connecticut",
+                  "delaware",
+                  "district-of-columbia",
+                  "florida",
+                  "georgia",
+                  "hawaii",
+                  "idaho",
+                  "illinois",
+                  "indiana",
+                  "iowa",
+                  "kansas",
+                  "kentucky",
+                  "louisiana",
+                  "maine",
+                  "maryland",
+                  "massachusetts",
+                  "michigan",
+                  "minnesota",
+                  "mississippi",
+                  "missouri",
+                  "montana",
+                  "nebraska",
+                  "nevada",
+                  "new-hampshire",
+                  "new-jersey",
+                  "new-mexico",
+                  "new-york",
+                  "north-carolina",
+                  "north-dakota",
+                  "ohio",
+                  "oklahoma",
+                  "oregon",
+                  "pennsylvania",
+                  "rhode-island",
+                  "south-carolina",
+                  "south-dakota",
+                  "tennessee",
+                  "texas",
+                  "utah",
+                  "vermont",
+                  "virginia",
+                  "washington",
+                  "west-virginia",
+                  "wisconsin",
+                  "wyoming"
+                ],
+                "type": "string"
+              },
+              "maxItems": 4,
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/pennsylvania/beaver",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/pennsylvania/beaver",
+      "verified": false,
+      "tool": {
+        "name": "get_county_sale",
+        "description": "Show one sourced sale detail for the current county. Choose certificate or deed and overview, registration, timing, or list. Returns known facts with quality/source dates, distinguishes unsupported sales from unknown data, and provides official links without activating them.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "side",
+            "detail"
+          ],
+          "properties": {
+            "side": {
+              "enum": [
+                "certificate",
+                "deed"
+              ],
+              "type": "string"
+            },
+            "detail": {
+              "enum": [
+                "overview",
+                "registration",
+                "timing",
+                "list"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/florida/counties",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com/florida/counties",
+      "verified": false,
+      "tool": {
+        "name": "filter_counties",
+        "description": "Filter and sort this state’s county directory. Shows 20 rows per page in the same order as returned. Unknown format is distinct from online or in-person. Timing sorts the displayed text alphabetically, not by auction date. Use county links for sources and full conditions.",
+        "inputSchema": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "format": {
+              "enum": [
+                "all",
+                "online",
+                "in-person",
+                "sealed-bid",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "sortBy": {
+              "enum": [
+                "name",
+                "county_seat",
+                "deedFormat",
+                "certPlatform",
+                "deedTiming"
+              ],
+              "type": "string"
+            },
+            "platform": {
+              "enum": [
+                "all",
+                "County office",
+                "LienHub",
+                "Pacific Blue",
+                "RealAuction",
+                "VisualGov",
+                "WFBS",
+                "ZEUS"
+              ],
+              "type": "string"
+            },
+            "direction": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.taxsaleatlas.com",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public county, state, guide, glossary and calculator pages. Opens site search and displays up to 10 matching links per page. Optional state restricts county/state pages to that state. Blank query shows featured states/guides when unfiltered, or all matches with a filter. Returns links; does not open external destinations.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "description": "One-based result page. Defaults to 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "county",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string"
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "state": {
+              "enum": [
+                "all",
+                "alabama",
+                "arizona",
+                "arkansas",
+                "california",
+                "colorado",
+                "florida",
+                "georgia",
+                "illinois",
+                "indiana",
+                "iowa",
+                "kansas",
+                "kentucky",
+                "louisiana",
+                "maryland",
+                "michigan",
+                "minnesota",
+                "mississippi",
+                "missouri",
+                "nebraska",
+                "nevada",
+                "north-carolina",
+                "north-dakota",
+                "ohio",
+                "oklahoma",
+                "pennsylvania",
+                "south-carolina",
+                "south-dakota",
+                "tennessee",
+                "texas",
+                "virginia",
+                "washington"
+              ],
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.proxy-compare.com",
+      "verified": true,
+      "tool": {
+        "name": "read_site_guide",
+        "description": "Open and read a published setup guide or glossary entry found by search_site. First list its sections; then request a section ID with offset/limit to read the visible text, code and links. Preserves dated context; article prices are historical, so use provider tools for current catalog prices. Covers existing adjacent-tool guides, not the wider web. No command is executed.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^/(blog|learn)/[a-z0-9]+(?:-[a-z0-9]+)*/$",
+              "maxLength": 180,
+              "description": "Canonical path returned by search_site for a published post or glossary entry."
+            },
+            "limit": {
+              "type": "integer",
+              "default": 3,
+              "maximum": 10,
+              "minimum": 1,
+              "description": "Maximum returned rows. The visible page can show all matches."
+            },
+            "offset": {
+              "type": "integer",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            },
+            "section": {
+              "type": "string",
+              "default": "",
+              "maxLength": 180,
+              "description": "Section ID from the outline. Omit to list sections, then repeat with its ID to read bounded text blocks."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.proxy-compare.com",
+      "verified": true,
+      "tool": {
+        "name": "find_providers",
+        "description": "Find provider IDs across proxies, scraping APIs and CAPTCHA solvers, including unreviewed records and providers without prices. Opens the vendor directory; filters by name, category and recorded price availability. Returns stable slugs for get_provider_details and price-tool shortlists. For price ordering use the category lists or cost calculators; for adjacent-tool setup guides use search_site.",
+        "inputSchema": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "sort": {
+              "enum": [
+                "name",
+                "recorded_prices"
+              ],
+              "type": "string",
+              "default": "name"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 3,
+              "maximum": 10,
+              "minimum": 1,
+              "description": "Maximum returned rows. The visible page can show all matches."
+            },
+            "query": {
+              "type": "string",
+              "default": "",
+              "maxLength": 60,
+              "description": "Provider name or slug; ignores spaces and punctuation. Empty browses the whole recorded roster."
+            },
+            "offset": {
+              "type": "integer",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            },
+            "prices": {
+              "enum": [
+                "any",
+                "recorded",
+                "missing"
+              ],
+              "type": "string",
+              "default": "any"
+            },
+            "direction": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "default": "asc"
+            },
+            "productType": {
+              "enum": [
+                "any",
+                "proxy",
+                "scraping_api",
+                "captcha_solver"
+              ],
+              "type": "string",
+              "default": "any"
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/ifta-tax-rates",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public state guides, articles, calculators and glossary terms. Shows matching pages in the site search dialog, with 10 results per page. Results link to pages; use open_site_page to navigate. Use public topic words only. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Result page, starting at 1. Omit for page 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string",
+              "description": "Content category. Omit for all."
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120,
+              "minLength": 1,
+              "description": "Public topic words, for example Texas oversize permits. Do not include private records."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/ifta-tax-rates",
+      "verified": false,
+      "tool": {
+        "name": "open_site_page",
+        "description": "Navigate to an indexed public page using its exact relative path from search_site. Opens the destination; rediscover tools there to run a calculator or lookup. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "maxLength": 240,
+              "minLength": 1,
+              "description": "Exact relative path returned by search_site, including a glossary fragment if present."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/ifta-tax-rates",
+      "verified": false,
+      "tool": {
+        "name": "browse_ifta_rates",
+        "description": "Show the stored IFTA quarter rate matrix by fuel and US/Canada, 10 jurisdictions per page. Returns base rates, separate surcharges, missing-rate cells, non-members and dated sources. The quarter and final/provisional status come from the stored dataset. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "fuels"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Result page, starting at 1. Omit for page 1."
+            },
+            "fuels": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "gasoline",
+                  "diesel",
+                  "gasohol",
+                  "propane",
+                  "lng",
+                  "cng",
+                  "ethanol",
+                  "methanol",
+                  "e85",
+                  "m85",
+                  "a55",
+                  "biodiesel",
+                  "electricity",
+                  "hydrogen",
+                  "hythane"
+                ],
+                "type": "string"
+              },
+              "maxItems": 15,
+              "minItems": 1,
+              "description": "Fuel columns to show. For example [\"diesel\"]. Column order follows the stored matrix.",
+              "uniqueItems": true
+            },
+            "country": {
+              "enum": [
+                "all",
+                "US",
+                "CA"
+              ],
+              "type": "string",
+              "description": "US, Canada (CA), or all. Omit for all."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public state guides, articles, calculators and glossary terms. Shows matching pages in the site search dialog, with 10 results per page. Results link to pages; use open_site_page to navigate. Use public topic words only. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Result page, starting at 1. Omit for page 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string",
+              "description": "Content category. Omit for all."
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120,
+              "minLength": 1,
+              "description": "Public topic words, for example Texas oversize permits. Do not include private records."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
+      "verified": false,
+      "tool": {
+        "name": "open_site_page",
+        "description": "Navigate to an indexed public page using its exact relative path from search_site. Opens the destination; rediscover tools there to run a calculator or lookup. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "maxLength": 240,
+              "minLength": 1,
+              "description": "Exact relative path returned by search_site, including a glossary fragment if present."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
+      "verified": false,
+      "tool": {
+        "name": "check_load_dimensions",
+        "description": "Compare load width and ground-up height with stored legal limits in all 50 states and DC. Shows flagged jurisdictions and published permit base fees, 10 per page. Length, overhang, axle weight, route exceptions and total permit cost need agency confirmation. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "widthFeet",
+            "widthInches",
+            "heightFeet",
+            "heightInches"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Result page, starting at 1. Omit for page 1."
+            },
+            "widthFeet": {
+              "type": "integer",
+              "maximum": 30,
+              "minimum": 0,
+              "description": "Whole feet, from 0 through 30."
+            },
+            "heightFeet": {
+              "type": "integer",
+              "maximum": 30,
+              "minimum": 0,
+              "description": "Whole feet, from 0 through 30."
+            },
+            "widthInches": {
+              "type": "integer",
+              "maximum": 11,
+              "minimum": 0,
+              "description": "Additional whole inches, from 0 through 11."
+            },
+            "heightInches": {
+              "type": "integer",
+              "maximum": 11,
+              "minimum": 0,
+              "description": "Additional whole inches, from 0 through 11."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    },
+    {
+      "domain": "www.haulhandbook.com",
+      "verified": false,
+      "tool": {
+        "name": "search_site",
+        "description": "Search public state guides, articles, calculators and glossary terms. Shows matching pages in the site search dialog, with 10 results per page. Results link to pages; use open_site_page to navigate. Use public topic words only. Native Chrome 153 with WebMCP enabled and cancellable tool callbacks is required.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Result page, starting at 1. Omit for page 1."
+            },
+            "type": {
+              "enum": [
+                "all",
+                "state",
+                "guide",
+                "glossary",
+                "page"
+              ],
+              "type": "string",
+              "description": "Content category. Omit for all."
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 120,
+              "minLength": 1,
+              "description": "Public topic words, for example Texas oversize permits. Do not include private records."
+            }
+          },
+          "additionalProperties": false
+        },
+        "specVersion": "0.1"
+      }
+    }
+  ],
+  "total": 50
+}

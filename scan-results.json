@@ -1,0 +1,1706 @@
+{
+  "scannedAt": "2026-10-02T15:46:50.378Z",
+  "durationSec": 589,
+  "entryCount": 40,
+  "registryToolTotal": 235,
+  "toolsObserved": 114,
+  "byOutcome": {
+    "tools-observable": 33,
+    "unreachable": 3,
+    "listed-but-zero-tools": 4
+  },
+  "byRule": {
+    "output-schema-declared": 114,
+    "schema-fields-documented": 9,
+    "tool-budget": 1,
+    "tolerates-valid-args": 8,
+    "required-fields-enforced": 6
+  },
+  "results": [
+    {
+      "entry": "b2a.bluepillow.com/webmcp",
+      "registryToolCount": 5,
+      "verified": false,
+      "url": "https://b2a.bluepillow.com/webmcp",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 5,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "check_property_availability",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "discover_destinations_near",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_property_details",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "resolve_destination",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_stays",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "check_property_availability",
+        "discover_destinations_near",
+        "get_property_details",
+        "resolve_destination",
+        "search_stays"
+      ],
+      "ms": 13697
+    },
+    {
+      "entry": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "registryToolCount": 5,
+      "verified": false,
+      "url": "https://b2a.bluepillow.com/webmcp/?s=wmcp-reg",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 5,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "check_property_availability",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "discover_destinations_near",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_property_details",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "resolve_destination",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_stays",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "check_property_availability",
+        "discover_destinations_near",
+        "get_property_details",
+        "resolve_destination",
+        "search_stays"
+      ],
+      "ms": 13670
+    },
+    {
+      "entry": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/tools/redemption-deadline-calculator",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.taxsaleatlas.com/tools/redemption-deadline-calculator"
+        }
+      ],
+      "error": null,
+      "findings": [
+        {
+          "tool": "calculate_sale_timeline",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_sale_rules",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "get_sale_rules",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "calculate_sale_timeline",
+        "get_sale_rules",
+        "search_site"
+      ],
+      "ms": 12938
+    },
+    {
+      "entry": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "estimate_sale_return",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_sale_rules",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "get_sale_rules",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "estimate_sale_return",
+        "get_sale_rules",
+        "search_site"
+      ],
+      "ms": 7576
+    },
+    {
+      "entry": "www.taxsaleatlas.com/tools/rural-land-value-estimator",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/tools/rural-land-value-estimator",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "estimate_land_value",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "estimate_land_value",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "estimate_land_value",
+        "search_site"
+      ],
+      "ms": 9560
+    },
+    {
+      "entry": "www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.taxsaleatlas.com/tools/quiet-title-cost-calculator"
+        }
+      ],
+      "error": null,
+      "findings": [
+        {
+          "tool": "estimate_title_cost",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "estimate_title_cost",
+        "search_site"
+      ],
+      "ms": 13653
+    },
+    {
+      "entry": "www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "estimate_max_bid",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "estimate_max_bid",
+        "search_site"
+      ],
+      "ms": 9533
+    },
+    {
+      "entry": "www.taxsaleatlas.com/states",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/states",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "compare_state_rules",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "compare_state_rules",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "compare_state_rules",
+        "search_site"
+      ],
+      "ms": 9617
+    },
+    {
+      "entry": "www.taxsaleatlas.com/pennsylvania/beaver",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/pennsylvania/beaver",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.taxsaleatlas.com/pennsylvania/beaver"
+        }
+      ],
+      "error": null,
+      "findings": [
+        {
+          "tool": "get_county_sale",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "get_county_sale",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "get_county_sale",
+        "search_site"
+      ],
+      "ms": 13744
+    },
+    {
+      "entry": "www.taxsaleatlas.com/florida/counties",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com/florida/counties",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "filter_counties",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "filter_counties",
+        "search_site"
+      ],
+      "ms": 7504
+    },
+    {
+      "entry": "www.taxsaleatlas.com",
+      "registryToolCount": 1,
+      "verified": false,
+      "url": "https://www.taxsaleatlas.com",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "search_site"
+      ],
+      "ms": 8941
+    },
+    {
+      "entry": "www.haulhandbook.com/tools/ifta-tax-rates",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://www.haulhandbook.com/tools/ifta-tax-rates",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.haulhandbook.com/tools/ifta-tax-rates"
+        }
+      ],
+      "error": null,
+      "findings": [
+        {
+          "tool": "browse_ifta_rates",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "open_site_page",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "browse_ifta_rates",
+        "open_site_page",
+        "search_site"
+      ],
+      "ms": 10755
+    },
+    {
+      "entry": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://www.haulhandbook.com/tools/oversize-permit-cost-estimator",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "check_load_dimensions",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "open_site_page",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "check_load_dimensions",
+        "open_site_page",
+        "search_site"
+      ],
+      "ms": 7683
+    },
+    {
+      "entry": "www.haulhandbook.com",
+      "registryToolCount": 2,
+      "verified": false,
+      "url": "https://www.haulhandbook.com",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "open_site_page",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "open_site_page",
+        "search_site"
+      ],
+      "ms": 8784
+    },
+    {
+      "entry": "settledestate.com/texas/executor-compensation",
+      "registryToolCount": 4,
+      "verified": false,
+      "url": "https://settledestate.com/texas/executor-compensation",
+      "status": 200,
+      "outcome": "unreachable",
+      "toolsObserved": 0,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
+        },
+        {
+          "attempt": 2,
+          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
+        }
+      ],
+      "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
+      "findings": [],
+      "toolNames": [],
+      "ms": 31184
+    },
+    {
+      "entry": "settledestate.com",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://settledestate.com",
+      "status": 200,
+      "outcome": "listed-but-zero-tools",
+      "toolsObserved": 0,
+      "rootRetried": true,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [],
+      "toolNames": [],
+      "ms": 17941
+    },
+    {
+      "entry": "www.proxy-compare.com",
+      "registryToolCount": 14,
+      "verified": true,
+      "url": "https://www.proxy-compare.com",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 16,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "compare_captcha_costs",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "rule": "tool-budget",
+          "severity": "medium",
+          "detail": "16 tools registered on this page",
+          "site": true
+        },
+        {
+          "tool": "compare_provider_details",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "compare_provider_details",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Invalid providerSlugs; see the tool input schema."
+        },
+        {
+          "tool": "compare_proxy_costs",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "compare_scraping_api_costs",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "convert_current_proxy_input",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "convert_current_proxy_input",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "estimate_proxy_bandwidth",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "find_providers",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_provider_details",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_provider_details",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Unknown provider ID. Use find_providers to find its "
+        },
+        {
+          "tool": "list_browser_plans",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "list_browser_plans",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Choose USD or EUR before setting maxPrice."
+        },
+        {
+          "tool": "list_captcha_rates",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "list_proxy_providers",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "list_proxy_providers",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Invalid volumeGb; see the tool input schema."
+        },
+        {
+          "tool": "list_recorded_changes",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "list_recorded_changes",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Invalid since; see the tool input schema."
+        },
+        {
+          "tool": "list_scraping_apis",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "read_site_guide",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "read_site_guide",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Invalid path; see the tool input schema."
+        },
+        {
+          "tool": "search_site",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "select_proxy_stack",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "compare_captcha_costs",
+        "compare_provider_details",
+        "compare_proxy_costs",
+        "compare_scraping_api_costs",
+        "convert_current_proxy_input",
+        "estimate_proxy_bandwidth",
+        "find_providers",
+        "get_provider_details",
+        "list_browser_plans",
+        "list_captcha_rates",
+        "list_proxy_providers",
+        "list_recorded_changes",
+        "list_scraping_apis",
+        "read_site_guide",
+        "search_site",
+        "select_proxy_stack"
+      ],
+      "ms": 12054
+    },
+    {
+      "entry": "spectrumtours.cz",
+      "registryToolCount": 9,
+      "verified": true,
+      "url": "https://spectrumtours.cz",
+      "status": 200,
+      "outcome": "listed-but-zero-tools",
+      "toolsObserved": 0,
+      "rootRetried": true,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [],
+      "toolNames": [],
+      "ms": 17312
+    },
+    {
+      "entry": "scvd.store",
+      "registryToolCount": 8,
+      "verified": false,
+      "url": "https://scvd.store",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 14,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "check_a2a_card",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "check_before_you_pay",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "check_conformance",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "check_order",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "check_purchase",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "complete_store_purchase",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "find_in_catalog",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "look_at_door",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "look_in_window",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "preflight_endpoint",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "quote_store_purchase",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "read_binder",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "read_store_guide",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "verify_artifact",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "check_a2a_card",
+        "check_before_you_pay",
+        "check_conformance",
+        "check_order",
+        "check_purchase",
+        "complete_store_purchase",
+        "find_in_catalog",
+        "look_at_door",
+        "look_in_window",
+        "preflight_endpoint",
+        "quote_store_purchase",
+        "read_binder",
+        "read_store_guide",
+        "verify_artifact"
+      ],
+      "ms": 21541
+    },
+    {
+      "entry": "corpuslaw.us",
+      "registryToolCount": 8,
+      "verified": true,
+      "url": "https://corpuslaw.us",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 9,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "formation.apply_draft",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "formation.compare",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "formation.get_draft",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "formation.handoff",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "formation.lookup_naics",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "formation.requirements",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "law.get_node",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "law.list_coverage",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "law.search",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "formation.apply_draft",
+        "formation.compare",
+        "formation.get_draft",
+        "formation.handoff",
+        "formation.lookup_naics",
+        "formation.requirements",
+        "law.get_node",
+        "law.list_coverage",
+        "law.search"
+      ],
+      "ms": 18830
+    },
+    {
+      "entry": "simpletoolstack.com",
+      "registryToolCount": 32,
+      "verified": true,
+      "url": "https://simpletoolstack.com",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "discover_tools",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "discover_tools",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "discover_tools"
+      ],
+      "ms": 9550
+    },
+    {
+      "entry": "airportloungelist.com",
+      "registryToolCount": 5,
+      "verified": true,
+      "url": "https://airportloungelist.com",
+      "status": null,
+      "outcome": "unreachable",
+      "toolsObserved": 0,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
+        },
+        {
+          "attempt": 2,
+          "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation."
+        }
+      ],
+      "error": "page.goto: net::ERR_NETWORK_CHANGED at https://airportloungelist.com/",
+      "findings": [],
+      "toolNames": [],
+      "ms": 30043
+    },
+    {
+      "entry": "awardtravelfinder.com",
+      "registryToolCount": 3,
+      "verified": true,
+      "url": "https://awardtravelfinder.com",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "atf_get_points_valuation",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "atf_get_program_award_rates",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "atf_list_transfer_bonuses",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "atf_get_points_valuation",
+        "atf_get_program_award_rates",
+        "atf_list_transfer_bonuses"
+      ],
+      "ms": 12029
+    },
+    {
+      "entry": "www.bestprice.gr",
+      "registryToolCount": 22,
+      "verified": true,
+      "url": "https://www.bestprice.gr",
+      "status": null,
+      "outcome": "unreachable",
+      "toolsObserved": 0,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.bestprice.gr/"
+        },
+        {
+          "attempt": 2,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.bestprice.gr/"
+        }
+      ],
+      "error": "page.goto: net::ERR_NETWORK_CHANGED at https://www.bestprice.gr/",
+      "findings": [],
+      "toolNames": [],
+      "ms": 79766
+    },
+    {
+      "entry": "hopi.co.uk",
+      "registryToolCount": 1,
+      "verified": true,
+      "url": "https://hopi.co.uk",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 2,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "hopi_directory",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "hopi_search",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "hopi_directory",
+        "hopi_search"
+      ],
+      "ms": 9448
+    },
+    {
+      "entry": "stacktr.ee",
+      "registryToolCount": 16,
+      "verified": true,
+      "url": "https://stacktr.ee",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 5,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "stacktree_copy_install_command",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "stacktree_open_dashboard",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "stacktree_publish_html",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "stacktree_view_docs",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "stacktree_view_pricing",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "stacktree_copy_install_command",
+        "stacktree_open_dashboard",
+        "stacktree_publish_html",
+        "stacktree_view_docs",
+        "stacktree_view_pricing"
+      ],
+      "ms": 9367
+    },
+    {
+      "entry": "agentk.stacktr.ee",
+      "registryToolCount": 29,
+      "verified": true,
+      "url": "https://agentk.stacktr.ee",
+      "status": 200,
+      "outcome": "listed-but-zero-tools",
+      "toolsObserved": 0,
+      "rootRetried": true,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [],
+      "toolNames": [],
+      "ms": 18060
+    },
+    {
+      "entry": "webmcp-registry.dev",
+      "registryToolCount": 5,
+      "verified": true,
+      "url": "https://webmcp-registry.dev",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 5,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "get-domain-tools",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get-tool-schema",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "lookup-url",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search-domains",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search-tools",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "get-domain-tools",
+        "get-tool-schema",
+        "lookup-url",
+        "search-domains",
+        "search-tools"
+      ],
+      "ms": 14203
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/order-tracking",
+      "registryToolCount": 1,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/order-tracking",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "get_order_status",
+          "rule": "required-fields-enforced",
+          "severity": "high"
+        },
+        {
+          "tool": "get_order_status",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "get_order_status"
+      ],
+      "ms": 7450
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/smart-home",
+      "registryToolCount": 1,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/smart-home",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "rearrangeDOMComponents",
+          "rule": "required-fields-enforced",
+          "severity": "high"
+        },
+        {
+          "tool": "rearrangeDOMComponents",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "rearrangeDOMComponents"
+      ],
+      "ms": 7967
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/webmcp-maze",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/webmcp-maze",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "start_game",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "start_game",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool unregistered"
+        }
+      ],
+      "toolNames": [
+        "start_game"
+      ],
+      "ms": 8057
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/analytics-dashboard",
+      "registryToolCount": 1,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/analytics-dashboard",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "query",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "query"
+      ],
+      "ms": 8128
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/sport-shop-angular",
+      "registryToolCount": 5,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/sport-shop-angular",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 5,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "get_product_info",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_store_promos_and_rules",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "open_cart",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_product",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "view_product",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "get_product_info",
+        "get_store_promos_and_rules",
+        "open_cart",
+        "search_product",
+        "view_product"
+      ],
+      "ms": 9585
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/hotel-chain",
+      "registryToolCount": 5,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/hotel-chain",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [
+        {
+          "attempt": 1,
+          "error": "page.goto: net::ERR_NETWORK_CHANGED at https://googlechromelabs.github.io/webmcp-tools/demos/hotel-chain"
+        }
+      ],
+      "error": null,
+      "findings": [
+        {
+          "tool": "lookup_amenity",
+          "rule": "required-fields-enforced",
+          "severity": "high"
+        },
+        {
+          "tool": "lookup_amenity",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_location",
+          "rule": "required-fields-enforced",
+          "severity": "high"
+        },
+        {
+          "tool": "search_location",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "view_hotel",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "lookup_amenity",
+        "search_location",
+        "view_hotel"
+      ],
+      "ms": 10140
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/real-estate-map",
+      "registryToolCount": 4,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/real-estate-map",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "search_property_location",
+          "rule": "required-fields-enforced",
+          "severity": "high"
+        },
+        {
+          "tool": "search_property_location",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "search_property_location"
+      ],
+      "ms": 11236
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/ticket-booking",
+      "registryToolCount": 3,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/ticket-booking",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 3,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "query_content",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "select_showtime",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "update_location",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "query_content",
+        "select_showtime",
+        "update_location"
+      ],
+      "ms": 22315
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/coffee-shop",
+      "registryToolCount": 4,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/coffee-shop",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 4,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "get_machine_specifications",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "get_order_history",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "reorder_product",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "reorder_product",
+          "rule": "required-fields-enforced",
+          "severity": "high"
+        },
+        {
+          "tool": "reorder_product",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "search_catalog",
+          "rule": "schema-fields-documented",
+          "severity": "medium"
+        },
+        {
+          "tool": "search_catalog",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "get_machine_specifications",
+        "get_order_history",
+        "reorder_product",
+        "search_catalog"
+      ],
+      "ms": 14381
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/french-bistro",
+      "registryToolCount": 1,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/french-bistro",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "book_table_le_petit_bistro",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        },
+        {
+          "tool": "book_table_le_petit_bistro",
+          "rule": "tolerates-valid-args",
+          "severity": "high",
+          "detail": "UnknownError: Tool was executed but the invocation failed. For example, the script function threw an error: Invalid value for declarative form parameter \"date\""
+        }
+      ],
+      "toolNames": [
+        "book_table_le_petit_bistro"
+      ],
+      "ms": 9014
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/react-flightsearch",
+      "registryToolCount": 4,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/react-flightsearch",
+      "status": 200,
+      "outcome": "tools-observable",
+      "toolsObserved": 1,
+      "rootRetried": false,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [
+        {
+          "tool": "searchFlights",
+          "rule": "output-schema-declared",
+          "severity": "high",
+          "note": "spec issue #9"
+        }
+      ],
+      "toolNames": [
+        "searchFlights"
+      ],
+      "ms": 7726
+    },
+    {
+      "entry": "googlechromelabs.github.io/webmcp-tools/demos/pizza-maker",
+      "registryToolCount": 7,
+      "verified": false,
+      "url": "https://googlechromelabs.github.io/webmcp-tools/demos/pizza-maker",
+      "status": 200,
+      "outcome": "listed-but-zero-tools",
+      "toolsObserved": 0,
+      "rootRetried": true,
+      "rootTools": 0,
+      "failures": [],
+      "error": null,
+      "findings": [],
+      "toolNames": [],
+      "ms": 13857
+    }
+  ]
+}

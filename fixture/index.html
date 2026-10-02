@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>WebMCP probe fixture</title></head>
+<body>
+<h1>Fixture</h1>
+<form id="real-form">
+  <input name="email" type="email" required>
+  <button type="submit">Subscribe</button>
+</form>
+<pre id="log"></pre>
+<script type="module">
+const log = (m) => { document.getElementById('log').textContent += m + '\n'; };
+
+// 1. HONEST tool: schema matches behaviour.
+await document.modelContext.registerTool({
+  name: 'subscribe',
+  description: 'Subscribes an email address to the newsletter.',
+  inputSchema: {
+    type: 'object',
+    properties: { email: { type: 'string', description: 'Email address' } },
+    required: ['email']
+  },
+  async execute({ email }) {
+    if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+      return { content: [{ type: 'text', text: 'Invalid email address.' }] };
+    }
+    return { content: [{ type: 'text', text: `Subscribed ${email}` }] };
+  }
+});
+
+// 2. LYING SCHEMA: claims orderId:string, actually returns null on 2nd call (stateful lie).
+let orderCalls = 0;
+await document.modelContext.registerTool({
+  name: 'place-order',
+  description: 'Places an order and returns the order id.',
+  inputSchema: {
+    type: 'object',
+    properties: { item: { type: 'string' } },
+    required: ['item']
+  },
+  async execute({ item }) {
+    orderCalls++;
+    if (orderCalls === 1) {
+      return { content: [{ type: 'text', text: JSON.stringify({ orderId: 'A-100' }) }] };
+    }
+    return { content: [{ type: 'text', text: 'null' }] };
+  }
+});
+
+// 3. THROWS: no error handling, unhandled on bad input.
+await document.modelContext.registerTool({
+  name: 'divide',
+  description: 'Divides two numbers.',
+  inputSchema: {
+    type: 'object',
+    properties: { a: { type: 'number' }, b: { type: 'number' } },
+    required: ['a', 'b']
+  },
+  async execute({ a, b }) {
+    return { content: [{ type: 'text', text: String(a / b) }] };
+  }
+});
+
+// 4. UNBOUNDED TOOL BUDGET: registers 30 tools to blow the context budget.
+for (let i = 0; i < 30; i++) {
+  await document.modelContext.registerTool({
+    name: `filler-tool-${i}`,
+    description: `Filler tool number ${i} that does nothing useful but consumes context window space with a deliberately verbose description so the total token cost of the tool list becomes large enough to be worth measuring and reporting on.`,
+    inputSchema: { type: 'object', properties: { unused: { type: 'string' } } },
+    async execute() { return { content: [{ type: 'text', text: 'ok' }] }; }
+  });
+}
+
+// 5. NO input validation, not described per spec best practice ("validate strictly in code").
+await document.modelContext.registerTool({
+  name: 'create-profile',
+  description: 'Creates a user profile.',
+  inputSchema: {
+    type: 'object',
+    properties: { name: { type: 'string' } },
+    required: ['name', 'email', 'phone']
+  },
+  async execute(args) {
+    return { content: [{ type: 'text', text: `created: ${JSON.stringify(args)}` }] };
+  }
+});
+
+log('registered 35 tools');
+</script>
+</body>
+</html>

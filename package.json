@@ -1,0 +1,15 @@
+{
+  "name": "webmcp-probe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "@mcp-b/global": "^5.1.0",
+    "playwright": "^1.63.0"
+  }
+}
