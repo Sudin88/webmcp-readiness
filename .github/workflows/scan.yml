@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pages: write
+  id-token: write
 
 concurrency:
   group: scan
@@ -85,3 +86,6 @@ jobs:
         continue-on-error: true
         uses: actions/deploy-pages@v4
         id: deploy
+        environment:
+          name: github-pages
+          url: ${{ steps.deploy.outputs.page_url }}
