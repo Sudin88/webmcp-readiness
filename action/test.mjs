@@ -200,57 +200,151 @@ console.log('\nunit: a finding\'s own evidence must survive the response mapping
   ok(noTitle.length === 0, `every rule has a title and an explanation${noTitle.length ? ': ' + noTitle.join(', ') : ''}`);
 }
 
-console.log('\nparity: CLI and hosted paths must reach identical verdicts');
-// The whole project rests on one rule engine judging every surface. It broke
-// before: the two probes gated the partial call on `missing > 0` and
-// `required.length > 1`, so the hosted checker never reported
-// required-fields-enforced for a single-required-field tool. Then it broke
-// again when `toolTimeoutMs: 0` was read as "uncapped" when setTimeout(0) is a
-// macrotask that fires immediately. Both produced a DIFFERENT VERDICT FOR THE
-// SAME SITE, silently. These tests assert the shared probe behaves identically
-// under both configurations.
+console.log('\nparity: EXECUTING the real probe, not a hand-fed synthetic result');
+// The previous parity tests passed synthetic objects straight into grade(), so they
+// never executed probeBody. Five mutations survived the whole suite, including
+// reverting each of the bugs they claimed to cover. These run the real serialised
+// probe against a real page, in a real browser, in both configurations.
 {
-  const { buildProbeSource } = await import('../lib/probe.mjs');
+  const { chromium, runProbe, CLI_TOOL_TIMEOUT_MS } = await import('../lib/probe.mjs');
   const { grade } = await import('../lib/checks.mjs');
+  const http = await import('node:http');
 
-  // The exact tool shape that `required.length > 1` silently skipped: one required
-  // field, and the tool wrongly accepts a call that omits it.
-  const singleRequired = {
-    name: 'single_required',
-    description: 'One required field, accepts an incomplete call.',
-    inputSchema: { type: 'object', properties: { email: { type: 'string' } }, required: ['email'] }
+  // A page that games the probe the way the review demonstrated: overriding Math.max
+  // suppresses required-fields-enforced and made the Action exit 0 "passed".
+  const html = (flags) => `<!doctype html><html><body><script>
+    window.__ready = (async () => {
+      ${flags.tamper ? 'Math.max = () => 0; Promise.race = (a) => a[0];' : ''}
+      await document.modelContext.registerTool({
+        name: 'single_required',
+        description: 'One required field, accepts an incomplete call.',
+        inputSchema: { type:'object', properties:{ email:{type:'string'} }, required:['email'] },
+        async execute(args){ return { content:[{type:'text',text:'accepted:'+JSON.stringify(args)}] }; }
+      });
+      await document.modelContext.registerTool({
+        name: 'boom',
+        description: 'Always throws on schema-valid input.',
+        inputSchema: { type:'object', properties:{ x:{type:'string'} }, required:['x'] },
+        async execute(){ throw new Error('Invalid x; see the tool input schema.'); }
+      });
+      // Crosses a real macrotask, so a 0ms cap would break it. This is what caught
+      // the silent re-introduction of the timeout bug.
+      await document.modelContext.registerTool({
+        name: 'slow_async',
+        description: 'Resolves after a real delay, not synchronously.',
+        inputSchema: { type:'object', properties:{ y:{type:'string'} }, required:['y'] },
+        async execute(){ await new Promise(r => setTimeout(r, 40)); return { content:[{type:'text',text:'ok'}] }; }
+      });
+      // Far past any per-response cap, so the payload budget is exercised.
+      await document.modelContext.registerTool({
+        name: 'huge',
+        description: 'Returns a very large payload.',
+        inputSchema: { type:'object', properties:{ z:{type:'string'} }, required:['z'] },
+        async execute(){ return { content:[{type:'text',text:'A'.repeat(200000)}] }; }
+      });
+      // Never settles. Must become tool-slow / not-probed, never a HIGH verdict.
+      // Omitted for the uncapped-config run, which would otherwise wait forever -
+      // which is precisely why the CLI passes a real timeout.
+      if (!window.__NOHANG__) await document.modelContext.registerTool({
+        name: 'hangs',
+        description: 'Never resolves.',
+        inputSchema: { type:'object', properties:{ w:{type:'string'} }, required:['w'] },
+        async execute(){ await new Promise(() => {}); return { content:[{type:'text',text:'never'}] }; }
+      });
+      return true;
+    })();
+  </script></body></html>`;
+
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'content-type': 'text/html' });
+    res.end(html({ tamper: req.url.includes('tamper'), nohang: req.url.includes('nohang') }));
+  });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  const browser = await chromium.launch({ args: ['--disable-dev-shm-usage'] });
+  const rulesFor = async (path, cfg) => {
+    const ctx = await browser.newContext();
+    const { POLYFILL } = await import('../lib/probe.mjs');
+    await ctx.addInitScript({ path: POLYFILL });
+    const page = await ctx.newPage();
+    await page.addInitScript({ content: `window.__NOHANG__=${path.includes('nohang')};` });
+    await page.goto(base + path, { waitUntil: 'load' });
+    await page.evaluate(() => window.__ready);
+    const data = await runProbe(page, cfg);
+    await ctx.close();
+    const tools = {};
+    for (const t of data.tools || []) {
+      tools[t.name] = grade(t, (data.tools || []).length).map((f) => f.rule).sort().join(',');
+    }
+    return { error: data.error, tools, names: (data.tools || []).map((t) => t.name) };
   };
-  // Grade a hand-built probe result, which is what both entry points end up with.
-  const probeResult = (call1, partialCall, missingRequired) => ([{
-    name: 'single_required', description: 'x'.repeat(30), outputSchema: null,
-    call1, call2: call1, partialCall, missingRequired
-  }]);
 
-  const okCall = { ok: true, value: '{"content":[]}', timeout: false };
-  const accepted = { ok: true, value: 'accepted anyway', timeout: false };
-  const timedOut = { ok: false, value: 'no response within 5000ms', timeout: true };
-  const realThrow = { ok: false, value: 'TypeError: bad arg', timeout: false };
+  const cli = await rulesFor('/clean', { toolTimeoutMs: CLI_TOOL_TIMEOUT_MS });
+  const srv = await rulesFor('/clean', { toolTimeoutMs: 5000 });
+  const tampered = await rulesFor('/tamper', { toolTimeoutMs: CLI_TOOL_TIMEOUT_MS });
+  // toolTimeoutMs: 0 MUST mean uncapped. setTimeout(0) is a macrotask, so treating
+  // it as a real cap silently disables three rules for any async tool - the exact
+  // bug that was reintroduced once already.
+  const uncapped = await rulesFor('/nohang', { toolTimeoutMs: 0 });
+  // Raw probe data, to assert the payload bound itself rather than only the flag.
+  const rawOf = async (path, cfg) => {
+    const ctx = await browser.newContext();
+    const { POLYFILL } = await import('../lib/probe.mjs');
+    await ctx.addInitScript({ path: POLYFILL });
+    const page = await ctx.newPage();
+    await page.addInitScript({ content: `window.__NOHANG__=${path.includes('nohang')};` });
+    await page.goto(base + path, { waitUntil: 'load' });
+    await page.evaluate(() => window.__ready);
+    const data = await runProbe(page, cfg);
+    await ctx.close();
+    return data;
+  };
+  const raw = await rawOf('/clean', { toolTimeoutMs: CLI_TOOL_TIMEOUT_MS });
 
-  const r = (t) => grade(t[0], 1).map((f) => f.rule).sort().join(',');
+  ok((cli.tools.single_required || '').includes('required-fields-enforced'),
+     'a tool with ONE required field that accepts a bad call IS reported');
+  ok((cli.tools.boom || '').includes('tolerates-valid-args'),
+     'a tool that genuinely throws on schema-valid input IS reported');
+  ok(JSON.stringify(cli.tools) === JSON.stringify(srv.tools),
+     'CLI and hosted configurations reach identical verdicts');
+  ok(cli.error === null, 'a clean page probes without error');
 
-  ok(r(probeResult(accepted, accepted, 1)).includes('required-fields-enforced'),
-     'one required field, accepted => required-fields-enforced');
-  ok(!r(probeResult(okCall, realThrow, 1)).includes('required-fields-enforced'),
-     'one required field, correctly rejected => no finding');
-  ok(r(probeResult(timedOut, timedOut, 1)).includes('tool-slow'),
-     'timeout => tool-slow, never tolerates-valid-args');
-  ok(r(probeResult(realThrow, realThrow, 1)).includes('tolerates-valid-args'),
-     'genuine throw still => tolerates-valid-args (timeout did not mask it)');
+  // The tamper must be refused, never silently graded.
+  // Must require the canary specifically. The weaker OR form passed even with the
+  // canary deleted, because the tamper suppresses the finding on its own - so the
+  // assertion could never fail.
+  ok(tampered.error === 'probe_tampered_math',
+     `a page that overrides Math.max is REFUSED, not graded (error=${tampered.error})`);
 
-  // The CLI passes toolTimeoutMs 0 and the server 5000. Both must leave a
-  // SYNC tool identical, and neither may treat a sync tool as timed out.
-  const cli = buildProbeSource({ toolTimeoutMs: 0 });
-  const srv = buildProbeSource({ toolTimeoutMs: 5000 });
-  ok(cli !== srv, 'the two configurations really do differ');
-  ok(!/maxValueChars/.test(cli) && !/maxValueChars/.test(srv),
-     'no evidence truncation in either configuration');
-  ok(/__probeTimeout/.test(cli) && /__probeTimeout/.test(srv),
-     'both use the identity timeout token, so a page cannot spoof it');
+  // A hanging tool must never produce a HIGH verdict on any path.
+  const hang = (cli.tools.hangs || '') + (srv.tools.hangs || '');
+  ok(hang.includes('tool-slow') || hang.includes('not-probed'),
+     `a never-settling tool is reported as unknown (got: ${hang || 'none'})`);
+  ok(!hang.includes('tolerates-valid-args'),
+     'a never-settling tool NEVER produces a tolerates-valid-args high finding');
+
+  // The oversized tool must be capped and flagged, not silently truncated.
+  ok((cli.tools.huge || '').includes('not-probed'),
+     `an oversized response is flagged rather than silently truncated (got: ${cli.tools.huge || 'none'})`);
+
+  ok(!(uncapped.tools.slow_async || '').includes('tolerates-valid-args')
+     && !(uncapped.tools.slow_async || '').includes('tool-slow'),
+     `toolTimeoutMs:0 means UNCAPPED, so an async tool is neither broken nor slow (got: ${uncapped.tools.slow_async || 'none'})`);
+
+  // Assert the bound itself, not just the `truncated` flag: dropping the slice
+  // while keeping the flag would still pass a flag-only assertion.
+  const hugeTool = (raw.tools || []).find((t) => t.name === 'huge');
+  const hugeLen = hugeTool ? String(hugeTool.call1?.value || '').length : 0;
+  ok(hugeTool && hugeTool.call1?.truncated === true && hugeLen > 0 && hugeLen <= 65536,
+     `an oversized response is CAPPED at 64 KiB (len=${hugeLen}, truncated=${hugeTool?.call1?.truncated})`);
+
+  // The async tool is what a 0ms cap would break: it crosses a real macrotask.
+  ok(!(cli.tools.slow_async || '').includes('tolerates-valid-args'),
+     `an async tool is not misread as broken (got: ${cli.tools.slow_async || 'none'})`);
+
+  await browser.close();
+  server.close();
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

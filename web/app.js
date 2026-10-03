@@ -42,18 +42,20 @@ function render(r, submittedUrl) {
   }
 
   if (r.outcome !== 'tools-observable') {
-    if (r.outcome === 'inconclusive') {
+    // r.message is the server's own explanation; OUTCOME_TEXT is only a fallback,
+    // and a missing key there previously rendered an empty box.
+    const explain = r.message || OUTCOME_TEXT[r.outcome] || '';
+    if (r.outcome === 'inconclusive' || r.outcome === 'partial') {
       const b2 = el('div', 'box');
       b2.appendChild(el('p', 'verdict warn', 'Readiness unknown'));
       b2.appendChild(el('h2', null, `${r.toolsFound || 0} tool(s) found, none responded`));
-      b2.appendChild(el('p', 'muted', OUTCOME_TEXT.inconclusive));
+      b2.appendChild(el('p', 'muted', explain));
       out.appendChild(b2);
       return;
     }
     const box = el('div', 'box');
     box.appendChild(el('h2', null, 'Nothing to grade'));
-    box.appendChild(el('p', null, OUTCOME_TEXT[r.outcome] || r.message || 'No result.'));
-    if (r.message && OUTCOME_TEXT[r.outcome]) box.appendChild(el('p', 'muted', r.message));
+    box.appendChild(el('p', null, explain || 'No result.'));
     out.appendChild(box);
     return;
   }
@@ -61,13 +63,17 @@ function render(r, submittedUrl) {
   const head = el('div', 'box');
   const blockers = r.summary.high || 0;
   const nits = r.summary.medium || 0;
+  const unknown = r.inconclusive || 0;
   // A verdict that says "ready" while known defects exist is not a verdict.
+  // A partial scan must never read as ready: we did not observe every tool.
   const verdict = blockers
     ? `${blockers} finding${blockers > 1 ? 's' : ''} will break AI agents`
-    : nits
-      ? `Usable by AI agents, with ${nits} thing${nits > 1 ? 's' : ''} worth fixing`
-      : 'Ready for AI agents';
-  head.appendChild(el('p', 'verdict ' + (blockers ? 'fail' : nits ? 'warn' : 'pass'), verdict));
+    : unknown
+      ? `Unknown \u2014 ${unknown} of ${r.toolsFound} tool(s) never responded`
+      : nits
+        ? `Usable by AI agents, with ${nits} thing${nits > 1 ? 's' : ''} worth fixing`
+        : 'Ready for AI agents';
+  head.appendChild(el('p', 'verdict ' + (blockers ? 'fail' : (unknown || nits) ? 'warn' : 'pass'), verdict));
   head.appendChild(el('h2', null, `${r.toolsFound} tool(s) found`));
   head.appendChild(el('p', 'muted', `${r.url} · HTTP ${r.status ?? '?'} · ${(r.durationMs / 1000).toFixed(1)}s`));
   // A redirect means we checked a different page than the one submitted. Say so,
@@ -126,13 +132,15 @@ function render(r, submittedUrl) {
     }
     card.appendChild(t);
 
-    if (group.length === 1) {
-      if (first.detail) card.appendChild(el('div', 'd', first.detail));
-    } else {
+    // Evidence renders whenever there IS evidence, even in a group. Rendering it
+    // only for singletons lost the error string whenever N tools shared one - which
+    // is the systemic case, e.g. every tool hitting the same downstream failure.
+    if (group.length > 1) {
       const names = el('div', 'd');
       names.appendChild(el('span', null, group.map((f) => f.tool).filter(Boolean).join(', ')));
       card.appendChild(names);
     }
+    if (first.detail) card.appendChild(el('div', 'd', first.detail));
     if (first.explanation) card.appendChild(el('div', 'd muted', first.explanation));
     out.appendChild(card);
   }

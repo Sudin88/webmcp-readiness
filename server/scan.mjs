@@ -276,6 +276,17 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
   });
 }
 
+/** One mapping for every finding shape the API returns. */
+export function mapFinding(f) {
+  const meta = RULES[f.rule] || {};
+  return {
+    ...f,
+    title: meta.title || f.rule,
+    explanation: meta.why || '',
+    detail: f.detail ?? ''
+  };
+}
+
 function safe(u) {
   try { const x = new URL(u); return x.origin + x.pathname; } catch { return 'invalid-url'; }
 }
@@ -325,18 +336,22 @@ function buildResult(href, status, data, blocked, started) {
   // If every tool timed out, we proved nothing about the site. Reporting zero
   // high findings then renders a green "Ready for AI agents", which is worse than
   // any false positive: it is confident and wrong.
-  const observed = data.tools.filter((t) => t.call1 && !t.call1.timeout).length;
+  // A tool counts as unknown if it timed out OR its response was truncated - in
+  // neither case did we observe enough to judge it.
+  const observed = data.tools.filter((t) => t.call1 && !t.call1.timeout && !t.call1.truncated).length;
   const inconclusive = data.tools.length - observed;
   const bySeverity = (s) => findings.filter((f) => f.severity === s).length;
-  if (inconclusive === data.tools.length && data.tools.length > 0) {
+  if (inconclusive > 0 && data.tools.length > 0) {
     return {
       ...base,
-      outcome: 'inconclusive',
-      message: `No tool responded within ${TOOL_TIMEOUT_MS}ms, so readiness could not be determined. This is not a pass.`,
+      // Partial results are still worth returning, but NEVER as a pass. The UI
+      // must not be able to read high:0 here and conclude readiness.
+      outcome: inconclusive === data.tools.length ? 'inconclusive' : 'partial',
+      message: `${inconclusive} of ${data.tools.length} tool(s) did not respond or returned an oversized payload, so readiness could not be determined for those. This is not a pass.`,
       toolsFound: data.tools.length,
       inconclusive,
       summary: { high: 0, medium: 0, info: 0, total: findings.length, inconclusive },
-      findings: findings.map((f) => ({ ...f, ...(RULES[f.rule] || {}) }))
+      findings: findings.map(mapFinding)
     };
   }
   return {
