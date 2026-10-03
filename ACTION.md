@@ -185,13 +185,19 @@ They exist because of those exact bugs.
 
 ## How the report is published
 
-`site/index.html` is committed to `main` by the scan workflow, and GitHub Pages
-serves it directly from `main/site` with Jekyll disabled via `site/.nojekyll`.
+The scan workflow copies `site/` to the root of a `gh-pages` branch and pushes
+it. Pages serves that branch with Jekyll disabled (`.nojekyll`).
 
-There is no separate deploy job, no OIDC token and no `id-token: write`
-permission. An earlier version used `actions/deploy-pages`, which requires an
-OIDC token and could not obtain one; serving the committed directory is simpler
-and has fewer moving parts.
+**There is no OIDC token and no `id-token: write` permission anywhere in this
+project.** Two earlier approaches failed and both were abandoned:
+
+- `actions/deploy-pages` requires an OIDC token, and could not obtain one
+  (`Unable to get ACTIONS_ID_TOKEN_REQUEST_URL`).
+- Serving from `main/site` needs the Pages folder set to `/site`, which the
+  settings UI did not offer.
+
+A branch deploy needs neither. The workflow's only write permission is
+`contents: write`.
 
 ## Requirements
 

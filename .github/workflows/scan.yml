@@ -71,3 +71,26 @@ jobs:
           git add scans/ site/ trend.md scan-results.json
           git diff --staged --quiet || git commit -m "scan: $(date -u +%Y-%m-%d)"
           git push || echo "push skipped (fork or protected branch)"
+
+      # Publish site/ to the root of a gh-pages branch. Branch deploy needs no
+      # OIDC token and no Pages folder selection, which is what deploy-pages
+      # required and what the folder dropdown would not offer.
+      - name: Publish to gh-pages
+        if: github.ref == 'refs/heads/main'
+        continue-on-error: true
+        run: |
+          rm -rf .publish
+          mkdir -p .publish
+          cp -r site/. .publish/
+          touch .publish/.nojekyll
+          cd .publish
+          git init -q
+          git checkout -q -b gh-pages
+          git add -A
+          git -c user.name="webmcp-readiness bot" \
+              -c user.email="bot@users.noreply.github.com" \
+              commit -q -m "publish: $(date -u +%Y-%m-%d)"
+          git push --force \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            gh-pages
+          echo "published $(find . -name '*.html' | wc -l) html file(s) to gh-pages"
