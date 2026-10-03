@@ -185,8 +185,9 @@ They exist because of those exact bugs.
 
 ## How the report is published
 
-The scan workflow copies `site/` to the root of a `gh-pages` branch and pushes
-it. Pages serves that branch with Jekyll disabled (`.nojekyll`).
+The scan workflow commits `site/` to `main` and then publishes it with
+`git subtree push --prefix site origin gh-pages`, which fast-forwards the branch
+so its root is the report. Pages serves that branch with Jekyll disabled (`.nojekyll`).
 
 **There is no OIDC token and no `id-token: write` permission anywhere in this
 project.** Two earlier approaches failed and both were abandoned:
