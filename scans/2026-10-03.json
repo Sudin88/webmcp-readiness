@@ -1,5 +1,5 @@
 {
-  "scannedAt": "2026-10-03T01:26:22.656Z",
+  "scannedAt": "2026-10-03T01:45:44.701Z",
   "durationSec": 397,
   "entryCount": 40,
   "registryToolTotal": 235,
@@ -68,7 +68,7 @@
         "resolve_destination",
         "search_stays"
       ],
-      "ms": 10088
+      "ms": 10056
     },
     {
       "entry": "b2a.bluepillow.com/webmcp/?s=wmcp-reg",
@@ -121,7 +121,7 @@
         "resolve_destination",
         "search_stays"
       ],
-      "ms": 9820
+      "ms": 10570
     },
     {
       "entry": "www.taxsaleatlas.com/tools/redemption-deadline-calculator",
@@ -165,7 +165,7 @@
         "get_sale_rules",
         "search_site"
       ],
-      "ms": 6635
+      "ms": 6639
     },
     {
       "entry": "www.taxsaleatlas.com/tools/tax-lien-yield-calculator",
@@ -209,7 +209,7 @@
         "get_sale_rules",
         "search_site"
       ],
-      "ms": 6564
+      "ms": 6551
     },
     {
       "entry": "www.taxsaleatlas.com/tools/rural-land-value-estimator",
@@ -246,7 +246,7 @@
         "estimate_land_value",
         "search_site"
       ],
-      "ms": 6473
+      "ms": 6609
     },
     {
       "entry": "www.taxsaleatlas.com/tools/quiet-title-cost-calculator",
@@ -278,7 +278,7 @@
         "estimate_title_cost",
         "search_site"
       ],
-      "ms": 6605
+      "ms": 6590
     },
     {
       "entry": "www.taxsaleatlas.com/tools/tax-deed-max-bid-calculator",
@@ -310,7 +310,7 @@
         "estimate_max_bid",
         "search_site"
       ],
-      "ms": 6684
+      "ms": 6525
     },
     {
       "entry": "www.taxsaleatlas.com/states",
@@ -347,7 +347,7 @@
         "compare_state_rules",
         "search_site"
       ],
-      "ms": 6683
+      "ms": 6672
     },
     {
       "entry": "www.taxsaleatlas.com/pennsylvania/beaver",
@@ -384,7 +384,7 @@
         "get_county_sale",
         "search_site"
       ],
-      "ms": 6681
+      "ms": 6647
     },
     {
       "entry": "www.taxsaleatlas.com/florida/counties",
@@ -416,7 +416,7 @@
         "filter_counties",
         "search_site"
       ],
-      "ms": 6573
+      "ms": 6654
     },
     {
       "entry": "www.taxsaleatlas.com",
@@ -441,7 +441,7 @@
       "toolNames": [
         "search_site"
       ],
-      "ms": 6643
+      "ms": 6755
     },
     {
       "entry": "www.haulhandbook.com/tools/ifta-tax-rates",
@@ -480,7 +480,7 @@
         "open_site_page",
         "search_site"
       ],
-      "ms": 6566
+      "ms": 6415
     },
     {
       "entry": "www.haulhandbook.com/tools/oversize-permit-cost-estimator",
@@ -519,7 +519,7 @@
         "open_site_page",
         "search_site"
       ],
-      "ms": 6485
+      "ms": 6415
     },
     {
       "entry": "www.haulhandbook.com",
@@ -551,7 +551,7 @@
         "open_site_page",
         "search_site"
       ],
-      "ms": 6680
+      "ms": 6747
     },
     {
       "entry": "settledestate.com/texas/executor-compensation",
@@ -567,7 +567,7 @@
       "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
       "findings": [],
       "toolNames": [],
-      "ms": 25181
+      "ms": 24657
     },
     {
       "entry": "settledestate.com",
@@ -583,7 +583,7 @@
       "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
       "findings": [],
       "toolNames": [],
-      "ms": 27356
+      "ms": 26947
     },
     {
       "entry": "www.proxy-compare.com",
@@ -760,7 +760,7 @@
         "search_site",
         "select_proxy_stack"
       ],
-      "ms": 8268
+      "ms": 7756
     },
     {
       "entry": "spectrumtours.cz",
@@ -776,7 +776,7 @@
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 22314
+      "ms": 22045
     },
     {
       "entry": "scvd.store",
@@ -892,7 +892,7 @@
         "read_store_guide",
         "verify_artifact"
       ],
-      "ms": 13424
+      "ms": 13005
     },
     {
       "entry": "corpuslaw.us",
@@ -973,7 +973,7 @@
         "law.list_coverage",
         "law.search"
       ],
-      "ms": 9125
+      "ms": 8695
     },
     {
       "entry": "simpletoolstack.com",
@@ -1003,7 +1003,7 @@
       "toolNames": [
         "discover_tools"
       ],
-      "ms": 6478
+      "ms": 6451
     },
     {
       "entry": "airportloungelist.com",
@@ -1019,7 +1019,7 @@
       "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
       "findings": [],
       "toolNames": [],
-      "ms": 27405
+      "ms": 27396
     },
     {
       "entry": "awardtravelfinder.com",
@@ -1058,7 +1058,7 @@
         "atf_get_program_award_rates",
         "atf_list_transfer_bonuses"
       ],
-      "ms": 7027
+      "ms": 7258
     },
     {
       "entry": "www.bestprice.gr",
@@ -1118,7 +1118,7 @@
         "open_search_results",
         "search_bestprice"
       ],
-      "ms": 10406
+      "ms": 11303
     },
     {
       "entry": "hopi.co.uk",
@@ -1150,7 +1150,7 @@
         "hopi_directory",
         "hopi_search"
       ],
-      "ms": 6683
+      "ms": 6590
     },
     {
       "entry": "stacktr.ee",
@@ -1203,7 +1203,7 @@
         "stacktree_view_docs",
         "stacktree_view_pricing"
       ],
-      "ms": 6956
+      "ms": 6791
     },
     {
       "entry": "agentk.stacktr.ee",
@@ -1219,7 +1219,7 @@
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 18615
+      "ms": 20072
     },
     {
       "entry": "webmcp-registry.dev",
@@ -1272,7 +1272,7 @@
         "search-domains",
         "search-tools"
       ],
-      "ms": 8462
+      "ms": 8484
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/order-tracking",
@@ -1302,7 +1302,7 @@
       "toolNames": [
         "get_order_status"
       ],
-      "ms": 6461
+      "ms": 6395
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/smart-home",
@@ -1332,7 +1332,7 @@
       "toolNames": [
         "rearrangeDOMComponents"
       ],
-      "ms": 6467
+      "ms": 6419
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/webmcp-maze",
@@ -1363,7 +1363,7 @@
       "toolNames": [
         "start_game"
       ],
-      "ms": 6509
+      "ms": 6510
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/analytics-dashboard",
@@ -1388,7 +1388,7 @@
       "toolNames": [
         "query"
       ],
-      "ms": 6429
+      "ms": 6405
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/sport-shop-angular",
@@ -1441,7 +1441,7 @@
         "search_product",
         "view_product"
       ],
-      "ms": 6794
+      "ms": 6703
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/hotel-chain",
@@ -1490,7 +1490,7 @@
         "search_location",
         "view_hotel"
       ],
-      "ms": 6472
+      "ms": 6505
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/real-estate-map",
@@ -1520,7 +1520,7 @@
       "toolNames": [
         "search_property_location"
       ],
-      "ms": 6683
+      "ms": 6624
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/ticket-booking",
@@ -1559,7 +1559,7 @@
         "select_showtime",
         "update_location"
       ],
-      "ms": 6954
+      "ms": 7011
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/coffee-shop",
@@ -1620,7 +1620,7 @@
         "reorder_product",
         "search_catalog"
       ],
-      "ms": 6685
+      "ms": 6652
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/french-bistro",
@@ -1651,7 +1651,7 @@
       "toolNames": [
         "book_table_le_petit_bistro"
       ],
-      "ms": 6582
+      "ms": 6544
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/react-flightsearch",
@@ -1676,7 +1676,7 @@
       "toolNames": [
         "searchFlights"
       ],
-      "ms": 6452
+      "ms": 6410
     },
     {
       "entry": "googlechromelabs.github.io/webmcp-tools/demos/pizza-maker",
@@ -1692,7 +1692,7 @@
       "error": null,
       "findings": [],
       "toolNames": [],
-      "ms": 17741
+      "ms": 17926
     }
   ]
 }
