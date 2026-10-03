@@ -122,6 +122,20 @@ produced **67 findings that were all wrong**:
 - **Comparing responses for equality is the wrong test** — a timestamp is not a broken
   contract. Responses are compared by *shape*.
 
+## Running it in a container
+
+The image builds and the service works end to end — verified by scanning a live
+site from inside it. But read [server/DEPLOY.md](server/DEPLOY.md) blocker 2
+first: **Chromium cannot start a sandboxed renderer in a default container on most
+modern hosts.** The service detects this and refuses to start rather than quietly
+running without isolation.
+
+```sh
+docker build -t webmcp-readiness .
+docker run -p 8080:8080 webmcp-readiness          # refuses, with an actionable error
+docker run -p 8080:8080 -e ALLOW_UNSANDBOXED=1 webmcp-readiness   # private instances only
+```
+
 ## Security posture
 
 The hosted service is the sharpest edge in this project, so the reasoning is written down:

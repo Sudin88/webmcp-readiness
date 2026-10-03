@@ -8,6 +8,17 @@
 # granting CAP_SYS_ADMIN. See server/DEPLOY.md blocker 2.
 FROM mcr.microsoft.com/playwright:v1.63.0-noble
 
+# Chromium's setuid sandbox needs its helper to be SUID root. The Playwright base
+# image ships chrome_sandbox mode 777, so `chromiumSandbox: true` cannot initialise
+# and every launch dies with "Target page, context or browser has been closed".
+# This must run as root, i.e. before the USER directive below.
+RUN set -eux; \
+    helper="$(find /ms-playwright -name chrome_sandbox -type f | head -1)"; \
+    test -n "$helper"; \
+    chown root:root "$helper"; \
+    chmod 4755 "$helper"; \
+    test "$(stat -c '%a' "$helper")" = "4755"
+
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -16,6 +27,7 @@ RUN npm ci --omit=dev --no-fund
 COPY lib ./lib
 COPY server ./server
 COPY web ./web
+COPY vendor ./vendor
 
 ENV NODE_ENV=production \
     PORT=8080

@@ -1,0 +1,85 @@
+name: test
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: audit
+        run: npm audit --audit-level=high
+
+      - name: action + safety tests (no browser needed)
+        run: npm run test:unit
+
+      - name: HTTP layer tests
+        env:
+          PORT: '8099'
+        run: node server/http.test.mjs
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Chromium sandbox is usable here
+        # The image built from this Dockerfile could not start Chromium on a host
+        # with apparmor_restrict_unprivileged_userns, while /healthz still returned
+        # 200. Assert the browser actually launches, so CI fails rather than the
+        # service silently 500ing every scan.
+        run: |
+          node -e "
+            import('playwright').then(async ({chromium}) => {
+              const b = await chromium.launch();
+              const p = await b.newPage();
+              await p.setContent('<h1>ok</h1>');
+              console.log('title:', await p.title());
+              await b.close();
+              console.log('sandbox OK');
+            }).catch((e) => { console.error('SANDBOX FAIL:', e.message); process.exit(1); });
+          "
+
+      - name: end-to-end scan against a site with known tools
+        run: |
+          node -e "
+            import('./server/scan.mjs').then(async ({scanUrl, closeBrowser}) => {
+              const r = await scanUrl('https://www.proxy-compare.com');
+              console.log('outcome:', r.outcome, 'tools:', r.toolsFound, 'high:', r.summary.high);
+              await closeBrowser();
+              if (r.outcome !== 'tools-observable' || r.toolsFound < 1) {
+                console.error('FAIL: expected observable tools');
+                process.exit(1);
+              }
+              console.log('e2e OK');
+            }).catch((e) => { console.error('FAIL:', e.message); process.exit(1); });
+          "

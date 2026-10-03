@@ -38,16 +38,92 @@ async function getBrowser() {
     // anonymous visitors, so the sandbox is the only boundary between their
     // JavaScript and this host. --disable-dev-shm-usage is a container concern
     // (small /dev/shm), not a security control, and is safe to keep.
+    // The sandbox is the whole boundary between an anonymous visitor's JavaScript
+    // and this host. It is also the part most likely to be unavailable: Chromium
+    // needs either unprivileged user namespaces, or a SUID helper on a filesystem
+    // that is not mounted nosuid. Many hosts disable the first (Ubuntu 23.10+ sets
+    // apparmor_restrict_unprivileged_userns=1) and most containers mount the second
+    // away, so the safe configuration frequently cannot start at all.
+    //
+    // Rather than silently downgrade to an unsandboxed renderer, refuse to serve,
+    // unless an operator has explicitly accepted the risk.
+    const wantSandbox = process.env.ALLOW_UNSANDBOXED !== '1';
     browserPromise = chromium.launch({
-      chromiumSandbox: true,
+      chromiumSandbox: wantSandbox,
       args: ['--disable-dev-shm-usage', '--renderer-process-limit=2']
-    }).catch((e) => { browserPromise = null; throw e; });   // do not cache a failure
+    })
+      .then(async (b) => {
+        // Prove the sandbox is actually on. Playwright's default for the bundled
+        // headless shell is UNSANDBOXED (--no-zygote-sandbox), verified inside the
+        // image, so trusting the default or the option alone is not enough. If the
+        // sandbox cannot be established, refuse to serve rather than quietly
+        // render anonymous pages with no isolation.
+        const v = b.version();
+        const ok = await assertSandboxed(b);
+        if (wantSandbox && !ok) {
+          // Requested the sandbox, did not get one: refuse. Trusting the option
+          // alone is not enough, because Playwright's default for the bundled
+          // headless shell is unsandboxed.
+          await b.close().catch(() => {});
+          throw new Error(
+            'Chromium launched WITHOUT its sandbox, so refusing to serve. This ' +
+            `service renders anonymous pages and the sandbox is the only boundary. ` +
+            `Playwright ${v}. Fix the host (see server/DEPLOY.md blocker 2), or set ` +
+            'ALLOW_UNSANDBOXED=1 to accept the risk explicitly.'
+          );
+        }
+        if (!wantSandbox) {
+          console.warn(
+            `[SECURITY] ALLOW_UNSANDBOXED=1 - Chromium ${v} is running WITHOUT its ` +
+            'sandbox (verification: ' + (ok ? 'sandbox active anyway' : 'confirmed off') +
+            '). Anyone who can submit a URL can attempt renderer RCE. Acceptable ' +
+            'only for a private instance with no untrusted input.'
+          );
+        }
+        return b;
+      })
+      .catch((e) => {
+        browserPromise = null;                                // do not cache a failure
+        // Chromium dies at launch when no sandbox is available, so we never reach
+        // the assertion below. Translate it, or the operator gets a bare
+        // "Target page, context or browser has been closed".
+        if (wantSandbox) {
+          throw new Error(
+            'Chromium could not start a sandboxed renderer. This host likely sets ' +
+            'apparmor_restrict_unprivileged_userns=1 (Ubuntu 23.10+) or mounts the ' +
+            'root filesystem nosuid, so neither the userns nor the setuid sandbox can ' +
+            'initialise. See server/DEPLOY.md blocker 2 for the options. ' +
+            'ALLOW_UNSANDBOXED=1 accepts the risk explicitly and is not safe for a ' +
+            `public endpoint. Underlying error: ${String(e?.message).split('\n')[0].slice(0, 120)}`
+          );
+        }
+        throw e;
+      });
     // Record that Chromium works here, for server/healthcheck.mjs to consume.
     browserPromise.then(() => {
       try { writeFileSync(process.env.BROWSER_STAMP || '/tmp/.browser-ok', String(Date.now())); } catch { /* read-only fs */ }
     }).catch(() => {});
   }
   return browserPromise;
+}
+
+/**
+ * Confirm the renderer sandbox is live by opening a fresh target under
+ * chrome://sandbox and reading what the browser reports about itself.
+ */
+async function assertSandboxed(browser) {
+  try {
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+    await page.goto('chrome://sandbox', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    const txt = await page.evaluate(() => document.body.innerText || '');
+    await ctx.close().catch(() => {});
+    // The sandbox status page says "No Sandbox" when the setuid/userns sandbox is
+    // unavailable. Treat anything else as sandboxed.
+    return !/no sandbox/i.test(txt);
+  } catch {
+    return false;   // could not confirm => assume unsafe
+  }
 }
 
 async function withSlot(fn) {

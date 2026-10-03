@@ -55,15 +55,51 @@ in a container whose only route is 80/443 outbound.
 **Do not launch without this.** The application guard is defence in depth, not
 the last line.
 
-### 2. Chromium's sandbox must stay on
+### 2. Chromium's sandbox — measured, and it does not work by default
 
-`server/scan.mjs` launches with `chromiumSandbox: true` and no `--no-sandbox`.
-That is deliberate: the renderer executes anonymous visitors' JavaScript, so the
-sandbox is the only boundary between them and the host. `--disable-dev-shm-usage`
-is a container concern and safe to keep.
+This is not theoretical. Verified inside the image on an Ubuntu 26.04 host:
 
-If the sandbox will not start on your platform, fix the platform (user
-namespaces, seccomp) — do not disable the sandbox.
+```
+FATAL:zygote_host_impl_linux.cc:129] No usable sandbox!
+```
+
+Two independent reasons, either of which alone is fatal:
+
+1. **The host sets `apparmor_restrict_unprivileged_userns = 1`** (Ubuntu 23.10+),
+   which disables Chromium's unprivileged-user-namespace sandbox.
+2. **Containers usually mount the root filesystem `nosuid`**, which silently
+   ignores the SUID bit on `chrome_sandbox`, so the older setuid sandbox cannot
+   initialise either. The Dockerfile sets that bit to 4755 and it still fails.
+
+**Playwright's default is the opposite of what it looks like.** Launching with no
+options gives `--no-zygote-sandbox` — an unsandboxed renderer. Verified by
+reading the real zygote command line inside the image.
+
+`server/scan.mjs` therefore:
+
+- requests `chromiumSandbox: true` explicitly;
+- **verifies** the sandbox is live by reading `chrome://sandbox`, because
+  trusting the option alone proved insufficient;
+- **refuses to serve** if it is not, so it can never quietly render anonymous
+  pages with no isolation.
+
+### Choosing how to fix it
+
+| Option | Isolation | Cost |
+|---|---|---|
+| Run the browser on a host that permits unprivileged userns | real sandbox | disable the apparmor restriction, or ship Chromium's AppArmor profile |
+| Ship Chromium's AppArmor profile for the browser | real sandbox | needs root on the host |
+| Run the browser **outside** a container (dedicated VM / bare metal) | real sandbox | an extra host |
+| `ALLOW_UNSANDBOXED=1` | **none** | acceptable only for a private instance with no untrusted input |
+
+**Recommendation: the third option.** A dedicated VM for the browser removes the
+container from the equation entirely, which is where both failure modes come from.
+The container adds no meaningful isolation here anyway — the sandbox is doing all
+of the work.
+
+`ALLOW_UNSANDBOXED=1` exists so the service is not a dead end for a private
+instance. It logs a `[SECURITY]` warning on every start and the healthcheck
+reports **degraded**, so the state is never silent.
 
 ### 3. Run as non-root, with limits
 

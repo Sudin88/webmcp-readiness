@@ -23,6 +23,11 @@ async function httpOk() {
 }
 
 async function browserOk() {
+  // An operator who accepted the risk should see that state, not a green light.
+  if (process.env.ALLOW_UNSANDBOXED === '1') {
+    console.error('[health] DEGRADED: ALLOW_UNSANDBOXED=1, browser has no sandbox');
+    return false;
+  }
   try {
     const { statSync } = await import('node:fs');
     if (Date.now() - statSync(STAMP).mtimeMs < STALE_MS) return true;   // recently proven
