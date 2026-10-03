@@ -5,8 +5,7 @@ on:
     - cron: '17 6 * * 1'
   workflow_dispatch:
 
-permissions:
-  contents: write
+permissions: {}
 
 concurrency:
   group: scan
@@ -15,10 +14,15 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          # No write token on disk while scan.mjs opens third-party pages in a
+          # browser. The two push steps re-authenticate explicitly.
+          persist-credentials: false
 
       - uses: actions/setup-node@v5
         with:
@@ -70,6 +74,7 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           git add scans/ site/ trend.md scan-results.json
           git diff --staged --quiet || git commit -m "scan: $(date -u +%Y-%m-%d)"
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push || echo "push skipped (fork or protected branch)"
 
       # Publish site/ as the root of a gh-pages branch. Uses `git subtree push`,
@@ -81,5 +86,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git subtree push --prefix site origin gh-pages
           echo "gh-pages now at $(git rev-parse --short origin/gh-pages)"

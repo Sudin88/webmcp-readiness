@@ -9,8 +9,18 @@
  * Three separate defences, because each alone is bypassable:
  *   1. scheme allowlist           - no file:, gopher:, data:
  *   2. DNS resolution, then check every resolved address
- *   3. re-check on every redirect hop, and disable transparent redirect
- *      following so nothing is validated twice and used once
+ *   3. a Playwright ctx.route interceptor covering every request the page makes,
+ *      which is what catches redirects, subresources and iframes. Verified
+ *      locally against a hostile page: fetch, <img> and a cross-origin iframe
+ *      navigation to 127.0.0.1 were all intercepted and aborted. Chromium's
+ *      routing sits in the network service, so data:, blob: and file: never
+ *      become network requests at all - those are left to Chromium's own origin
+ *      policy rather than checked here.
+ *
+ * KNOWN LIMIT, not closable in application code: this validates a hostname,
+ * then Chromium resolves it again independently and opens the socket. DNS
+ * rebinding therefore still works. The control that closes it is network egress
+ * filtering. See server/DEPLOY.md.
  *
  * Pure functions plus injected DNS, so it is testable without network access.
  */

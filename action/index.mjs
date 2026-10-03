@@ -184,7 +184,7 @@ for (const f of allFindings) {
 if (wantSummary && process.env.GITHUB_STEP_SUMMARY) {
   const rows = results.map((r) => {
     const h = r.findings.filter((f) => f.severity === 'high').length;
-    return `| ${r.url} | ${r.outcome} | ${r.tools.length} | ${h} | ${r.findings.filter((f) => f.severity === 'medium').length} | ${r.findings.filter((f) => f.severity === 'info').length} |`;
+    return `| ${cell(r.url)} | ${cell(r.outcome)} | ${r.tools.length} | ${h} | ${r.findings.filter((f) => f.severity === 'medium').length} | ${r.findings.filter((f) => f.severity === 'info').length} |`;
   });
   const md = [
     '## WebMCP readiness',

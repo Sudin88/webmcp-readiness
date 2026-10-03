@@ -61,6 +61,19 @@ It prints every finding it absorbs, one per line, so the diff is reviewable.
 registered, an agent that called it yesterday breaks today. That is a regression, not a fix,
 and it is not baselined away silently.
 
+## Try it without installing anything
+
+A hosted checker is included in this repo. Point it at any page that registers
+WebMCP tools and it will open the page, call every tool, and report what it finds:
+
+```sh
+npm run serve      # http://localhost:8080
+```
+
+It reads pages chosen by anonymous visitors in a real browser, so it runs behind
+the controls in [server/DEPLOY.md](server/DEPLOY.md) — egress filtering, a
+sandboxed non-root browser, and rate limits. **Do not deploy it without those.**
+
 ## Run it locally
 
 ```sh
@@ -108,6 +121,22 @@ produced **67 findings that were all wrong**:
   fresh browser contexts before it is believed.
 - **Comparing responses for equality is the wrong test** — a timestamp is not a broken
   contract. Responses are compared by *shape*.
+
+## Security posture
+
+The hosted service is the sharpest edge in this project, so the reasoning is written down:
+
+- **SSRF guard** — scheme allowlist, per-address DNS checks, and a Playwright request
+  interceptor. Verified against a hostile page: `fetch`, `<img>` and a cross-origin
+  iframe navigation to `127.0.0.1` were all blocked.
+- **Bounded work** — one browser context per request, capped at 50 tools, 5s per tool,
+  and a 20s Node-side budget. A tool that blocks the renderer thread cannot delay
+  release past that budget.
+- **No enumeration oracle** — blocked-request counts are aggregated; per-URL verdicts
+  are never returned, because the reasons distinguish internal hosts from nonexistent ones.
+- **Known limit** — DNS rebinding is *not* closable in application code, because Chromium
+  resolves independently of the check. Network egress filtering closes it. See
+  [server/DEPLOY.md](server/DEPLOY.md).
 
 ## What this does not do
 

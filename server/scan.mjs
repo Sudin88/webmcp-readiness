@@ -14,6 +14,14 @@ const MAX_CONCURRENT = 3;   // each context is a real browser; memory-bound
 const MAX_QUEUE = 10;       // beyond this, refuse rather than hold sockets open
 const MAX_TOOLS = 50;       // per page, so one site cannot monopolise a slot
 const MAX_VALUE_CHARS = 2000;
+// The in-page 5s tool timeout only fires for ASYNC stalls. A tool that blocks
+// the renderer thread synchronously (a busy loop) defeats it, because setTimeout
+// cannot run on a blocked event loop. Verified locally: a page with a 60s spin
+// ignored the 5s timeout entirely. The Node-side PROBE_BUDGET_MS is therefore
+// the control that actually bounds a scan, and it holds: a spinning renderer
+// still released its slot at exactly 20s, and ctx.close() returned in 0.0s.
+// Consequence to be aware of: a page exposing many genuinely slow tools may be
+// truncated and reported as 'probe budget exceeded' rather than mis-scored.
 const PROBE_BUDGET_MS = 20000;
 const TOOL_TIMEOUT_MS = 5000;
 
