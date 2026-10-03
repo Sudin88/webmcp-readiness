@@ -183,6 +183,16 @@ They exist because of those exact bugs.
 
 ---
 
+## How the report is published
+
+`site/index.html` is committed to `main` by the scan workflow, and GitHub Pages
+serves it directly from `main/site` with Jekyll disabled via `site/.nojekyll`.
+
+There is no separate deploy job, no OIDC token and no `id-token: write`
+permission. An earlier version used `actions/deploy-pages`, which requires an
+OIDC token and could not obtain one; serving the committed directory is simpler
+and has fewer moving parts.
+
 ## Requirements
 
 Runs on any Chromium via Playwright — **no Chrome 146 build needed**. The
