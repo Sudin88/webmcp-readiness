@@ -1,6 +1,7 @@
 node_modules/
+.git/
 scans/
-site/preview*.png
+site/
 webmcp-report.json
 webmcp-baseline.json
 .env

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebMCP Readiness Checker</title>
+<meta name="description" content="Check whether the AI-agent tools your website exposes actually work: output contracts, schema documentation, required-field enforcement, tool budget.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="wrap">
+  <h1>WebMCP Readiness Checker</h1>
+  <p class="sub">Enter a page that registers <a href="https://webmcp-registry.dev">WebMCP</a> tools. It will be opened in a
+  browser, every tool will be called, and each response will be checked against what the tool
+  claimed it returns.</p>
+</header>
+
+<main class="wrap">
+  <form id="f" autocomplete="off">
+    <label for="url">Page URL</label>
+    <div class="row">
+      <input id="url" name="url" type="url" required placeholder="https://your-app.example/checkout"
+             spellcheck="false" inputmode="url">
+      <button id="go" type="submit">Check</button>
+    </div>
+    <p class="hint">The page must be publicly reachable. Tools are called with arguments
+    synthesised from their own declared schema — see the caveat below.</p>
+  </form>
+
+  <div id="out" aria-live="polite"></div>
+
+  <section class="cards">
+    <a class="card" href="https://sudin88.github.io/webmcp-readiness/">
+      <strong>State of the Agent-Readable Web</strong>
+      <span>The weekly scan of every site in the public registry.</span>
+    </a>
+    <a class="card" href="/api/scan" >
+      <strong>Use it in CI</strong>
+      <span>A GitHub Action that fails the build when a tool contract breaks.</span>
+    </a>
+  </section>
+
+  <section class="notes">
+    <h2>What this checks</h2>
+    <ul>
+      <li><b>Output contract</b> — does the tool declare what it returns? Today
+        <code>outputSchema</code> does not exist in the spec, so this is reported, never enforced.</li>
+      <li><b>Schema documentation</b> — does every input field carry a description, so an
+        agent knows the expected format?</li>
+      <li><b>Required fields</b> — does a call that omits a field declared <code>required</code>
+        actually get rejected?</li>
+      <li><b>Schema-implementation agreement</b> — does a tool reject input that satisfies its own
+        declared schema?</li>
+      <li><b>Determinism</b> — do two identical calls return the same shape?</li>
+      <li><b>Tool budget</b> — how many tools does the page register at once?</li>
+    </ul>
+
+    <h2>Caveats</h2>
+    <ul>
+      <li><b>Your tools will be called.</b> Arguments are synthesised from each tool's declared
+        schema. Give any destructive field a safe <code>default</code> before pointing this at production.</li>
+      <li><b>Determinism is compared by shape</b>, with values discarded, so a timestamp is not
+        mistaken for a broken contract.</li>
+      <li><b>Read-only.</b> No authentication, no accounts, nothing stored. One browser per scan.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Findings come from rules derived from the WebMCP spec's own guidance.
+  Source and the full registry report are public.</p>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

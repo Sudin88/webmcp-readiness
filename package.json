@@ -5,15 +5,17 @@
   "main": "index.js",
   "scripts": {
     "scan": "node fetch-registry.mjs && node scan.mjs",
-    "test": "node action/test.mjs",
+    "test": "node action/test.mjs && node server/safety.test.mjs && node server/http.test.mjs",
     "spike": "node spike.mjs",
-    "action": "node action/index.mjs"
+    "action": "node action/index.mjs",
+    "test:unit": "node action/test.mjs && node server/safety.test.mjs",
+    "serve": "node server/index.mjs"
   },
   "keywords": [],
   "type": "module",
   "dependencies": {
-    "@mcp-b/global": "^5.1.0",
-    "playwright": "^1.63.0"
+    "@mcp-b/global": "5.1.0",
+    "playwright": "1.63.0"
   },
   "license": "MIT",
   "devDependencies": {
