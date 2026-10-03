@@ -377,6 +377,17 @@ function buildResult(href, status, data, blocked, started) {
     toolsFound: data.tools.length,
     tools: data.tools.map((t) => ({ name: t.name, description: t.description })),
     summary: { high: bySeverity('high'), medium: bySeverity('medium'), info: bySeverity('info'), total: findings.length },
-    findings: findings.map((f) => ({ ...f, ...(RULES[f.rule] || {}) }))
+    // RULES also has a `detail` field (the generic explanation). Spreading it
+    // after the finding overwrote the finding's own evidence - the actual error
+    // text - so the UI showed the same paragraph N times and never the reason.
+    findings: findings.map((f) => {
+      const meta = RULES[f.rule] || {};
+      return {
+        ...f,
+        title: meta.title || f.rule,
+        explanation: meta.why || '',
+        detail: f.detail ?? ''
+      };
+    })
   };
 }

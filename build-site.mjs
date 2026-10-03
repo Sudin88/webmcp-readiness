@@ -100,7 +100,7 @@ the tool claimed.</p>
 <tr><th>Rule</th><th>Severity</th><th>Findings</th><th>What it means</th></tr>
 ${Object.entries(data.byRule).map(([rule, n]) => {
   const m = RULES[rule] || { severity: 'medium', detail: '' };
-  return `<tr><td style="white-space:nowrap"><code>${esc(rule)}</code></td><td><span class="pill p-${m.severity === 'high' ? 'hi' : m.severity === 'info' ? 'info' : 'med'}">${esc(m.severity)}</span></td><td class="mono" style="white-space:nowrap">${n}</td><td class="muted">${esc(m.detail || '')}</td></tr>`;
+  return `<tr><td style="white-space:nowrap"><code>${esc(rule)}</code></td><td><span class="pill p-${m.severity === 'high' ? 'hi' : m.severity === 'info' ? 'info' : 'med'}">${esc(m.severity)}</span></td><td class="mono" style="white-space:nowrap">${n}</td><td class="muted">${esc(m.why || '')}</td></tr>`;
 }).join('\n')}
 </table>
 

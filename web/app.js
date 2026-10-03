@@ -8,6 +8,7 @@ const button = document.getElementById('go');
 const out = document.getElementById('out');
 
 const SEVERITY_ORDER = { high: 0, medium: 1, info: 2 };
+const stripSlash = (u) => String(u || '').replace(/\/+$/, '');
 
 function el(tag, className, text) {
   const n = document.createElement(tag);
@@ -27,7 +28,7 @@ const OUTCOME_TEXT = {
   unreachable: 'The page could not be loaded from here.'
 };
 
-function render(r) {
+function render(r, submittedUrl) {
   clear();
 
   if (r.blockedRequests && r.blockedRequests.count > 0) {
@@ -52,6 +53,11 @@ function render(r) {
   const head = el('div', 'box');
   head.appendChild(el('h2', null, `${r.toolsFound} tool(s) found`));
   head.appendChild(el('p', 'muted', `${r.url} · HTTP ${r.status ?? '?'} · ${(r.durationMs / 1000).toFixed(1)}s`));
+  // A redirect means we checked a different page than the one submitted. Say so,
+  // otherwise the URL above looks like it was ignored.
+  if (submittedUrl && stripSlash(r.url) !== stripSlash(submittedUrl)) {
+    head.appendChild(el('p', 'muted', `Redirected from the submitted ${submittedUrl}`));
+  }
 
   const counts = el('div', 'counts');
   for (const sev of ['high', 'medium', 'info']) {
@@ -71,6 +77,9 @@ function render(r) {
     return;
   }
 
+  // The same explanation repeats verbatim across every instance of a rule. Show it
+  // once, under the first finding of that rule.
+  const explained = new Set();
   for (const f of findings) {
     const card = el('div', `finding ${f.severity}`);
     const t = el('div', 't');
@@ -79,9 +88,10 @@ function render(r) {
     t.appendChild(el('span', null, f.title || f.rule));
     card.appendChild(t);
     if (f.detail) card.appendChild(el('div', 'd', f.detail));
-    if (f.rule === 'output-schema-declared') {
-      card.appendChild(el('div', 'd muted',
-        'Reported, never enforced: outputSchema does not exist in the spec yet.'));
+    // The explanation is identical for every instance of a rule, so show it once.
+    if (!explained.has(f.rule)) {
+      explained.add(f.rule);
+      if (f.explanation) card.appendChild(el('div', 'd muted', f.explanation));
     }
     out.appendChild(card);
   }
@@ -144,7 +154,7 @@ form.addEventListener('submit', async (ev) => {
       fail(`The scan failed (HTTP ${res.status}).`, data.error || '');
       return;
     }
-    render(data);
+    render(data, url);
   } catch (e) {
     fail('Network error while checking.', String(e.message || '').slice(0, 120));
   } finally {
