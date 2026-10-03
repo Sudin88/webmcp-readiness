@@ -149,5 +149,56 @@ ok(baselineUpdateWarning(d2).some((w) => /regression/i.test(w)),
   'warns when tools vanished');
 ok(findingKey({ url: 'u', tool: 't', rule: 'r' }) === 'u|t|r', 'finding key is stable');
 
+console.log('\nunit: a finding\'s own evidence must survive the response mapping');
+// Regression: RULES has a `why` (the generic explanation) and grade() emits a
+// `detail` (that finding's own evidence). A spread of RULES after the finding
+// silently overwrote the evidence, so every rendered report showed the same
+// paragraph and none of the actual error text - "Invalid providerSlugs" and
+// friends - which are the only actionable strings in the report.
+{
+  const { RULES } = await import('../lib/checks.mjs');
+  const rule = 'tolerates-valid-args';
+  const meta = RULES[rule];
+  ok(typeof meta.why === 'string' && meta.why.length > 20, `${rule} has an explanation in .why`);
+  ok(!('detail' in meta), `${rule} no longer uses .detail (the colliding name)`);
+
+  const finding = {
+    rule,
+    tool: 'read_site_guide',
+    severity: 'high',
+    detail: 'Invalid path; see the tool input schema.'
+  };
+  // The mapping the server performs, mirroring server/scan.mjs.
+  const mapped = {
+    ...finding,
+    title: meta.title || finding.rule,
+    explanation: meta.why || '',
+    detail: finding.detail ?? ''
+  };
+  ok(mapped.detail === 'Invalid path; see the tool input schema.',
+     'the finding keeps its own evidence after mapping');
+  ok(mapped.explanation !== mapped.detail,
+     'explanation and evidence are separate fields, so neither overwrites the other');
+  ok(mapped.title === meta.title, 'the human title survives');
+}
+
+// Every rule must use the non-colliding shape, or a future rule reintroduces
+// the bug. Checked as a set so one bad rule fails the suite.
+{
+  const { RULES } = await import('../lib/checks.mjs');
+  const offenders = Object.entries(RULES)
+    .filter(([, m]) => 'detail' in m)
+    .map(([k]) => k);
+  ok(offenders.length === 0, `no rule uses the colliding "detail" key${offenders.length ? ': ' + offenders.join(', ') : ''}`);
+
+  // And the severity vocabulary stays closed, so the UI's colour mapping is safe.
+  const sevs = new Set(Object.values(RULES).map((m) => m.severity));
+  const bad = [...sevs].filter((x) => !['high', 'medium', 'info'].includes(x));
+  ok(bad.length === 0, `severities are within {high,medium,info}${bad.length ? ': ' + bad.join(', ') : ''}`);
+
+  const noTitle = Object.entries(RULES).filter(([, m]) => !m.title || !m.why).map(([k]) => k);
+  ok(noTitle.length === 0, `every rule has a title and an explanation${noTitle.length ? ': ' + noTitle.join(', ') : ''}`);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
