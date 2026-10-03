@@ -1,0 +1,44 @@
+/**
+ * Container healthcheck that actually exercises Chromium.
+ *
+ * `/healthz` answers as long as the HTTP layer is up, which stays true when the
+ * browser cannot start at all - the exact failure seen on a host with
+ * kernel.apparmor_restrict_unprivileged_userns=1, where every scan returned 500
+ * while the service reported healthy.
+ *
+ * Strategy: cheap HTTP probe first, then confirm a recent successful browser
+ * launch recorded by server/scan.mjs. If no browser has run recently (fresh
+ * container, idle service) fall back to launching one now, so a broken sandbox is
+ * caught at startup rather than on the first user's scan.
+ */
+const PORT = process.env.PORT || 8080;
+const STAMP = process.env.BROWSER_STAMP || '/tmp/.browser-ok';
+const STALE_MS = Number(process.env.BROWSER_STAMP_TTL_MS || 300000); // 5 min
+
+async function httpOk() {
+  try {
+    const r = await fetch(`http://127.0.0.1:${PORT}/healthz`, { signal: AbortSignal.timeout(3000) });
+    return r.ok;
+  } catch { return false; }
+}
+
+async function browserOk() {
+  try {
+    const { statSync } = await import('node:fs');
+    if (Date.now() - statSync(STAMP).mtimeMs < STALE_MS) return true;   // recently proven
+  } catch { /* no stamp yet */ }
+  try {
+    const { chromium } = await import('playwright');
+    const b = await chromium.launch();
+    await b.close();
+    const { writeFileSync } = await import('node:fs');
+    writeFileSync(STAMP, String(Date.now()));
+    return true;
+  } catch (e) {
+    console.error(`[health] chromium unavailable: ${String(e?.message).split('\n')[0].slice(0, 160)}`);
+    return false;
+  }
+}
+
+const ok = (await httpOk()) && (await browserOk());
+process.exit(ok ? 0 : 1);

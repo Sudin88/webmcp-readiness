@@ -16,6 +16,7 @@ process.env.RATE_BURST = '500';
 process.env.RATE_FLEET_BURST = '500';
 process.env.RATE_FLEET_REFILL = '100';
 process.env.RATE_INFLIGHT = '4';
+process.env.EXPOSE_STATS = '1';
 
 const { default: _ignored } = { default: null };
 await import('./index.mjs');   // starts listening on process.env.PORT
@@ -148,6 +149,43 @@ console.log('\nrate limiter (unit)');
   let fleetErr = null;
   try { fl.acquire('3.3.3.3'); } catch (e) { fleetErr = e; }
   ok(fleetErr?.status === 503, 'fleet-wide ceiling returns 503');
+}
+
+console.log('\nregression: a malformed Host header must not kill the process');
+{
+  // N1 CRITICAL: new URL() used to run outside the try, so Host: "[" threw out of
+  // an async listener = unhandled rejection = process exit 1. One request, no auth.
+  for (const host of ['[', '%', 'a b', '[bad', '[evil.example]', 'x:99999999999999999999']) {
+    try {
+      const r = await fetch(`${base}/healthz`, { headers: { host } });
+      ok(r.status === 400 || r.status === 200, `Host "${host}" handled (${r.status})`);
+    } catch { fail++; console.log(`  FAIL  Host "${host}" killed the connection`); }
+  }
+  const alive = await fetch(`${base}/healthz`);
+  ok(alive.ok, 'server still alive after malformed Host headers');
+}
+
+console.log('\nregression: refusal is opaque (N5 internal DNS enumerator)');
+{
+  const r1 = await post({ url: 'http://localhost/' });              // resolves to private
+  const r2 = await post({ url: 'http://does-not-exist-zzz.invalid/' }); // does not resolve
+  const b1 = await r1.text();
+  const b2 = await r2.text();
+  ok(b1 === b2, `private-resolving and non-resolving hosts are indistinguishable\n         got1=${b1}\n         got2=${b2}`);
+  ok(!/private address|could not be resolved|port not allowed|scheme not allowed/.test(b1),
+     'no reason enum leaks (that was an internal DNS enumerator)');
+}
+
+console.log('\nregression: x-forwarded-for is not trusted by default (N4)');
+{
+  const codes = [];
+  for (let i = 0; i < 4; i++) {
+    const r = await post({ url: 'http://127.0.0.1/' }, { 'x-forwarded-for': `10.0.0.${i}` });
+    codes.push(r.status);
+  }
+  ok(codes.every((c) => c === 400), `forged XFF cannot change the verdict (${codes.join(',')})`);
+  const stats = await (await fetch(`${base}/__stats`)).json();
+  ok(stats.trackedIps <= 2, `forged XFF did not create new limiter entries (trackedIps=${stats.trackedIps})`);
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

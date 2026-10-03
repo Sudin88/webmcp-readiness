@@ -6,6 +6,7 @@
  * would make the three disagree about the same site, which is exactly the
  * class of bug this project exists to catch.
  */
+import { writeFileSync } from 'node:fs';
 import { chromium, POLYFILL } from '../lib/probe.mjs';
 import { grade, RULES } from '../lib/checks.mjs';
 import { resolveAndValidate, BlockedTarget } from './safety.mjs';
@@ -24,6 +25,7 @@ const MAX_VALUE_CHARS = 2000;
 // truncated and reported as 'probe budget exceeded' rather than mis-scored.
 const PROBE_BUDGET_MS = 20000;
 const TOOL_TIMEOUT_MS = 5000;
+const NAV_BUDGET_MS = 25000;   // a slow page must not hold a slot for the full 45s nav timeout
 
 let browserPromise = null;
 let active = 0;
@@ -40,6 +42,10 @@ async function getBrowser() {
       chromiumSandbox: true,
       args: ['--disable-dev-shm-usage', '--renderer-process-limit=2']
     }).catch((e) => { browserPromise = null; throw e; });   // do not cache a failure
+    // Record that Chromium works here, for server/healthcheck.mjs to consume.
+    browserPromise.then(() => {
+      try { writeFileSync(process.env.BROWSER_STAMP || '/tmp/.browser-ok', String(Date.now())); } catch { /* read-only fs */ }
+    }).catch(() => {});
   }
   return browserPromise;
 }
@@ -83,7 +89,10 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
     const ctx = await browser.newContext({
       userAgent:
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 webmcp-readiness-checker/0.1',
-      ignoreHTTPSErrors: false
+      ignoreHTTPSErrors: false,
+      // A service worker makes requests from its own context, outside the route
+      // handler. Blocking it removes that bypass entirely.
+      serviceWorkers: 'block'
     });
     // Without this, document.modelContext is undefined on every page and the
     // checker reports "not ready" for sites that are perfectly fine.
@@ -118,12 +127,41 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       }
     });
 
+    // WebSocket upgrades never appear as route events. Close them outright.
+    if (typeof ctx.routeWebSocket === 'function') {
+      await ctx.routeWebSocket('**/*', (ws) => { try { ws.close(); } catch { /* already closed */ } });
+    }
+
+    // Redirect hops are NOT route events either - Playwright only sees the
+    // original request. So every URL the page actually commits to is re-validated
+    // here. This is a second layer, not a replacement for the route guard.
+    const committed = [];
+    const auditCommit = async (u) => {
+      committed.push(u);
+      try { await resolveAndValidate(u); }
+      catch (e) {
+        if (e instanceof BlockedTarget) {
+          redirectBlocks.count++;
+          redirectBlocks.reasons[e.reason] = (redirectBlocks.reasons[e.reason] || 0) + 1;
+        }
+      }
+    };
+    const redirectBlocks = { count: 0, reasons: {} };
+
     // probePage opens its own context, so for the hosted path we do the work
     // here where the route guard is installed.
     let page;
     try {
       page = await ctx.newPage();
-      const resp = await page.goto(url.href, { waitUntil: 'load', timeout: timeoutMs });
+      page.on('framenavigated', (f) => { if (f === page.mainFrame()) auditCommit(f.url()); });
+
+      const resp = await Promise.race([
+        page.goto(url.href, { waitUntil: 'domcontentloaded', timeout: timeoutMs }),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('navigation budget exceeded')), NAV_BUDGET_MS))
+      ]).catch((e) => { throw e; });
+      // Re-validate where we actually ended up: an open redirect lands here and
+      // is not a route event, so the interceptor never saw it.
+      await auditCommit(page.url());
       await page.waitForTimeout(6000);
 
       // page.evaluate has NO timeout parameter in Playwright, and it can be
@@ -134,7 +172,11 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
         evaluateInPage(page),
         new Promise((_, rej) => setTimeout(() => rej(new Error('probe budget exceeded')), PROBE_BUDGET_MS))
       ]).catch((e) => ({ ok: false, error: String(e.message).slice(0, 120) }));
-      return buildResult(url.href, resp?.status() ?? null, data, blocked, started);
+      blocked.count += redirectBlocks.count;
+      for (const [k, v] of Object.entries(redirectBlocks.reasons)) {
+        blocked.reasons[k] = (blocked.reasons[k] || 0) + v;
+      }
+      return buildResult(page.url(), resp?.status() ?? null, data, blocked, started);
     } catch (err) {
       // Never return err.message raw: Playwright call logs carry absolute paths
       // and dependency versions. First line only, capped.

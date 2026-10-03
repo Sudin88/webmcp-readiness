@@ -87,6 +87,42 @@ Launch with `--init` (reaps orphaned Chromium processes), a CPU cap, and a
 memory cap. Chromium contexts are memory-hungry; `MAX_CONCURRENT = 3` is a guess
 until measured — see the load test below.
 
+## Measured capacity
+
+Benchmarked locally at MAX_CONCURRENT=3:
+
+| Target | Cost | Ceiling |
+|---|---|---|
+| Page with no WebMCP | ~6.2 s | ~1,510 scans/hour |
+| Page with 3 fast tools | ~6.5 s | ~1,430 scans/hour |
+| Page with 12 slow tools | ~24 s | ~446 scans/hour |
+
+Throughput saturates at concurrency 4 (0.425 rps) and degrades linearly beyond it,
+refusing rather than queueing without bound. A 64-request burst produced 13
+admitted + 51 refused in tens of milliseconds, `/healthz` stayed at 0.4 ms, and
+the next request succeeded in 6.4 s: full recovery, no degradation residue.
+
+**97% of a cheap scan is the fixed 6 s settle**, not navigation (~0.2 s) or tool
+calls. Cutting `SETTLE` to 3 s would roughly double capacity; the existing
+`confirmNoTools` retry is the safety net for sites that register late. Left at 6 s
+because a false "no tools" verdict is worse than a slow one.
+
+Memory: ~132 MB per context, ~890 MB at 3 concurrent. No leak observed over 250
+scans including hostile pages; RSS stayed flat at 587-623 MB.
+
+## Sandbox prerequisite (verified failure)
+
+On a host with `kernel.apparmor_restrict_unprivileged_userns=1`, Chromium in this
+image fails to start at all:
+
+```
+FATAL:zygote_host_impl_linux.cc:129] No usable sandbox!
+```
+
+Every scan then returns 500 while `/healthz` still returns 200. The healthcheck now
+launches Chromium for exactly this reason. Before launch, verify a real scan
+succeeds inside the image.
+
 ## Tuning
 
 | Env var | Default | Meaning |
@@ -98,7 +134,10 @@ until measured — see the load test below.
 | `RATE_DAILY` | `50` | per-IP daily cap |
 | `RATE_INFLIGHT` | `1` | per-IP concurrent scans |
 | `RATE_FLEET_BURST` | `20` | burst across all clients |
-| `RATE_FLEET_REFILL` | `0.167` | fleet tokens per second (1 per 6s) |
+| `RATE_FLEET_REFILL` | `0.25` | fleet tokens per second (1 per 4s). Raised from 1/6s, which capped throughput at 600/h against a measured mixed ceiling of ~990/h |
+| `TRUST_PROXY` | unset | set to `1` ONLY behind exactly one proxy that overwrites `x-forwarded-for`. Honouring it by default lets a client choose its own identity and opt out of every per-IP limit |
+| `MAX_CONCURRENT` | `3` | env-tunable; ~132 MB per context |
+| `EXPOSE_STATS` | unset | set to `1` to expose `/__stats` (reconnaissance aid; leave off) |
 
 **Capacity math.** 3 slots × 45s worst case ≈ **240 scans/hour** is the ceiling.
 The fleet ceiling is set well below that because that is what actually bounds

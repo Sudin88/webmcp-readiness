@@ -108,7 +108,16 @@ function readBody(req, limit = MAX_BODY_BYTES) {
 }
 
 const server = createServer(async (req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  let url;
+  try {
+    // Must be inside the try. Host headers like "[" or "%" make new URL() throw,
+    // and an async listener that throws is an unhandled rejection - which killed
+    // the process outright, before any routing or rate limiting.
+    url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  } catch {
+    try { send(res, 400, { error: 'bad_request' }); } catch { /* socket already gone */ }
+    return;
+  }
 
   try {
     // ---------------------------------------------------------------- UI
@@ -131,7 +140,11 @@ const server = createServer(async (req, res) => {
         return res.end(req.method === 'HEAD' ? undefined : body);
       }
       if (url.pathname === '/healthz') return send(res, 200, { ok: true });
-      if (url.pathname === '/__stats') return send(res, 200, limiter.stats());
+      // Reconnaissance aid for tuning the limiter map cap. Off unless enabled.
+      if (url.pathname === '/__stats') {
+        if (process.env.EXPOSE_STATS !== '1') return send(res, 404, { error: 'not_found' });
+        return send(res, 200, limiter.stats());
+      }
       if (url.pathname === '/api/scan') return send(res, 405, { error: 'use_post' }, { allow: 'POST' });
       return send(res, 404, { error: 'not_found' });
     }
@@ -155,7 +168,10 @@ const server = createServer(async (req, res) => {
         // and the guard would be unenforceable for anyone being throttled.
         try { await resolveAndValidate(body?.url); }
         catch (e) {
-          if (e instanceof BlockedTarget) return send(res, 400, { error: e.reason });
+          if (e instanceof BlockedTarget) {
+            console.warn(`[scan] refused: ${e.reason} from ${ip}`);
+            return send(res, 400, { error: 'url_refused' });
+          }
           throw e;
         }
 
@@ -170,12 +186,18 @@ const server = createServer(async (req, res) => {
           const result = await scanUrl(body?.url, { timeoutMs: SCAN_TIMEOUT_MS });
           return send(res, 200, result, { 'cache-control': 'no-store' });
         } catch (e) {
-          if (e instanceof BlockedTarget) {
-            // reason is a fixed enum; message carries detail and stays server-side
-            return send(res, 400, { error: e.reason }, { 'cache-control': 'no-store' });
-          }
+          // Load shedding must be checked BEFORE the BlockedTarget branch, or a
+          // busy server reports 400 and clients never retry.
           if (e.status === 503) {
-            return send(res, 503, { error: e.message }, { 'retry-after': String(e.retryAfter || 30) });
+            return send(res, 503, { error: 'server busy, retry shortly' }, { 'retry-after': String(e.retryAfter || 30) });
+          }
+          if (e instanceof BlockedTarget) {
+            // N5: an opaque code, never the reason. The reasons are a fixed enum
+            // but they are DISTINGUISHABLE, and "resolves to a private address"
+            // vs "could not be resolved" turns this endpoint into an internal DNS
+            // enumerator. The detail is logged server-side instead.
+            console.warn(`[scan] refused: ${e.reason} from ${ip}`);
+            return send(res, 400, { error: 'url_refused' }, { 'cache-control': 'no-store' });
           }
           console.error('[scan] unexpected', e?.stack?.split('\n')[0] || e?.message);
           return send(res, 500, { error: 'scan_failed' });
@@ -184,7 +206,7 @@ const server = createServer(async (req, res) => {
         }
       } catch (e) {
         if (e.status === 413) return send(res, 413, { error: 'body_too_large' }, { connection: 'close' });
-        if (e instanceof BlockedTarget) return send(res, 400, { error: e.reason });
+        if (e instanceof BlockedTarget) return send(res, 400, { error: 'url_refused' });
         console.error('[api] unexpected', e?.stack?.split('\n')[0] || e?.message);
         return send(res, 500, { error: 'scan_failed' });
       }
@@ -197,10 +219,17 @@ const server = createServer(async (req, res) => {
   }
 });
 
+// Log and keep serving. A single request must never be able to exit the process.
+process.on('uncaughtException', (e) => console.error('[uncaught]', String(e?.message).slice(0, 200)));
+process.on('unhandledRejection', (e) => console.error('[unhandled]', String(e?.message || e).slice(0, 200)));
+
 // Do not let a slow client hold a socket open indefinitely.
 server.headersTimeout = 10000;
 server.requestTimeout = 60000;
 server.keepAliveTimeout = 5000;
+// Bound sockets so an attacker cannot hold one per request open. Without this a
+// chunked request with an unfinished body pins a socket until requestTimeout.
+server.maxConnections = 200;
 
 server.listen(PORT, () => {
   console.log(`webmcp-readiness checker on :${PORT}`);

@@ -1,5 +1,11 @@
 # Chromium needs its own user and a larger /dev/shm; the Playwright base image
-# provides both. Sandbox stays ON - the renderer executes anonymous pages.
+# provides both. The renderer sandbox stays ON - it executes anonymous pages.
+#
+# SANDBOX PREREQUISITE, verified broken in this image on a host with
+# kernel.apparmor_restrict_unprivileged_userns=1: Chromium fails to start with
+# "No usable sandbox!" and every scan returns 500. Fix by matching the base image
+# to the host kernel, or by shipping the AppArmor profile Chromium needs and
+# granting CAP_SYS_ADMIN. See server/DEPLOY.md blocker 2.
 FROM mcr.microsoft.com/playwright:v1.63.0-noble
 
 WORKDIR /app
@@ -17,7 +23,11 @@ ENV NODE_ENV=production \
 USER pwuser
 EXPOSE 8080
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
-  CMD node -e "fetch('http://127.0.0.1:'+(process.env.PORT||8080)+'/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+# /healthz never launches Chromium, so it reported healthy on an image where every
+# scan 500'd. This check must actually start the browser, which is the component
+# most likely to break from a base-image or host change. Browser checks go to a
+# marker file so the healthcheck itself stays a cheap HTTP call.
+HEALTHCHECK --interval=60s --timeout=40s --start-period=45s --retries=3 \
+  CMD node server/healthcheck.mjs
 
 CMD ["node", "server/index.mjs"]
