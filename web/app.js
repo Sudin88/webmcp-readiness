@@ -42,6 +42,14 @@ function render(r, submittedUrl) {
   }
 
   if (r.outcome !== 'tools-observable') {
+    if (r.outcome === 'inconclusive') {
+      const b2 = el('div', 'box');
+      b2.appendChild(el('p', 'verdict warn', 'Readiness unknown'));
+      b2.appendChild(el('h2', null, `${r.toolsFound || 0} tool(s) found, none responded`));
+      b2.appendChild(el('p', 'muted', OUTCOME_TEXT.inconclusive));
+      out.appendChild(b2);
+      return;
+    }
     const box = el('div', 'box');
     box.appendChild(el('h2', null, 'Nothing to grade'));
     box.appendChild(el('p', null, OUTCOME_TEXT[r.outcome] || r.message || 'No result.'));
@@ -51,6 +59,15 @@ function render(r, submittedUrl) {
   }
 
   const head = el('div', 'box');
+  const blockers = r.summary.high || 0;
+  const nits = r.summary.medium || 0;
+  // A verdict that says "ready" while known defects exist is not a verdict.
+  const verdict = blockers
+    ? `${blockers} finding${blockers > 1 ? 's' : ''} will break AI agents`
+    : nits
+      ? `Usable by AI agents, with ${nits} thing${nits > 1 ? 's' : ''} worth fixing`
+      : 'Ready for AI agents';
+  head.appendChild(el('p', 'verdict ' + (blockers ? 'fail' : nits ? 'warn' : 'pass'), verdict));
   head.appendChild(el('h2', null, `${r.toolsFound} tool(s) found`));
   head.appendChild(el('p', 'muted', `${r.url} · HTTP ${r.status ?? '?'} · ${(r.durationMs / 1000).toFixed(1)}s`));
   // A redirect means we checked a different page than the one submitted. Say so,
@@ -61,8 +78,10 @@ function render(r, submittedUrl) {
 
   const counts = el('div', 'counts');
   for (const sev of ['high', 'medium', 'info']) {
+    const n = r.summary[sev] ?? 0;
     const c = el('span', `count ${sev}`);
-    c.appendChild(el('b', null, r.summary[sev] ?? 0));
+    c.dataset.n = String(n);
+    c.appendChild(el('b', null, n));
     c.appendChild(document.createTextNode(' ' + sev));
     counts.appendChild(c);
   }
@@ -73,26 +92,48 @@ function render(r, submittedUrl) {
     (a, b) => (SEVERITY_ORDER[a.severity] ?? 3) - (SEVERITY_ORDER[b.severity] ?? 3)
   );
   if (!findings.length) {
-    out.appendChild(el('p', 'muted', 'No findings.'));
+    out.appendChild(el('p', 'muted', `All ${r.toolsFound} tool(s) were called and answered both probes.`));
     return;
   }
 
-  // The same explanation repeats verbatim across every instance of a rule. Show it
-  // once, under the first finding of that rule.
-  const explained = new Set();
+  // Roll up by rule. The spec gap is one identical row per tool, which was filling
+  // two thirds of the report with a fact that is not actionable yet.
+  // Group by rule AND evidence. Rolling up by rule alone destroyed the product:
+  // six HIGH findings each carry a different error string, and collapsing them
+  // left the user with no actionable text at all. Identical evidence (the spec
+  // gap, 16 identical rows) still collapses correctly.
+  const byKey = new Map();
   for (const f of findings) {
-    const card = el('div', `finding ${f.severity}`);
+    const k = `${f.rule}\u0000${f.detail || ''}`;
+    if (!byKey.has(k)) byKey.set(k, []);
+    byKey.get(k).push(f);
+  }
+
+  for (const [, group] of byKey) {
+    const first = group[0];
+    const card = el('div', `finding ${first.severity}`);
     const t = el('div', 't');
-    if (f.tool) t.appendChild(el('code', 'tool', f.tool));
-    t.appendChild(document.createTextNode(' '));
-    t.appendChild(el('span', null, f.title || f.rule));
-    card.appendChild(t);
-    if (f.detail) card.appendChild(el('div', 'd', f.detail));
-    // The explanation is identical for every instance of a rule, so show it once.
-    if (!explained.has(f.rule)) {
-      explained.add(f.rule);
-      if (f.explanation) card.appendChild(el('div', 'd muted', f.explanation));
+    // Severity as text, not just a border colour: a 3px hue is invisible to a
+    // screen reader and to colour-blind users, who need to know which of 24
+    // findings are the 6 blockers.
+    t.appendChild(el('span', 'sev ' + first.severity, String(first.severity).toUpperCase()));
+    if (group.length === 1) {
+      if (first.tool) t.appendChild(el('code', 'tool', first.tool));
+      t.appendChild(document.createTextNode(' '));
+      t.appendChild(el('span', null, first.title || first.rule));
+    } else {
+      t.appendChild(el('span', null, `${first.title || first.rule} ×${group.length}`));
     }
+    card.appendChild(t);
+
+    if (group.length === 1) {
+      if (first.detail) card.appendChild(el('div', 'd', first.detail));
+    } else {
+      const names = el('div', 'd');
+      names.appendChild(el('span', null, group.map((f) => f.tool).filter(Boolean).join(', ')));
+      card.appendChild(names);
+    }
+    if (first.explanation) card.appendChild(el('div', 'd muted', first.explanation));
     out.appendChild(card);
   }
 

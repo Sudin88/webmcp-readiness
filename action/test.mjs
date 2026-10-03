@@ -200,5 +200,58 @@ console.log('\nunit: a finding\'s own evidence must survive the response mapping
   ok(noTitle.length === 0, `every rule has a title and an explanation${noTitle.length ? ': ' + noTitle.join(', ') : ''}`);
 }
 
+console.log('\nparity: CLI and hosted paths must reach identical verdicts');
+// The whole project rests on one rule engine judging every surface. It broke
+// before: the two probes gated the partial call on `missing > 0` and
+// `required.length > 1`, so the hosted checker never reported
+// required-fields-enforced for a single-required-field tool. Then it broke
+// again when `toolTimeoutMs: 0` was read as "uncapped" when setTimeout(0) is a
+// macrotask that fires immediately. Both produced a DIFFERENT VERDICT FOR THE
+// SAME SITE, silently. These tests assert the shared probe behaves identically
+// under both configurations.
+{
+  const { buildProbeSource } = await import('../lib/probe.mjs');
+  const { grade } = await import('../lib/checks.mjs');
+
+  // The exact tool shape that `required.length > 1` silently skipped: one required
+  // field, and the tool wrongly accepts a call that omits it.
+  const singleRequired = {
+    name: 'single_required',
+    description: 'One required field, accepts an incomplete call.',
+    inputSchema: { type: 'object', properties: { email: { type: 'string' } }, required: ['email'] }
+  };
+  // Grade a hand-built probe result, which is what both entry points end up with.
+  const probeResult = (call1, partialCall, missingRequired) => ([{
+    name: 'single_required', description: 'x'.repeat(30), outputSchema: null,
+    call1, call2: call1, partialCall, missingRequired
+  }]);
+
+  const okCall = { ok: true, value: '{"content":[]}', timeout: false };
+  const accepted = { ok: true, value: 'accepted anyway', timeout: false };
+  const timedOut = { ok: false, value: 'no response within 5000ms', timeout: true };
+  const realThrow = { ok: false, value: 'TypeError: bad arg', timeout: false };
+
+  const r = (t) => grade(t[0], 1).map((f) => f.rule).sort().join(',');
+
+  ok(r(probeResult(accepted, accepted, 1)).includes('required-fields-enforced'),
+     'one required field, accepted => required-fields-enforced');
+  ok(!r(probeResult(okCall, realThrow, 1)).includes('required-fields-enforced'),
+     'one required field, correctly rejected => no finding');
+  ok(r(probeResult(timedOut, timedOut, 1)).includes('tool-slow'),
+     'timeout => tool-slow, never tolerates-valid-args');
+  ok(r(probeResult(realThrow, realThrow, 1)).includes('tolerates-valid-args'),
+     'genuine throw still => tolerates-valid-args (timeout did not mask it)');
+
+  // The CLI passes toolTimeoutMs 0 and the server 5000. Both must leave a
+  // SYNC tool identical, and neither may treat a sync tool as timed out.
+  const cli = buildProbeSource({ toolTimeoutMs: 0 });
+  const srv = buildProbeSource({ toolTimeoutMs: 5000 });
+  ok(cli !== srv, 'the two configurations really do differ');
+  ok(!/maxValueChars/.test(cli) && !/maxValueChars/.test(srv),
+     'no evidence truncation in either configuration');
+  ok(/__probeTimeout/.test(cli) && /__probeTimeout/.test(srv),
+     'both use the identity timeout token, so a page cannot spoof it');
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

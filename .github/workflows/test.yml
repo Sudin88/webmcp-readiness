@@ -60,10 +60,11 @@ jobs:
         run: |
           node -e "
             import('playwright').then(async ({chromium}) => {
-              const b = await chromium.launch();
+              const b = await chromium.launch({ chromiumSandbox: true });
               const p = await b.newPage();
-              await p.setContent('<h1>ok</h1>');
-              console.log('title:', await p.title());
+              await p.goto('chrome://sandbox', { waitUntil: 'domcontentloaded', timeout: 10000 });
+              const txt = await p.evaluate(() => document.body.innerText || '');
+              if (/no sandbox/i.test(txt)) { console.error('NO SANDBOX'); process.exit(1); }
               await b.close();
               console.log('sandbox OK');
             }).catch((e) => { console.error('SANDBOX FAIL:', e.message); process.exit(1); });

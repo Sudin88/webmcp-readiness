@@ -62,6 +62,41 @@ button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 
 .hint { color: var(--dim); font-size: 13.5px; margin: 8px 0 0; max-width: 62ch; }
 
+/* Used by app.js in 7 places and previously undefined, so every secondary line
+   rendered at full brightness and the hierarchy was inverted. */
+.muted { color: var(--dim); }
+.box .muted, .card span.muted { font-size: 13px; }
+
+/* Severity must not rely on colour alone: fails WCAG 1.4.1 and is invisible to
+   screen readers, who could not tell which findings were the blockers. */
+.sev {
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: .08em;
+  padding: 3px 5px;
+  border-radius: 3px;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+.sev.high   { color: var(--hi);   background: rgba(255,107,107,.14); }
+.sev.medium { color: var(--med);  background: rgba(255,200,87,.14); }
+.sev.info   { color: var(--info); background: rgba(91,157,217,.14); }
+.sev.high::before   { content: "\25B2\FE0E"; margin-right: 3px; }
+.sev.medium::before { content: "\25CF"; margin-right: 3px; }
+.sev.info::before   { content: "\25CB"; margin-right: 3px; }
+
+/* A readiness checker must be able to say "ready". --ok existed and was unused. */
+.verdict { font-size: 19px; font-weight: 650; letter-spacing: -.015em; margin: 0 0 6px; }
+.verdict.warn { color: var(--med); }
+.verdict.warn::before { content: "\26A0\FE0E"; margin-right: 8px; }
+.verdict.pass { color: var(--ok); }
+.verdict.fail { color: var(--hi); }
+.verdict.pass::before { content: "\2713\FE0E"; margin-right: 8px; }
+.verdict.fail::before { content: "\2716\FE0E"; margin-right: 8px; }
+
+/* .tool was declared twice with conflicting meanings, so every tool chip carried
+   an orphan hairline from the second rule. Namespaced as .trow. */
+.finding .tool { padding: 0; border: 0; font-size: 13.5px; margin-right: 5px; }
+
 #out { margin: 8px 0 40px; }
 
 .box {
@@ -93,6 +128,9 @@ button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 .count.high b { color: var(--hi); }
 .count.medium b { color: var(--med); }
 .count.info b { color: var(--info); }
+/* Must follow the three severity rules: identical specificity, later wins.
+   Otherwise a zero renders red under a green "Ready". */
+.counts .count[data-n="0"] b { color: var(--dim); }
 
 .finding {
   background: var(--panel);

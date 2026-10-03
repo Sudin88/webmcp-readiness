@@ -7,7 +7,7 @@
  * class of bug this project exists to catch.
  */
 import { writeFileSync } from 'node:fs';
-import { chromium, POLYFILL } from '../lib/probe.mjs';
+import { chromium, POLYFILL, runProbe } from '../lib/probe.mjs';
 import { grade, RULES } from '../lib/checks.mjs';
 import { resolveAndValidate, BlockedTarget } from './safety.mjs';
 
@@ -128,7 +128,14 @@ async function assertSandboxed(browser) {
 
 async function withSlot(fn) {
   if (active >= MAX_CONCURRENT) {
-    if (queue.length >= MAX_QUEUE) throw new BlockedTarget('server busy, retry shortly');
+    if (queue.length >= MAX_QUEUE) {
+      // Must carry a status, or index.mjs falls through to the refusal branch and
+      // tells a legitimate visitor their URL was rejected because we are busy.
+      const busy = new BlockedTarget('server busy, retry shortly');
+      busy.status = 503;
+      busy.retryAfter = 30;
+      throw busy;
+    }
     await new Promise((r) => queue.push(r));
   }
   active++;
@@ -245,7 +252,7 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       // race the slot is never released, and three such requests take the
       // service down permanently.
       const data = await Promise.race([
-        evaluateInPage(page),
+        runProbe(page, { toolTimeoutMs: TOOL_TIMEOUT_MS, maxTools: MAX_TOOLS }),
         new Promise((_, rej) => setTimeout(() => rej(new Error('probe budget exceeded')), PROBE_BUDGET_MS))
       ]).catch((e) => ({ ok: false, error: String(e.message).slice(0, 120) }));
       blocked.count += redirectBlocks.count;
@@ -267,61 +274,6 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       await ctx.close().catch(() => {});
     }
   });
-}
-
-/** Runs in the page. Bounded so one hostile page cannot monopolise a slot. */
-function evaluateInPage(page) {
-  return page.evaluate(async () => {
-        if (!document.modelContext?.getTools) return { ok: false, error: 'document.modelContext absent', tools: [] };
-        // Limits are inlined, not referenced: this function is stringified into
-        // the browser and cannot close over module scope.
-        const tools = (await document.modelContext.getTools()).slice(0, 50);
-        const out = [];
-        for (const t of tools) {
-          const props = t.inputSchema?.properties || {};
-          const full = {};
-          for (const [k, v] of Object.entries(props)) {
-            if (v?.type === 'string') full[k] = v.default ?? v.examples?.[0] ?? (v.enum ? v.enum[0] : 'test');
-            else if (v?.type === 'number' || v?.type === 'integer') full[k] = typeof v.default === 'number' ? v.default : 1;
-            else if (v?.type === 'boolean') full[k] = false;
-            else if (v?.type === 'array') full[k] = [];
-            else if (v?.type === 'object') full[k] = {};
-          }
-          const required = t.inputSchema?.required || [];
-          const partial = {};
-          for (const k of required.slice(1)) if (k in full) partial[k] = full[k];
-          // Limits inlined: this function is stringified into the browser and
-          // cannot close over module scope. Without the race, a page whose tool
-          // never resolves hangs the whole scan.
-          const call = async (a) => {
-            try {
-              const r = await Promise.race([
-                document.modelContext.executeTool(t, JSON.stringify(a)),
-                new Promise((_, rej) => setTimeout(() => rej(new Error('tool timeout')), 5000))
-              ]);
-              // Cap stored output: an uncapped value lands in the response body
-              // and in memory on every request.
-              return { ok: true, value: JSON.stringify(r).slice(0, 2000) };
-            } catch (e) {
-              return { ok: false, value: `${e.name}: ${e.message}`.slice(0, 160) };
-            }
-          };
-          out.push({
-            name: t.name || null,
-            // Attacker-controlled text; the report UI must render it as text,
-            // never as markup. Capped so a huge description cannot bloat a response.
-            description: (t.description || '').slice(0, 2000),
-            inputSchema: t.inputSchema || null,
-            outputSchema: t.outputSchema ?? null,
-            call1: await call(full),
-            call2: await call(full),
-            partialCall: required.length > 1 ? await call(partial) : null,
-            missingRequired: Math.max(0, required.length - Object.keys(partial).length)
-          });
-        }
-        return { ok: true, tools: out };
-      });
-
 }
 
 function safe(u) {
@@ -370,10 +322,27 @@ function buildResult(href, status, data, blocked, started) {
       }
     }
   }
+  // If every tool timed out, we proved nothing about the site. Reporting zero
+  // high findings then renders a green "Ready for AI agents", which is worse than
+  // any false positive: it is confident and wrong.
+  const observed = data.tools.filter((t) => t.call1 && !t.call1.timeout).length;
+  const inconclusive = data.tools.length - observed;
   const bySeverity = (s) => findings.filter((f) => f.severity === s).length;
+  if (inconclusive === data.tools.length && data.tools.length > 0) {
+    return {
+      ...base,
+      outcome: 'inconclusive',
+      message: `No tool responded within ${TOOL_TIMEOUT_MS}ms, so readiness could not be determined. This is not a pass.`,
+      toolsFound: data.tools.length,
+      inconclusive,
+      summary: { high: 0, medium: 0, info: 0, total: findings.length, inconclusive },
+      findings: findings.map((f) => ({ ...f, ...(RULES[f.rule] || {}) }))
+    };
+  }
   return {
     ...base,
     outcome: 'tools-observable',
+    inconclusive,
     toolsFound: data.tools.length,
     tools: data.tools.map((t) => ({ name: t.name, description: t.description })),
     summary: { high: bySeverity('high'), medium: bySeverity('medium'), info: bySeverity('info'), total: findings.length },

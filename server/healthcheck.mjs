@@ -34,7 +34,19 @@ async function browserOk() {
   } catch { /* no stamp yet */ }
   try {
     const { chromium } = await import('playwright');
-    const b = await chromium.launch();
+    // A bare launch() is the UNSANDBOXED default on this platform, so using it
+    // here made the check pass on exactly the hosts it was written to catch.
+    const b = await chromium.launch({ chromiumSandbox: true });
+    const ctx = await b.newContext();
+    const page = await ctx.newPage();
+    await page.goto('chrome://sandbox', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    const txt = await page.evaluate(() => document.body.innerText || '');
+    await ctx.close().catch(() => {});
+    if (/no sandbox/i.test(txt)) {
+      await b.close().catch(() => {});
+      console.error('[health] Chromium reports no sandbox - scans will refuse to serve');
+      return false;
+    }
     await b.close();
     const { writeFileSync } = await import('node:fs');
     writeFileSync(STAMP, String(Date.now()));
