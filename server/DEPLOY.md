@@ -34,7 +34,7 @@ it — network config changes):
 
 ```toml
 [http_service]
-  internal_port = 8080
+  internal_port = 9000
   auto_stop_machines = "suspend"
   auto_start_machines = true
   min_machines_running = 0
@@ -113,9 +113,9 @@ COPY server ./server
 COPY web ./web
 COPY lib ./lib
 
-ENV NODE_ENV=production PORT=8080
+ENV NODE_ENV=production PORT=9000
 USER pwuser                      # the image's unprivileged user
-EXPOSE 8080
+EXPOSE 9000
 CMD ["node", "server/index.mjs"]
 ```
 
@@ -163,7 +163,7 @@ succeeds inside the image.
 
 | Env var | Default | Meaning |
 |---|---|---|
-| `PORT` | `8080` | listen port |
+| `PORT` | `9000` | listen port |
 | `SCAN_TIMEOUT_MS` | `45000` | navigation timeout |
 | `RATE_BURST` | `3` | per-IP burst |
 | `RATE_REFILL` | `0.0167` | per-IP tokens per second (1 per 20s) |

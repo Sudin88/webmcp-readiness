@@ -8,7 +8,7 @@
     "test": "node action/test.mjs && node server/safety.test.mjs && node server/http.test.mjs",
     "spike": "node spike.mjs",
     "action": "node action/index.mjs",
-    "test:unit": "node action/test.mjs && node server/safety.test.mjs",
+    "test:unit": "node server/safety.test.mjs",
     "serve": "node server/index.mjs"
   },
   "keywords": [],

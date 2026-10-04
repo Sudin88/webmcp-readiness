@@ -7,7 +7,7 @@
  * class of bug this project exists to catch.
  */
 import { writeFileSync } from 'node:fs';
-import { chromium, POLYFILL, runProbe } from '../lib/probe.mjs';
+import { chromium, POLYFILL, runProbe, probeUrl, isTransient } from '../lib/probe.mjs';
 import { grade, RULES } from '../lib/checks.mjs';
 import { resolveAndValidate, BlockedTarget } from './safety.mjs';
 
@@ -186,7 +186,10 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
     // Returning per-URL verdicts would let a submitter enumerate the VPC:
     // "resolves to a private address" vs "could not be resolved" distinguishes
     // internal hosts from nonexistent ones.
-    const blocked = { count: 0, reasons: {} };
+    // Count only. The individual reasons distinguish "resolves to a private
+    // address" from "could not be resolved", which is an internal DNS enumerator,
+    // and "port not allowed" from "scheme not allowed" is a port scanner.
+    const blocked = { count: 0, byKind: {} };
 
     // Validate every request the page attempts, not just the first navigation.
     await ctx.route('**/*', async (route) => {
@@ -202,7 +205,7 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       } catch (e) {
         if (e instanceof BlockedTarget) {
           blocked.count++;
-          blocked.reasons[e.reason] = (blocked.reasons[e.reason] || 0) + 1;
+          blocked.byKind[e.kind || 'refused'] = (blocked.byKind[e.kind || 'refused'] || 0) + 1;
           await route.abort('blockedbyclient');
         } else {
           await route.abort();
@@ -225,11 +228,11 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       catch (e) {
         if (e instanceof BlockedTarget) {
           redirectBlocks.count++;
-          redirectBlocks.reasons[e.reason] = (redirectBlocks.reasons[e.reason] || 0) + 1;
+          redirectBlocks.byKind[e.kind || 'refused'] = (redirectBlocks.byKind[e.kind || 'refused'] || 0) + 1;
         }
       }
     };
-    const redirectBlocks = { count: 0, reasons: {} };
+    const redirectBlocks = { count: 0, byKind: {} };
 
     // probePage opens its own context, so for the hosted path we do the work
     // here where the route guard is installed.
@@ -238,10 +241,24 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       page = await ctx.newPage();
       page.on('framenavigated', (f) => { if (f === page.mainFrame()) auditCommit(f.url()); });
 
-      const resp = await Promise.race([
-        page.goto(url.href, { waitUntil: 'domcontentloaded', timeout: timeoutMs }),
-        new Promise((_, rej) => setTimeout(() => rej(new Error('navigation budget exceeded')), NAV_BUDGET_MS))
-      ]).catch((e) => { throw e; });
+      // Resolve the redirect chain HERE, validating every hop, and navigate only to
+      // the final URL. ctx.route does not emit a route event per hop, so relying on
+      // it left a blind SSRF: a submitted URL that 302s to an internal host had its
+      // request issued before auditCommit could observe it.
+      const finalUrl = await followRedirects(url.href);
+      let resp = null;
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          resp = await Promise.race([
+            page.goto(finalUrl, { waitUntil: 'domcontentloaded', timeout: timeoutMs }),
+            new Promise((_, rej) => setTimeout(() => rej(new Error('navigation budget exceeded')), NAV_BUDGET_MS))
+          ]);
+          break;
+        } catch (e) {
+          if (attempt === 2 || !isTransient(e.message)) throw e;
+          await new Promise((r) => setTimeout(r, 1500));   // one retry, transient only
+        }
+      }
       // Re-validate where we actually ended up: an open redirect lands here and
       // is not a route event, so the interceptor never saw it.
       await auditCommit(page.url());
@@ -251,13 +268,24 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       // stalled indefinitely by a page whose tool never resolves. Without this
       // race the slot is never released, and three such requests take the
       // service down permanently.
-      const data = await Promise.race([
+      let data = await Promise.race([
         runProbe(page, { toolTimeoutMs: TOOL_TIMEOUT_MS, maxTools: MAX_TOOLS }),
         new Promise((_, rej) => setTimeout(() => rej(new Error('probe budget exceeded')), PROBE_BUDGET_MS))
       ]).catch((e) => ({ ok: false, error: String(e.message).slice(0, 120) }));
+
+      // Never report "no tools" from a single look. A site that registers on a timer
+      // intermittently reads as empty, and the CLI re-checks before believing it -
+      // without this the two surfaces disagreed about the same site.
+      if (data.ok && data.tools.length === 0) {
+        const recheck = await probeUrl(browser, page.url(), { toolTimeoutMs: TOOL_TIMEOUT_MS, reusePage: page }).catch(() => null);
+        if (recheck?.ok && recheck.tools.length) {
+          data = recheck;
+          blocked.recheck = true;
+        }
+      }
       blocked.count += redirectBlocks.count;
-      for (const [k, v] of Object.entries(redirectBlocks.reasons)) {
-        blocked.reasons[k] = (blocked.reasons[k] || 0) + v;
+      for (const [k, v] of Object.entries(redirectBlocks.byKind)) {
+        blocked.byKind[k] = (blocked.byKind[k] || 0) + v;
       }
       return buildResult(page.url(), resp?.status() ?? null, data, blocked, started);
     } catch (err) {
@@ -274,6 +302,36 @@ export async function scanUrl(rawUrl, { timeoutMs = 45000 } = {}) {
       await ctx.close().catch(() => {});
     }
   });
+}
+
+/**
+ * Walk the redirect chain from Node, validating each hop before it is issued.
+ * Bounded in both hops and total time so it cannot become a loop or a stall.
+ */
+async function followRedirects(startUrl, { maxHops = 5 } = {}) {
+  let current = startUrl;
+  const chain = new Set();
+  for (let hop = 0; hop < maxHops; hop++) {
+    const { url } = await resolveAndValidate(current);   // throws if this hop is unsafe
+    let res;
+    try {
+      res = await fetch(url.href, {
+        redirect: 'manual',
+        signal: AbortSignal.timeout(8000),
+        headers: { 'user-agent': 'webmcp-readiness/0.1 redirect-probe' }
+      });
+    } catch {
+      return current;   // HEAD-like GET failed; let the browser try the original
+    }
+    const loc = res.headers.get('location');
+    if (!loc || res.status < 300 || res.status >= 400) return current;
+    let next;
+    try { next = new URL(loc, url.href).href; } catch { return current; }
+    if (chain.has(next) || chain.size > maxHops) return current;   // loop
+    chain.add(next);
+    current = next;
+  }
+  return current;
 }
 
 /** One mapping for every finding shape the API returns. */

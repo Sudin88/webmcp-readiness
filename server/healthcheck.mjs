@@ -11,7 +11,7 @@
  * container, idle service) fall back to launching one now, so a broken sandbox is
  * caught at startup rather than on the first user's scan.
  */
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 9000;
 const STAMP = process.env.BROWSER_STAMP || '/tmp/.browser-ok';
 const STALE_MS = Number(process.env.BROWSER_STAMP_TTL_MS || 300000); // 5 min
 

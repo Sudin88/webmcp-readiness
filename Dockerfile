@@ -30,10 +30,10 @@ COPY web ./web
 COPY vendor ./vendor
 
 ENV NODE_ENV=production \
-    PORT=8080
+    PORT=9000
 
 USER pwuser
-EXPOSE 8080
+EXPOSE 9000
 
 # /healthz never launches Chromium, so it reported healthy on an image where every
 # scan 500'd. This check must actually start the browser, which is the component

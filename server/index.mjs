@@ -25,7 +25,7 @@ import { RateLimiter, clientIp } from './ratelimit.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB = join(__dirname, '..', 'web');
 
-const PORT = Number(process.env.PORT || 8080);
+const PORT = Number(process.env.PORT || 9000);
 const MAX_BODY_BYTES = 4096;      // one URL field; safety.mjs caps length too
 const SCAN_TIMEOUT_MS = Number(process.env.SCAN_TIMEOUT_MS || 45000);
 
@@ -40,7 +40,9 @@ const SECURITY_HEADERS = {
   'referrer-policy': 'no-referrer',
   'cross-origin-opener-policy': 'same-origin',
   'cross-origin-resource-policy': 'same-origin',
-  'permissions-policy': 'geolocation=(), microphone=(), camera=(), interest-cohort=()'
+  'permissions-policy': 'geolocation=(), microphone=(), camera=(), interest-cohort=()',
+  // Only meaningful over TLS; harmless otherwise, and the endpoint is public HTTPS.
+  'strict-transport-security': 'max-age=31536000; includeSubDomains'
 };
 
 // Limits are env-configurable so they can be tuned for the host's actual CPU
@@ -219,9 +221,23 @@ const server = createServer(async (req, res) => {
   }
 });
 
-// Log and keep serving. A single request must never be able to exit the process.
-process.on('uncaughtException', (e) => console.error('[uncaught]', String(e?.message).slice(0, 200)));
-process.on('unhandledRejection', (e) => console.error('[unhandled]', String(e?.message || e).slice(0, 200)));
+// A single request must not be able to exit the process, but swallowing every
+// exception converts a crash into silent state corruption: withSlot's finally never
+// runs, so a concurrency slot and a rate-limit in-flight count stay stranded. A few
+// of those is zero capacity behind a green /healthz. Tolerate a couple, then die and
+// let the orchestrator restart with clean state.
+let fatalCount = 0;
+const FATAL_LIMIT = 3;
+function onFatal(kind, e) {
+  fatalCount++;
+  console.error(`[${kind}] ${String(e?.message || e).slice(0, 200)} (${fatalCount}/${FATAL_LIMIT})`);
+  if (fatalCount >= FATAL_LIMIT) {
+    console.error('[fatal] too many unhandled errors; exiting for a clean restart');
+    process.exit(1);
+  }
+}
+process.on('uncaughtException', (e) => onFatal('uncaught', e));
+process.on('unhandledRejection', (e) => onFatal('unhandled', e));
 
 // Do not let a slow client hold a socket open indefinitely.
 server.headersTimeout = 10000;

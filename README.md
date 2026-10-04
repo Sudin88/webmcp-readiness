@@ -67,7 +67,7 @@ A hosted checker is included in this repo. Point it at any page that registers
 WebMCP tools and it will open the page, call every tool, and report what it finds:
 
 ```sh
-npm run serve      # http://localhost:8080
+npm run serve      # http://localhost:9000
 ```
 
 It reads pages chosen by anonymous visitors in a real browser, so it runs behind
@@ -132,8 +132,8 @@ running without isolation.
 
 ```sh
 docker build -t webmcp-readiness .
-docker run -p 8080:8080 webmcp-readiness          # refuses, with an actionable error
-docker run -p 8080:8080 -e ALLOW_UNSANDBOXED=1 webmcp-readiness   # private instances only
+docker run -p 9000:9000 webmcp-readiness          # refuses, with an actionable error
+docker run -p 9000:9000 -e ALLOW_UNSANDBOXED=1 webmcp-readiness   # private instances only
 ```
 
 ## Security posture

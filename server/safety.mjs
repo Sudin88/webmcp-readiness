@@ -33,10 +33,17 @@ const ALLOWED_SCHEMES = new Set(['http:', 'https:']);
 const ALLOWED_PORTS = new Set(['', '80', '443', '8080', '8443']);
 
 export class BlockedTarget extends Error {
-  constructor(reason, detail) {
+  /**
+   * @param reason  precise cause - SERVER SIDE ONLY. Distinguishes private-address
+   *   from unresolvable, which is an internal DNS enumerator if it crosses the wire.
+   * @param detail  never returned to a client
+   * @param kind    coarse bucket that is safe to return
+   */
+  constructor(reason, detail, kind = 'refused') {
     super(detail ? `${reason}: ${detail}` : reason);
     this.name = 'BlockedTarget';
     this.reason = reason;
+    this.kind = kind;
   }
 }
 
@@ -151,29 +158,29 @@ export function isPrivateAddress(ip) {
  * cheap; use resolveAndValidate before actually fetching.
  */
 export function parseTargetUrl(raw) {
-  if (typeof raw !== 'string') throw new BlockedTarget('not a string');
+  if (typeof raw !== 'string') throw new BlockedTarget('not a string', null, 'malformed');
   const trimmed = raw.trim();
-  if (!trimmed) throw new BlockedTarget('empty URL');
-  if (trimmed.length > 2048) throw new BlockedTarget('URL too long');
+  if (!trimmed) throw new BlockedTarget('empty URL', null, 'malformed');
+  if (trimmed.length > 2048) throw new BlockedTarget('URL too long', null, 'malformed');
   // No credentials in the URL: they end up in logs and can mask the real host.
-  if (trimmed.includes('@')) throw new BlockedTarget('credentials in URL are not allowed');
+  if (trimmed.includes('@')) throw new BlockedTarget('credentials in URL are not allowed', null, 'malformed');
 
   let u;
   try {
     u = new URL(trimmed);
   } catch {
-    throw new BlockedTarget('not a valid URL');
+    throw new BlockedTarget('not a valid URL', null, 'malformed');
   }
   if (!ALLOWED_SCHEMES.has(u.protocol)) {
-    throw new BlockedTarget('scheme not allowed', u.protocol);
+    throw new BlockedTarget('scheme not allowed', u.protocol, 'scheme');
   }
-  if (!u.hostname) throw new BlockedTarget('no hostname');
+  if (!u.hostname) throw new BlockedTarget('no hostname', null, 'malformed');
   if (!ALLOWED_PORTS.has(u.port)) {
-    throw new BlockedTarget('port not allowed', u.port);
+    throw new BlockedTarget('port not allowed', u.port, 'port');
   }
   // An IP literal is allowed, but only if it is public.
   if (isIP(u.hostname.replace(/^\[|\]$/g, '')) && isPrivateAddress(u.hostname.replace(/^\[|\]$/g, ''))) {
-    throw new BlockedTarget('private IP address is not allowed', u.hostname);
+    throw new BlockedTarget('private IP address is not allowed', u.hostname, 'private');
   }
   return u;
 }
@@ -195,14 +202,14 @@ export async function resolveAndValidate(rawUrl, { dnsLookup = lookup } = {}) {
   try {
     records = await dnsLookup(host, { all: true, verbatim: true });
   } catch (e) {
-    throw new BlockedTarget('hostname could not be resolved', e.code || e.message);
+    throw new BlockedTarget('hostname could not be resolved', e.code || e.message, 'unresolved');
   }
   const addresses = (Array.isArray(records) ? records : [records]).map((r) => (typeof r === 'string' ? r : r.address));
-  if (!addresses.length) throw new BlockedTarget('hostname resolved to no addresses');
+  if (!addresses.length) throw new BlockedTarget('hostname resolved to no addresses', null, 'unresolved');
 
   for (const a of addresses) {
     if (isPrivateAddress(a)) {
-      throw new BlockedTarget('hostname resolves to a private address', a);
+      throw new BlockedTarget('hostname resolves to a private address', a, 'private');
     }
   }
   return { url: u, addresses };

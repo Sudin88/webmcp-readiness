@@ -28,8 +28,17 @@ jobs:
       - name: audit
         run: npm audit --audit-level=high
 
-      - name: action + safety tests (no browser needed)
-        run: npm run test:unit
+      - name: safety tests (no browser needed)
+        run: node server/safety.test.mjs
+
+      # action/test.mjs runs the real serialised probe against a real page, so it
+      # needs a browser. It was previously run in a job that installed none, which
+      # fails on any runner without a cached Chromium.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: action tests
+        run: node action/test.mjs
 
       - name: HTTP layer tests
         env:
